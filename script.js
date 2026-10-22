@@ -85,13 +85,32 @@ const shadeBtns = document.querySelectorAll('.shade-btn');
 // ========================================================
 function getAudioCtx() {
   if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
   }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 }
+
+// Global user activation listeners to unlock Web Audio API instantly
+function initAudioUnlock() {
+  const unlock = () => {
+    try {
+      const ctx = getAudioCtx();
+      if (ctx && ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
+      }
+    } catch (e) {}
+  };
+  ['click', 'pointerdown', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach(type => {
+    window.addEventListener(type, unlock, { passive: true });
+  });
+}
+initAudioUnlock();
 
 // 1. Subtle Bubble UI Click Sound
 function playBubbleSound(freq = 600, duration = 0.08) {
@@ -158,25 +177,43 @@ let stretchFilter = null;
 let stretchModOsc = null;
 let isStretchingSound = false;
 let lastSlingshotTime = 0;
+let cachedNoiseBuffer = null;
+let isLoopAnimating = false;
+
+// Pre-create noise buffer for zero-latency aerodynamic loop whoosh playback
+function getCachedNoiseBuffer(ctx) {
+  if (!cachedNoiseBuffer || cachedNoiseBuffer.sampleRate !== ctx.sampleRate) {
+    const bufferSize = Math.floor(ctx.sampleRate * 0.65);
+    cachedNoiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const output = cachedNoiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1;
+    }
+  }
+  return cachedNoiseBuffer;
+}
 
 // Rubber Band Tension / Pullback Sound (რეზინის გაწელვის ხმა)
 function startRubberStretch() {
   if (isStretchingSound || !soundEnabled) return;
   try {
     const ctx = getAudioCtx();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
     isStretchingSound = true;
 
     // Carrier oscillator: triangle wave (warm elastic rubber tone)
     stretchOsc = ctx.createOscillator();
     stretchOsc.type = 'triangle';
-    stretchOsc.frequency.setValueAtTime(120, ctx.currentTime);
+    stretchOsc.frequency.setValueAtTime(130, ctx.currentTime);
 
     // Modulator oscillator: provides low-frequency elastic strain vibration
     stretchModOsc = ctx.createOscillator();
     stretchModOsc.type = 'sawtooth';
-    stretchModOsc.frequency.setValueAtTime(36, ctx.currentTime);
+    stretchModOsc.frequency.setValueAtTime(32, ctx.currentTime);
     const modGain = ctx.createGain();
-    modGain.gain.setValueAtTime(38, ctx.currentTime);
+    modGain.gain.setValueAtTime(42, ctx.currentTime);
     stretchModOsc.connect(modGain);
     modGain.connect(stretchOsc.frequency);
     stretchModOsc.start();
@@ -184,12 +221,12 @@ function startRubberStretch() {
     // Resonant lowpass filter simulating acoustic rubber tension cavity
     stretchFilter = ctx.createBiquadFilter();
     stretchFilter.type = 'lowpass';
-    stretchFilter.frequency.setValueAtTime(420, ctx.currentTime);
-    stretchFilter.Q.setValueAtTime(3.8, ctx.currentTime);
+    stretchFilter.frequency.setValueAtTime(460, ctx.currentTime);
+    stretchFilter.Q.setValueAtTime(4.2, ctx.currentTime);
 
     stretchGain = ctx.createGain();
     stretchGain.gain.setValueAtTime(0.01, ctx.currentTime);
-    stretchGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.05);
+    stretchGain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.05);
 
     stretchOsc.connect(stretchFilter);
     stretchFilter.connect(stretchGain);
@@ -205,20 +242,23 @@ function updateRubberStretch(pullPx) {
     const ctx = getAudioCtx();
     const ratio = Math.min(1.0, pullPx / 190);
 
-    // Pitch rises dynamically as tension increases (120Hz -> 440Hz)
-    const targetFreq = 120 + ratio * 320;
+    // Pitch rises dynamically as tension increases (130Hz -> 480Hz)
+    const targetFreq = 130 + ratio * 350;
     if (stretchOsc) {
-      stretchOsc.frequency.setTargetAtTime(targetFreq, ctx.currentTime, 0.04);
+      stretchOsc.frequency.setTargetAtTime(targetFreq, ctx.currentTime, 0.03);
+    }
+    if (stretchModOsc) {
+      stretchModOsc.frequency.setTargetAtTime(32 + ratio * 28, ctx.currentTime, 0.03);
     }
     if (stretchFilter) {
-      stretchFilter.frequency.setTargetAtTime(380 + ratio * 1400, ctx.currentTime, 0.04);
+      stretchFilter.frequency.setTargetAtTime(460 + ratio * 1600, ctx.currentTime, 0.03);
     }
     if (stretchGain) {
-      stretchGain.gain.setTargetAtTime(0.08 + ratio * 0.16, ctx.currentTime, 0.04);
+      stretchGain.gain.setTargetAtTime(0.14 + ratio * 0.22, ctx.currentTime, 0.03);
     }
 
     // Occasional micro-creaks for realistic rubber friction
-    if (Math.random() < 0.22 * ratio) {
+    if (Math.random() < 0.28 * ratio) {
       playRubberCreakClick(targetFreq);
     }
   } catch (e) {}
@@ -257,12 +297,12 @@ function playRubberCreakClick(freq) {
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(freq * 1.4, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(freq * 0.7, ctx.currentTime + 0.02);
-    g.gain.setValueAtTime(0.07, ctx.currentTime);
+    g.gain.setValueAtTime(0.10, ctx.currentTime);
     g.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.02);
     osc.connect(g);
     g.connect(ctx.destination);
     osc.start();
-    osc.stop(ctx.currentTime + 0.02);
+    osc.stop(ctx.currentTime + 0.025);
   } catch (e) {}
 }
 
@@ -273,62 +313,133 @@ function playSlingshotSnap() {
   if (!soundEnabled) return;
   try {
     const ctx = getAudioCtx();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
     const now = ctx.currentTime;
+
+    // Transient Attack Click (High velocity release impact)
+    const clickOsc = ctx.createOscillator();
+    const clickGain = ctx.createGain();
+    clickOsc.type = 'sawtooth';
+    clickOsc.frequency.setValueAtTime(1400, now);
+    clickOsc.frequency.exponentialRampToValueAtTime(110, now + 0.04);
+    clickGain.gain.setValueAtTime(0.50, now);
+    clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    clickOsc.connect(clickGain);
+    clickGain.connect(ctx.destination);
+    clickOsc.start(now);
+    clickOsc.stop(now + 0.045);
 
     // Part 1: High-impact sharp snap ("TWACK!")
     const snapOsc = ctx.createOscillator();
     const snapGain = ctx.createGain();
     snapOsc.type = 'triangle';
-    snapOsc.frequency.setValueAtTime(950, now);
-    snapOsc.frequency.exponentialRampToValueAtTime(75, now + 0.09);
-    snapGain.gain.setValueAtTime(0.44, now);
-    snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+    snapOsc.frequency.setValueAtTime(980, now);
+    snapOsc.frequency.exponentialRampToValueAtTime(65, now + 0.1);
+    snapGain.gain.setValueAtTime(0.55, now);
+    snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
     snapOsc.connect(snapGain);
     snapGain.connect(ctx.destination);
     snapOsc.start(now);
-    snapOsc.stop(now + 0.1);
+    snapOsc.stop(now + 0.11);
 
-    // Part 2: Elastic resonant twang ("TWANGGG")
-    const twangOsc = ctx.createOscillator();
+    // Part 2: Elastic resonant twang ("TWANGGG" - double harmonic vibration)
+    const twangOsc1 = ctx.createOscillator();
+    const twangOsc2 = ctx.createOscillator();
     const twangGain = ctx.createGain();
-    twangOsc.type = 'sine';
-    twangOsc.frequency.setValueAtTime(340, now);
-    twangOsc.frequency.exponentialRampToValueAtTime(130, now + 0.35);
-    twangGain.gain.setValueAtTime(0.38, now);
-    twangGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-    twangOsc.connect(twangGain);
+
+    twangOsc1.type = 'triangle';
+    twangOsc1.frequency.setValueAtTime(360, now);
+    twangOsc1.frequency.exponentialRampToValueAtTime(110, now + 0.38);
+
+    twangOsc2.type = 'sine';
+    twangOsc2.frequency.setValueAtTime(720, now);
+    twangOsc2.frequency.exponentialRampToValueAtTime(220, now + 0.32);
+
+    twangGain.gain.setValueAtTime(0.48, now);
+    twangGain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+    twangOsc1.connect(twangGain);
+    twangOsc2.connect(twangGain);
     twangGain.connect(ctx.destination);
-    twangOsc.start(now);
-    twangOsc.stop(now + 0.36);
+
+    twangOsc1.start(now);
+    twangOsc2.start(now);
+    twangOsc1.stop(now + 0.4);
+    twangOsc2.stop(now + 0.34);
 
     // Part 3: High-speed aerodynamic loop flyby whoosh ("SHHH-WOOOSH")
-    const bufferSize = Math.floor(ctx.sampleRate * 0.58);
-    const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
+    const noiseBuffer = getCachedNoiseBuffer(ctx);
     const whiteNoise = ctx.createBufferSource();
     whiteNoise.buffer = noiseBuffer;
 
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(320, now);
-    filter.frequency.exponentialRampToValueAtTime(2600, now + 0.16);
-    filter.frequency.exponentialRampToValueAtTime(380, now + 0.55);
-    filter.Q.setValueAtTime(3.2, now);
+    filter.frequency.setValueAtTime(280, now);
+    filter.frequency.exponentialRampToValueAtTime(2800, now + 0.16);
+    filter.frequency.exponentialRampToValueAtTime(320, now + 0.58);
+    filter.Q.setValueAtTime(2.8, now);
 
     const noiseGain = ctx.createGain();
     noiseGain.gain.setValueAtTime(0.01, now);
-    noiseGain.gain.linearRampToValueAtTime(0.35, now + 0.12);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.56);
+    noiseGain.gain.linearRampToValueAtTime(0.42, now + 0.12);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.58);
 
     whiteNoise.connect(filter);
     filter.connect(noiseGain);
     noiseGain.connect(ctx.destination);
     whiteNoise.start(now);
-    whiteNoise.stop(now + 0.58);
+    whiteNoise.stop(now + 0.6);
   } catch (e) {}
+}
+
+// 4. Slingshot Tension & Spring Loop Transition (Wheel, Buttons & Autoplay)
+function triggerSlingshotLoop(targetSlide) {
+  if (isLoopAnimating) return;
+  isLoopAnimating = true;
+  isThrottled = true;
+
+  // Ensure AudioContext is running
+  const ctx = getAudioCtx();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
+
+  // Direction:
+  // targetSlide === 0 means looping forward from Slide 3 to 0 (stretch past right edge)
+  // targetSlide === 3 means looping backward from Slide 0 to 3 (stretch past left edge)
+  const isForwardLoop = (targetSlide === 0);
+  const currentOffsetPx = isForwardLoop ? -3 * window.innerWidth : 0;
+  const stretchOffset = isForwardLoop ? -95 : 95;
+
+  // Step 1: Visual elastic band tension pullback (~260ms)
+  carouselTrack.style.transition = 'transform 0.26s cubic-bezier(0.12, 0.8, 0.32, 1)';
+  carouselTrack.style.transform = `translateX(${currentOffsetPx + stretchOffset}px)`;
+  if (carouselTrack) carouselTrack.classList.add('is-loop-stretching');
+
+  // Step 2: Realistic rubber stretch audio with escalating pitch & friction creaks
+  startRubberStretch();
+  updateRubberStretch(60);
+  setTimeout(() => updateRubberStretch(150), 80);
+  setTimeout(() => updateRubberStretch(240), 160);
+
+  // Step 3: At peak tension, SNAP the slingshot!
+  setTimeout(() => {
+    if (carouselTrack) carouselTrack.classList.remove('is-loop-stretching');
+    
+    // Play the slingshot snap & whoosh
+    playSlingshotSnap();
+
+    // Snap and fly across the carousel to the target slide!
+    goToSlide(targetSlide);
+
+    // Reset loop locks once the slingshot travel finishes
+    setTimeout(() => {
+      isLoopAnimating = false;
+      isThrottled = false;
+    }, 950);
+  }, 260);
 }
 
 // ========================================================
@@ -519,24 +630,24 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-// Next / Prev slide helpers with LOOP (ლუპი)
+// Next / Prev slide helpers with LOOP (ლუპი & ლაგატკა)
 function nextSlide() {
+  if (isLoopAnimating) return;
   if (currentSlide < 3) {
     goToSlide(currentSlide + 1);
   } else {
-    // Loop back from last slide (Shop) to first slide (Home) with slingshot snap!
-    playSlingshotSnap();
-    goToSlide(0);
+    // Loop back from last slide (Shop) to first slide (Home) with slingshot!
+    triggerSlingshotLoop(0);
   }
 }
 
 function prevSlide() {
+  if (isLoopAnimating) return;
   if (currentSlide > 0) {
     goToSlide(currentSlide - 1);
   } else {
-    // Loop backwards from first slide (Home) to last slide (Shop) with slingshot snap!
-    playSlingshotSnap();
-    goToSlide(3);
+    // Loop backwards from first slide (Home) to last slide (Shop) with slingshot!
+    triggerSlingshotLoop(3);
   }
 }
 
@@ -671,17 +782,28 @@ window.addEventListener('keydown', (e) => {
 // 5. Mouse Wheel / Trackpad Horizontal Slide Navigation (No vertical page scroll)
 window.addEventListener('wheel', (e) => {
   if (e.cancelable) e.preventDefault();
+  if (isLoopAnimating || isThrottled) return;
 
   const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-  if (Math.abs(delta) < 20 || isThrottled) return;
+  if (Math.abs(delta) < 20) return;
 
-  isThrottled = true;
   if (delta > 0) {
-    nextSlide();
+    if (currentSlide === 3) {
+      triggerSlingshotLoop(0);
+    } else {
+      isThrottled = true;
+      nextSlide();
+      setTimeout(() => { isThrottled = false; }, 750);
+    }
   } else {
-    prevSlide();
+    if (currentSlide === 0) {
+      triggerSlingshotLoop(3);
+    } else {
+      isThrottled = true;
+      prevSlide();
+      setTimeout(() => { isThrottled = false; }, 750);
+    }
   }
-  setTimeout(() => { isThrottled = false; }, 750);
 }, { passive: false });
 
 // 6. Mouse Drag-To-Scroll & Touch Pull Interaction (მაუსის კლიკით გადასქროლვა და გამოქაჩვა)
@@ -809,9 +931,21 @@ function handlePointerUpOrCancel(e) {
 
     // If dragged sufficiently far OR fast flick gesture -> Next / Prev with infinite LOOP
     if (deltaX < -distanceThreshold || velocity < -0.28) {
-      nextSlide();
+      if (currentSlide === 3) {
+        // User already stretched it by hand, release fires slingshot snap instantly!
+        playSlingshotSnap();
+        goToSlide(0);
+      } else {
+        nextSlide();
+      }
     } else if (deltaX > distanceThreshold || velocity > 0.28) {
-      prevSlide();
+      if (currentSlide === 0) {
+        // User already stretched it by hand, release fires slingshot snap instantly!
+        playSlingshotSnap();
+        goToSlide(3);
+      } else {
+        prevSlide();
+      }
     } else {
       // User pulled slightly but cancelled without triggering loop
       stopRubberStretch();
