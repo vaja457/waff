@@ -169,69 +169,94 @@ function playWaffleCrunchSound() {
 }
 
 // ========================================================
-// 3. Slingshot (ლაგატკის გაწელვა & გასროლა) Audio Synthesis
+// 3. Authentic Rubber Stretch & Slingshot Snap Audio (User Recording)
 // ========================================================
-let stretchOsc = null;
-let stretchGain = null;
-let stretchFilter = null;
-let stretchModOsc = null;
 let isStretchingSound = false;
 let lastSlingshotTime = 0;
-let cachedNoiseBuffer = null;
 let isLoopAnimating = false;
 
-// Pre-create noise buffer for zero-latency aerodynamic loop whoosh playback
-function getCachedNoiseBuffer(ctx) {
-  if (!cachedNoiseBuffer || cachedNoiseBuffer.sampleRate !== ctx.sampleRate) {
-    const bufferSize = Math.floor(ctx.sampleRate * 0.65);
-    cachedNoiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const output = cachedNoiseBuffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
-  }
-  return cachedNoiseBuffer;
+// Audio sources for the user's authentic audio recording
+const STRETCH_AUDIO_SRC = 'audio/rubber-stretch.wav';
+const SNAP_AUDIO_SRC = 'audio/slingshot-snap.wav';
+
+// HTML5 Audio instances for instant, zero-delay fallback
+const stretchAudio = new Audio(STRETCH_AUDIO_SRC);
+stretchAudio.preload = 'auto';
+
+const SNAP_POOL_SIZE = 4;
+const snapAudioPool = [];
+let snapPoolIdx = 0;
+for (let i = 0; i < SNAP_POOL_SIZE; i++) {
+  const a = new Audio(SNAP_AUDIO_SRC);
+  a.preload = 'auto';
+  snapAudioPool.push(a);
 }
+
+// Web Audio API buffer cache for sample-accurate, zero-latency playback & pitch modulation
+let stretchAudioBuffer = null;
+let snapAudioBuffer = null;
+let activeStretchSource = null;
+let activeStretchGain = null;
+
+async function loadAudioBuffers() {
+  try {
+    const ctx = getAudioCtx();
+    const [stretchRes, snapRes] = await Promise.all([
+      fetch(STRETCH_AUDIO_SRC),
+      fetch(SNAP_AUDIO_SRC)
+    ]);
+    const [stretchBuf, snapBuf] = await Promise.all([
+      stretchRes.arrayBuffer(),
+      snapRes.arrayBuffer()
+    ]);
+    stretchAudioBuffer = await ctx.decodeAudioData(stretchBuf);
+    snapAudioBuffer = await ctx.decodeAudioData(snapBuf);
+  } catch (e) {}
+}
+
+// Pre-load audio buffers when window is ready
+window.addEventListener('load', () => {
+  setTimeout(loadAudioBuffers, 150);
+});
+['click', 'pointerdown', 'wheel', 'touchstart'].forEach(type => {
+  window.addEventListener(type, () => {
+    if (!stretchAudioBuffer || !snapAudioBuffer) loadAudioBuffers();
+  }, { once: true, passive: true });
+});
 
 // Rubber Band Tension / Pullback Sound (რეზინის გაწელვის ხმა)
 function startRubberStretch() {
   if (isStretchingSound || !soundEnabled) return;
+  isStretchingSound = true;
   try {
     const ctx = getAudioCtx();
     if (ctx && ctx.state === 'suspended') {
       ctx.resume().catch(() => {});
     }
-    isStretchingSound = true;
 
-    // Carrier oscillator: triangle wave (warm elastic rubber tone)
-    stretchOsc = ctx.createOscillator();
-    stretchOsc.type = 'triangle';
-    stretchOsc.frequency.setValueAtTime(130, ctx.currentTime);
+    if (ctx && stretchAudioBuffer) {
+      if (activeStretchSource) {
+        try { activeStretchSource.stop(); } catch(e) {}
+      }
+      activeStretchSource = ctx.createBufferSource();
+      activeStretchSource.buffer = stretchAudioBuffer;
+      activeStretchSource.loop = true;
+      activeStretchSource.playbackRate.setValueAtTime(1.0, ctx.currentTime);
 
-    // Modulator oscillator: provides low-frequency elastic strain vibration
-    stretchModOsc = ctx.createOscillator();
-    stretchModOsc.type = 'sawtooth';
-    stretchModOsc.frequency.setValueAtTime(32, ctx.currentTime);
-    const modGain = ctx.createGain();
-    modGain.gain.setValueAtTime(42, ctx.currentTime);
-    stretchModOsc.connect(modGain);
-    modGain.connect(stretchOsc.frequency);
-    stretchModOsc.start();
+      activeStretchGain = ctx.createGain();
+      activeStretchGain.gain.setValueAtTime(0.01, ctx.currentTime);
+      activeStretchGain.gain.linearRampToValueAtTime(0.95, ctx.currentTime + 0.04);
 
-    // Resonant lowpass filter simulating acoustic rubber tension cavity
-    stretchFilter = ctx.createBiquadFilter();
-    stretchFilter.type = 'lowpass';
-    stretchFilter.frequency.setValueAtTime(460, ctx.currentTime);
-    stretchFilter.Q.setValueAtTime(4.2, ctx.currentTime);
-
-    stretchGain = ctx.createGain();
-    stretchGain.gain.setValueAtTime(0.01, ctx.currentTime);
-    stretchGain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.05);
-
-    stretchOsc.connect(stretchFilter);
-    stretchFilter.connect(stretchGain);
-    stretchGain.connect(ctx.destination);
-    stretchOsc.start();
+      activeStretchSource.connect(activeStretchGain);
+      activeStretchGain.connect(ctx.destination);
+      activeStretchSource.start();
+    } else {
+      // HTML5 Audio fallback
+      stretchAudio.currentTime = 0;
+      stretchAudio.volume = 0.95;
+      stretchAudio.loop = true;
+      stretchAudio.play().catch(() => {});
+    }
   } catch (e) {}
 }
 
@@ -239,27 +264,13 @@ function updateRubberStretch(pullPx) {
   if (!soundEnabled) return;
   if (!isStretchingSound) startRubberStretch();
   try {
-    const ctx = getAudioCtx();
-    const ratio = Math.min(1.0, pullPx / 190);
-
-    // Pitch rises dynamically as tension increases (130Hz -> 480Hz)
-    const targetFreq = 130 + ratio * 350;
-    if (stretchOsc) {
-      stretchOsc.frequency.setTargetAtTime(targetFreq, ctx.currentTime, 0.03);
-    }
-    if (stretchModOsc) {
-      stretchModOsc.frequency.setTargetAtTime(32 + ratio * 28, ctx.currentTime, 0.03);
-    }
-    if (stretchFilter) {
-      stretchFilter.frequency.setTargetAtTime(460 + ratio * 1600, ctx.currentTime, 0.03);
-    }
-    if (stretchGain) {
-      stretchGain.gain.setTargetAtTime(0.14 + ratio * 0.22, ctx.currentTime, 0.03);
-    }
-
-    // Occasional micro-creaks for realistic rubber friction
-    if (Math.random() < 0.28 * ratio) {
-      playRubberCreakClick(targetFreq);
+    const ratio = Math.min(1.0, pullPx / 200);
+    // Dynamic pitch modulation matching physical rubber tension (0.95x to 1.30x speed)
+    const targetRate = 0.95 + ratio * 0.35;
+    if (activeStretchSource && getAudioCtx()) {
+      activeStretchSource.playbackRate.setTargetAtTime(targetRate, getAudioCtx().currentTime, 0.04);
+    } else if (stretchAudio) {
+      stretchAudio.playbackRate = targetRate;
     }
   } catch (e) {}
 }
@@ -268,45 +279,24 @@ function stopRubberStretch() {
   if (!isStretchingSound) return;
   isStretchingSound = false;
   try {
-    const ctx = getAudioCtx();
-    if (stretchGain) {
-      stretchGain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-      const oscToStop = stretchOsc;
-      const modToStop = stretchModOsc;
+    if (activeStretchGain && getAudioCtx()) {
+      activeStretchGain.gain.linearRampToValueAtTime(0.001, getAudioCtx().currentTime + 0.04);
+      const srcToStop = activeStretchSource;
       setTimeout(() => {
-        try {
-          if (oscToStop) oscToStop.stop();
-          if (modToStop) modToStop.stop();
-        } catch (e) {}
-      }, 70);
+        try { if (srcToStop) srcToStop.stop(); } catch(e) {}
+      }, 50);
+    }
+    activeStretchSource = null;
+    activeStretchGain = null;
+
+    if (stretchAudio) {
+      stretchAudio.pause();
+      stretchAudio.currentTime = 0;
     }
   } catch (e) {}
-  stretchOsc = null;
-  stretchModOsc = null;
-  stretchGain = null;
-  stretchFilter = null;
 }
 
-// Micro creak click for rubber friction
-function playRubberCreakClick(freq) {
-  if (!soundEnabled) return;
-  try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(freq * 1.4, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(freq * 0.7, ctx.currentTime + 0.02);
-    g.gain.setValueAtTime(0.10, ctx.currentTime);
-    g.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.02);
-    osc.connect(g);
-    g.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.025);
-  } catch (e) {}
-}
-
-// Slingshot Release Snap & Whoosh (ლაგატკის გასროლის ხმა)
+// Slingshot Release Snap & Shot (ლაგატკის გასროლის ხმა)
 function playSlingshotSnap() {
   stopRubberStretch();
   lastSlingshotTime = Date.now();
@@ -316,81 +306,23 @@ function playSlingshotSnap() {
     if (ctx && ctx.state === 'suspended') {
       ctx.resume().catch(() => {});
     }
-    const now = ctx.currentTime;
 
-    // Transient Attack Click (High velocity release impact)
-    const clickOsc = ctx.createOscillator();
-    const clickGain = ctx.createGain();
-    clickOsc.type = 'sawtooth';
-    clickOsc.frequency.setValueAtTime(1400, now);
-    clickOsc.frequency.exponentialRampToValueAtTime(110, now + 0.04);
-    clickGain.gain.setValueAtTime(0.50, now);
-    clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-    clickOsc.connect(clickGain);
-    clickGain.connect(ctx.destination);
-    clickOsc.start(now);
-    clickOsc.stop(now + 0.045);
-
-    // Part 1: High-impact sharp snap ("TWACK!")
-    const snapOsc = ctx.createOscillator();
-    const snapGain = ctx.createGain();
-    snapOsc.type = 'triangle';
-    snapOsc.frequency.setValueAtTime(980, now);
-    snapOsc.frequency.exponentialRampToValueAtTime(65, now + 0.1);
-    snapGain.gain.setValueAtTime(0.55, now);
-    snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-    snapOsc.connect(snapGain);
-    snapGain.connect(ctx.destination);
-    snapOsc.start(now);
-    snapOsc.stop(now + 0.11);
-
-    // Part 2: Elastic resonant twang ("TWANGGG" - double harmonic vibration)
-    const twangOsc1 = ctx.createOscillator();
-    const twangOsc2 = ctx.createOscillator();
-    const twangGain = ctx.createGain();
-
-    twangOsc1.type = 'triangle';
-    twangOsc1.frequency.setValueAtTime(360, now);
-    twangOsc1.frequency.exponentialRampToValueAtTime(110, now + 0.38);
-
-    twangOsc2.type = 'sine';
-    twangOsc2.frequency.setValueAtTime(720, now);
-    twangOsc2.frequency.exponentialRampToValueAtTime(220, now + 0.32);
-
-    twangGain.gain.setValueAtTime(0.48, now);
-    twangGain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
-
-    twangOsc1.connect(twangGain);
-    twangOsc2.connect(twangGain);
-    twangGain.connect(ctx.destination);
-
-    twangOsc1.start(now);
-    twangOsc2.start(now);
-    twangOsc1.stop(now + 0.4);
-    twangOsc2.stop(now + 0.34);
-
-    // Part 3: High-speed aerodynamic loop flyby whoosh ("SHHH-WOOOSH")
-    const noiseBuffer = getCachedNoiseBuffer(ctx);
-    const whiteNoise = ctx.createBufferSource();
-    whiteNoise.buffer = noiseBuffer;
-
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(280, now);
-    filter.frequency.exponentialRampToValueAtTime(2800, now + 0.16);
-    filter.frequency.exponentialRampToValueAtTime(320, now + 0.58);
-    filter.Q.setValueAtTime(2.8, now);
-
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.01, now);
-    noiseGain.gain.linearRampToValueAtTime(0.42, now + 0.12);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.58);
-
-    whiteNoise.connect(filter);
-    filter.connect(noiseGain);
-    noiseGain.connect(ctx.destination);
-    whiteNoise.start(now);
-    whiteNoise.stop(now + 0.6);
+    if (ctx && snapAudioBuffer) {
+      const src = ctx.createBufferSource();
+      src.buffer = snapAudioBuffer;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(1.0, ctx.currentTime);
+      src.connect(gain);
+      gain.connect(ctx.destination);
+      src.start();
+    } else {
+      // High-performance audio pool fallback
+      const audio = snapAudioPool[snapPoolIdx];
+      snapPoolIdx = (snapPoolIdx + 1) % SNAP_POOL_SIZE;
+      audio.currentTime = 0;
+      audio.volume = 1.0;
+      audio.play().catch(() => {});
+    }
   } catch (e) {}
 }
 
@@ -413,22 +345,22 @@ function triggerSlingshotLoop(targetSlide) {
   const currentOffsetPx = isForwardLoop ? -3 * window.innerWidth : 0;
   const stretchOffset = isForwardLoop ? -95 : 95;
 
-  // Step 1: Visual elastic band tension pullback (~260ms)
-  carouselTrack.style.transition = 'transform 0.26s cubic-bezier(0.12, 0.8, 0.32, 1)';
+  // Step 1: Visual elastic band tension pullback (~300ms)
+  carouselTrack.style.transition = 'transform 0.30s cubic-bezier(0.12, 0.8, 0.32, 1)';
   carouselTrack.style.transform = `translateX(${currentOffsetPx + stretchOffset}px)`;
   if (carouselTrack) carouselTrack.classList.add('is-loop-stretching');
 
-  // Step 2: Realistic rubber stretch audio with escalating pitch & friction creaks
+  // Step 2: Realistic rubber stretch audio with escalating tension
   startRubberStretch();
-  updateRubberStretch(60);
-  setTimeout(() => updateRubberStretch(150), 80);
-  setTimeout(() => updateRubberStretch(240), 160);
+  updateRubberStretch(70);
+  setTimeout(() => updateRubberStretch(160), 100);
+  setTimeout(() => updateRubberStretch(240), 200);
 
   // Step 3: At peak tension, SNAP the slingshot!
   setTimeout(() => {
     if (carouselTrack) carouselTrack.classList.remove('is-loop-stretching');
     
-    // Play the slingshot snap & whoosh
+    // Play authentic slingshot snap
     playSlingshotSnap();
 
     // Snap and fly across the carousel to the target slide!
@@ -439,7 +371,7 @@ function triggerSlingshotLoop(targetSlide) {
       isLoopAnimating = false;
       isThrottled = false;
     }, 950);
-  }, 260);
+  }, 300);
 }
 
 // ========================================================
