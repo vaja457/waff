@@ -183,6 +183,13 @@ const SNAP_AUDIO_SRC = 'audio/slingshot-snap.wav';
 const stretchAudio = new Audio(STRETCH_AUDIO_SRC);
 stretchAudio.preload = 'auto';
 
+// Ensure HTML5 fallback also sustains the end of stretch without restarting from beginning
+stretchAudio.addEventListener('timeupdate', () => {
+  if (isStretchingSound && stretchAudio.currentTime >= 1.25) {
+    stretchAudio.currentTime = 0.995;
+  }
+});
+
 const SNAP_POOL_SIZE = 4;
 const snapAudioPool = [];
 let snapPoolIdx = 0;
@@ -241,6 +248,9 @@ function startRubberStretch() {
       activeStretchSource = ctx.createBufferSource();
       activeStretchSource.buffer = stretchAudioBuffer;
       activeStretchSource.loop = true;
+      // Seamlessly sustain the taut rubber tension at the end (never restart from 0s)
+      activeStretchSource.loopStart = 0.995;
+      activeStretchSource.loopEnd = 1.251;
       activeStretchSource.playbackRate.setValueAtTime(1.0, ctx.currentTime);
 
       activeStretchGain = ctx.createGain();
@@ -254,7 +264,6 @@ function startRubberStretch() {
       // HTML5 Audio fallback
       stretchAudio.currentTime = 0;
       stretchAudio.volume = 0.95;
-      stretchAudio.loop = true;
       stretchAudio.play().catch(() => {});
     }
   } catch (e) {}
@@ -472,7 +481,7 @@ function startAutoplayProgress(slideIndex = currentSlide) {
   if (!isAutoplayManuallyPaused && !isAutoplayPaused) {
     autoplayTimer = setTimeout(() => {
       if (!isAutoplayManuallyPaused && !isAutoplayPaused) {
-        nextSlide();
+        autoplayNextSlide();
       }
     }, AUTOPLAY_DURATION);
   }
@@ -562,7 +571,18 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-// Next / Prev slide helpers with LOOP (ლუპი & ლაგატკა)
+// Autoplay advance helper: Smooth normal transition, NO slingshot sound on auto-loop
+function autoplayNextSlide() {
+  if (isLoopAnimating) return;
+  if (currentSlide < 3) {
+    goToSlide(currentSlide + 1);
+  } else {
+    // When autoplay loops back to slide 0, smooth transition without slingshot sound!
+    goToSlide(0);
+  }
+}
+
+// Next / Prev slide helpers with LOOP (ლუპი & ლაგატკა - triggered by user mouse interaction)
 function nextSlide() {
   if (isLoopAnimating) return;
   if (currentSlide < 3) {
@@ -671,7 +691,7 @@ if (bottomDotsNav) {
     const activeFill = document.querySelector('.site-dot-btn.active .dot-progress-fill');
     if (activeFill) activeFill.style.animationPlayState = 'running';
     autoplayTimer = setTimeout(() => {
-      if (!isAutoplayPaused && !isAutoplayManuallyPaused) nextSlide();
+      if (!isAutoplayPaused && !isAutoplayManuallyPaused) autoplayNextSlide();
     }, 2800);
   });
 }
@@ -890,7 +910,7 @@ function handlePointerUpOrCancel(e) {
     if (activeFill) activeFill.style.animationPlayState = 'running';
     clearTimeout(autoplayTimer);
     autoplayTimer = setTimeout(() => {
-      if (!isAutoplayPaused) nextSlide();
+      if (!isAutoplayPaused) autoplayNextSlide();
     }, AUTOPLAY_DURATION);
   }
 }
