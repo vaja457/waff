@@ -182,13 +182,7 @@ const SNAP_AUDIO_SRC = 'audio/slingshot-snap.wav';
 // HTML5 Audio instances for instant, zero-delay fallback
 const stretchAudio = new Audio(STRETCH_AUDIO_SRC);
 stretchAudio.preload = 'auto';
-
-// Ensure HTML5 fallback also sustains the end of stretch without restarting from beginning
-stretchAudio.addEventListener('timeupdate', () => {
-  if (isStretchingSound && stretchAudio.currentTime >= 1.25) {
-    stretchAudio.currentTime = 0.995;
-  }
-});
+stretchAudio.loop = false; // Strictly play once, never repeat!
 
 const SNAP_POOL_SIZE = 4;
 const snapAudioPool = [];
@@ -231,7 +225,9 @@ window.addEventListener('load', () => {
   }, { once: true, passive: true });
 });
 
-// Rubber Band Tension / Pullback Sound (რეზინის გაწელვის ხმა)
+let hasTriggeredStretchForDrag = false;
+
+// Rubber Band Tension / Pullback Sound (რეზინის გაწელვის ხმა - უკრავს მხოლოდ ერთხელ და ჩერდება)
 function startRubberStretch() {
   if (isStretchingSound || !soundEnabled) return;
   isStretchingSound = true;
@@ -247,10 +243,7 @@ function startRubberStretch() {
       }
       activeStretchSource = ctx.createBufferSource();
       activeStretchSource.buffer = stretchAudioBuffer;
-      activeStretchSource.loop = true;
-      // Seamlessly sustain the taut rubber tension at the end (never restart from 0s)
-      activeStretchSource.loopStart = 0.995;
-      activeStretchSource.loopEnd = 1.251;
+      activeStretchSource.loop = false; // Strictly play once, never repeat!
       activeStretchSource.playbackRate.setValueAtTime(1.0, ctx.currentTime);
 
       activeStretchGain = ctx.createGain();
@@ -261,8 +254,9 @@ function startRubberStretch() {
       activeStretchGain.connect(ctx.destination);
       activeStretchSource.start();
     } else {
-      // HTML5 Audio fallback
+      // HTML5 Audio fallback - play once without looping
       stretchAudio.currentTime = 0;
+      stretchAudio.loop = false;
       stretchAudio.volume = 0.95;
       stretchAudio.play().catch(() => {});
     }
@@ -271,7 +265,6 @@ function startRubberStretch() {
 
 function updateRubberStretch(pullPx) {
   if (!soundEnabled) return;
-  if (!isStretchingSound) startRubberStretch();
   try {
     const ratio = Math.min(1.0, pullPx / 200);
     // Dynamic pitch modulation matching physical rubber tension (0.95x to 1.30x speed)
@@ -796,6 +789,7 @@ viewportEl.addEventListener('pointerdown', (e) => {
   isPointerDown = true;
   isDragging = false;
   hasMoved = false;
+  hasTriggeredStretchForDrag = false;
   startX = e.clientX;
   startY = e.clientY;
   deltaX = 0;
@@ -843,11 +837,18 @@ window.addEventListener('pointermove', (e) => {
     if (isBoundaryPull) {
       const pullDistance = Math.abs(deltaX);
       if (pullDistance > 12) {
+        if (!hasTriggeredStretchForDrag) {
+          hasTriggeredStretchForDrag = true;
+          startRubberStretch();
+        }
         updateRubberStretch(pullDistance);
         if (carouselTrack) carouselTrack.classList.add('is-loop-stretching');
       }
     } else {
-      stopRubberStretch();
+      if (hasTriggeredStretchForDrag) {
+        stopRubberStretch();
+        hasTriggeredStretchForDrag = false;
+      }
       if (carouselTrack) carouselTrack.classList.remove('is-loop-stretching');
     }
 
@@ -863,12 +864,16 @@ window.addEventListener('pointermove', (e) => {
 }, { passive: false });
 
 function handlePointerUpOrCancel(e) {
-  if (!isPointerDown && !isDragging) return;
+  if (!isPointerDown && !isDragging) {
+    hasTriggeredStretchForDrag = false;
+    return;
+  }
 
   const wasDragging = isDragging;
   isPointerDown = false;
   isDragging = false;
   hasMoved = false;
+  hasTriggeredStretchForDrag = false;
 
   if (carouselViewport) carouselViewport.classList.remove('is-dragging');
   document.body.classList.remove('is-dragging');
