@@ -1310,3 +1310,9 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+/* Rubber Band Slingshot Tension on Loop Drag */
+.carousel-track.is-loop-stretching {
+  cursor: grabbing !important;
+  will-change: transform;
+}
