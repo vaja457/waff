@@ -12,13 +12,15 @@
   <link rel="preload" href="audio/rubber-stretch.wav" as="audio" type="audio/wav">
   <link rel="preload" href="audio/slingshot-snap.wav" as="audio" type="audio/wav">
 
-  <link rel="stylesheet" href="style.css?v=4.2">
+  <link rel="stylesheet" href="style.css?v=5.0">
   <style>
-    /* Critical Anti-Scroll & Anti-Blur Rules to guarantee 0 scrollbars & 0 blur across all browser caches */
-    html, body, .site-wrapper, .carousel-viewport, .carousel-track, .site-section {
+    /* Viewport & Anti-Scroll Rules for Zero Root Scrollbars Across All Browsers */
+    html, body, .site-wrapper, .carousel-viewport, .carousel-track {
       overflow: hidden !important;
       height: 100vh !important;
+      height: 100dvh !important;
       max-height: 100vh !important;
+      max-height: 100dvh !important;
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
     }
@@ -26,12 +28,6 @@
       display: none !important;
       width: 0 !important;
       height: 0 !important;
-    }
-    .main-header {
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
     }
   </style>
 </head>
@@ -57,7 +53,7 @@
           <ul class="nav-list" id="navList">
             <li><a href="#home" class="nav-link active" data-slide-target="0">მთავარი</a></li>
             <li><a href="#menu" class="nav-link" data-slide-target="1">მენიუ</a></li>
-            <li><a href="#about" class="nav-link" data-slide-target="2">ჩვენ შესახებ</a></li>
+            <li><a href="#about" class="nav-link" data-slide-target="2"><span class="nav-text-full">ჩვენ შესახებ</span><span class="nav-text-short">შესახებ</span></a></li>
             <li><a href="#shop" class="nav-link" data-slide-target="3">მაღაზია</a></li>
           </ul>
         </nav>
