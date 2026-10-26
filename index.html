@@ -3,51 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAFF - ვაფლერიის მენიუ | #1 Waffles in the World</title>
+  <title>WAFF - ვაფლერიის მენიუ</title>
   
-  <!-- Favicon using WAFF logo -->
   <link rel="icon" type="image/png" href="images/waff-logo-trimmed.png">
-
-  <!-- Audio preload -->
   <link rel="preload" href="audio/crunch.mp3" as="audio" type="audio/mpeg">
-
-  <link rel="stylesheet" href="style.css?v=6.0">
+  <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body class="waff-landing">
 
-  <!-- Main Canvas Container (matches Figma Desktop - 1) -->
   <div class="landing-canvas">
 
     <!-- Top Header -->
     <header class="menu-top-header">
-      <div class="header-brand">
+      <div class="brand-side">
         <a href="#" class="brand-link" title="WAFF">
           <img src="images/waff-logo-trimmed.png" alt="WAFF Logo" class="brand-logo-img">
-          <span class="brand-tag">WAFF</span>
         </a>
       </div>
 
-      <!-- Center Title: Bubble 3D "MENU" + Tagline -->
-      <div class="header-center-title">
-        <div class="bubble-menu-wrapper">
-          <h1 class="bubble-menu-title" data-text="MENU">MENU</h1>
-          <span class="bubble-menu-sub">#1 waffles in the world</span>
-        </div>
+      <!-- Center Title: Minimalist & Clean Bubble "MENU" -->
+      <div class="menu-title-block">
+        <h1 class="menu-bubble-title">MENU</h1>
+        <span class="menu-tagline">#1 waffles in the world</span>
       </div>
 
-      <!-- Header Controls: Sound Toggle & Crunch Button -->
-      <div class="header-controls">
-        <button class="crunch-mini-btn" id="crunchMiniBtn" title="დააკლიკე და მოისმინე ხრაშუნი! 🧇">
-          <span class="crunch-icon">🧇</span>
-          <span class="crunch-label">ხრაშუნი</span>
-        </button>
-
-        <button class="sound-mini-btn" id="soundMiniBtn" title="ხმის ჩართვა/გამორთვა" aria-label="ხმის მართვა">
-          <svg id="soundOnSvg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="sound-side">
+        <button class="sound-toggle-btn" id="soundMiniBtn" title="ხმის ჩართვა/გამორთვა" aria-label="ხმის მართვა">
+          <svg id="soundOnSvg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
           </svg>
-          <svg id="soundOffSvg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+          <svg id="soundOffSvg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <line x1="23" y1="9" x2="17" y2="15"></line>
             <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -56,87 +42,66 @@
       </div>
     </header>
 
-    <!-- Mobile Navigation Category Pills -->
-    <nav class="mobile-cat-nav" aria-label="მენიუს კატეგორიები">
-      <a href="#colWaffles" class="cat-pill active">🧇 Waffles</a>
-      <a href="#colDrinks" class="cat-pill">🥤 Drinks</a>
-      <a href="#colToppings" class="cat-pill">🍓 Toppings</a>
+    <!-- Mobile Quick Navigation Tabs -->
+    <nav class="mobile-tabs" aria-label="კატეგორიები">
+      <a href="#colWaffles" class="mobile-tab-btn active">Waffles</a>
+      <a href="#colDrinks" class="mobile-tab-btn">Drinks</a>
+      <a href="#colToppings" class="mobile-tab-btn">Toppings</a>
     </nav>
 
     <!-- Main 3-Column Menu Grid -->
-    <main class="menu-board-grid">
-      
+    <main class="menu-grid">
+
       <!-- ==========================================
-           COLUMN 1: Waffles (Left Column)
+           COLUMN 1: Waffles (Single Clean Panel with 3 Rows)
            ========================================== -->
-      <section class="menu-column col-waffles" id="colWaffles">
-        <div class="column-header">
-          <h2 class="column-title">Waffles</h2>
-          <span class="column-hint">ხრაშუნა ბელგიური ვაფლები</span>
-        </div>
-
-        <div class="column-panel waffles-panel">
+      <section class="menu-col col-waffles" id="colWaffles">
+        <h2 class="col-heading">Waffles</h2>
+        
+        <div class="panel-box waffles-panel">
           
-          <!-- Waffle 1: „მაგარი“ ვაფლი -->
-          <article class="waffle-card" data-crunch="true" tabindex="0" title="დააკლიკე ხრაშუნისთვის!">
-            <div class="waffle-card-media">
-              <img src="images/waffle-hero-1.png" alt="მაგარი ვაფლი - ბელგიური კლასიკა" class="waffle-img" loading="lazy">
-              <span class="waffle-badge badge-top">★ 5.0 რჩეული</span>
+          <!-- Row 1: მაგარი ვაფლი -->
+          <article class="waffle-row" data-crunch="true" tabindex="0">
+            <div class="waffle-thumb-wrap">
+              <img src="images/waffle-hero-1.png" alt="მაგარი ვაფლი" class="waffle-thumb-img" loading="lazy">
             </div>
-            <div class="waffle-card-details">
-              <div class="waffle-head-row">
-                <h3 class="waffle-name">მაგარი ვაფლი</h3>
-                <span class="waffle-price">₾ 14.90</span>
+            <div class="waffle-info">
+              <div class="waffle-title-row">
+                <h3 class="waffle-item-title">მაგარი ვაფლი</h3>
+                <span class="price-val">₾ 14.90</span>
               </div>
-              <p class="waffle-subtitle">ბელგიური კლასიკა</p>
-              <p class="waffle-desc">ახალი მარწყვი, მოცვი, ბელგიური ნაზი ნაღები და ნეკერჩხლის ოქროსფერი სიროფი.</p>
-              <div class="waffle-tags">
-                <span class="mini-tag">🍓 ახალი ხილი</span>
-                <span class="mini-tag">🍁 ნეკერჩხალი</span>
-                <span class="mini-tag">✨ ხრაშუნა</span>
-              </div>
+              <p class="waffle-sub-label">ბელგიური კლასიკა</p>
+              <p class="waffle-ingredients">ახალი მარწყვი, მოცვი, ბელგიური ნაზი ნაღები და ნეკერჩხლის ოქროსფერი სიროფი.</p>
             </div>
           </article>
 
-          <!-- Waffle 2: „კაი“ ვაფლი -->
-          <article class="waffle-card" data-crunch="true" tabindex="0" title="დააკლიკე ხრაშუნისთვის!">
-            <div class="waffle-card-media">
-              <img src="images/waffle-hero-2.png" alt="კაი ვაფლი - შოკოლადის ვულკანი" class="waffle-img" loading="lazy">
-              <span class="waffle-badge badge-choco">★ 4.9 შოკოლადი</span>
+          <!-- Row 2: კაი ვაფლი -->
+          <article class="waffle-row" data-crunch="true" tabindex="0">
+            <div class="waffle-thumb-wrap">
+              <img src="images/waffle-hero-2.png" alt="კაი ვაფლი" class="waffle-thumb-img" loading="lazy">
             </div>
-            <div class="waffle-card-details">
-              <div class="waffle-head-row">
-                <h3 class="waffle-name">კაი ვაფლი</h3>
-                <span class="waffle-price">₾ 16.50</span>
+            <div class="waffle-info">
+              <div class="waffle-title-row">
+                <h3 class="waffle-item-title">კაი ვაფლი</h3>
+                <span class="price-val">₾ 16.50</span>
               </div>
-              <p class="waffle-subtitle">შოკოლადის ვულკანი</p>
-              <p class="waffle-desc">მუქი ბელგიური შოკოლადის განაში, ბანანის ნაჭრები და ხრაშუნა შოკოლადის ფანტელები.</p>
-              <div class="waffle-tags">
-                <span class="mini-tag">🍫 განაში</span>
-                <span class="mini-tag">🍌 ბანანი</span>
-                <span class="mini-tag">🌰 ფანტელები</span>
-              </div>
+              <p class="waffle-sub-label">შოკოლადის ვულკანი</p>
+              <p class="waffle-ingredients">მუქი ბელგიური შოკოლადის განაში, ბანანის ნაჭრები და ხრაშუნა შოკოლადის ფანტელები.</p>
             </div>
           </article>
 
-          <!-- Waffle 3: ჩხირის ვაფლი (Lolly / Stick Waffle) -->
-          <article class="waffle-card waffle-stick-card" data-crunch="true" tabindex="0" title="დააკლიკე ხრაშუნისთვის!">
-            <div class="waffle-card-media media-stick">
-              <img src="images/waffle-stick-white.png" alt="ჩხირის ვაფლი - Lolly Waffle" class="waffle-img stick-img" loading="lazy">
-              <span class="waffle-badge badge-trend">🔥 TOP ტრენდი</span>
+          <!-- Row 3: ჩხირის ვაფლი -->
+          <article class="waffle-row" data-crunch="true" tabindex="0">
+            <div class="waffle-thumb-wrap wrap-stick">
+              <img src="images/waffle-stick-white.png" alt="ჩხირის ვაფლი" class="waffle-thumb-img stick-thumb" loading="lazy">
             </div>
-            <div class="waffle-card-details">
-              <div class="waffle-head-row">
-                <h3 class="waffle-name">ჩხირის ვაფლი</h3>
-                <span class="waffle-price">₾ 8.90</span>
+            <div class="waffle-info">
+              <div class="waffle-title-row">
+                <h3 class="waffle-item-title">ჩხირის ვაფლი</h3>
+                <span class="price-val">₾ 8.90</span>
               </div>
-              <p class="waffle-subtitle">Lolly Waffle on a Stick</p>
-              <p class="waffle-desc">ცხელი ხრაშუნა ვაფლი ჩხირზე, თეთრი ან კარამელის შოკოლადის ჭიქურითა და ფერადი ტოპინგებით.</p>
-              <div class="waffle-tags">
-                <span class="mini-tag">🍡 ჩხირზე</span>
-                <span class="mini-tag">🤍 თეთრი ჭიქური</span>
-                <span class="mini-tag">⚡ სწრაფი & გემრიელი</span>
-              </div>
+              <p class="waffle-sub-label">Lolly Waffle on a Stick</p>
+              <p class="waffle-ingredients">ცხელი ხრაშუნა ვაფლი ჩხირზე, თეთრი ან კარამელის შოკოლადის ჭიქურითა და ფერადი ტოპინგებით.</p>
             </div>
           </article>
 
@@ -144,124 +109,118 @@
       </section>
 
       <!-- ==========================================
-           COLUMN 2: drinks (Center Column)
+           COLUMN 2: drinks (Single Clean Panel with Pink Outline)
            ========================================== -->
-      <section class="menu-column col-drinks" id="colDrinks">
-        <div class="column-header">
-          <h2 class="column-title">drinks</h2>
-          <span class="column-hint">ცხელი & ცივი სასმელები</span>
-        </div>
+      <section class="menu-col col-drinks" id="colDrinks">
+        <h2 class="col-heading">drinks</h2>
 
-        <div class="column-panel drinks-panel">
+        <div class="panel-box drinks-panel">
           
           <!-- Drink 1: [ყ] ყავა -->
-          <div class="drink-item" data-crunch="true">
-            <div class="drink-item-header">
-              <div class="item-id-pill">ყ</div>
-              <div class="item-title-box">
-                <h4 class="drink-title">ესპრესო & კაპუჩინო</h4>
-                <p class="drink-desc">100% არაბიკა, ახლად დაფქული</p>
+          <div class="drink-row" data-crunch="true">
+            <div class="drink-left">
+              <span class="drink-letter-badge">ყ</span>
+              <div class="drink-texts">
+                <h4 class="drink-name">ესპრესო & კაპუჩინო</h4>
+                <p class="drink-detail">100% არაბიკა, ახლად დაფქული</p>
               </div>
             </div>
-            <div class="drink-price-tag">₾ 4.50 – 6.00</div>
+            <div class="drink-price">₾ 4.50 – 6.00</div>
           </div>
 
           <!-- Drink 2: [ჩ] ჩაი -->
-          <div class="drink-item" data-crunch="true">
-            <div class="drink-item-header">
-              <div class="item-id-pill">ჩ</div>
-              <div class="item-title-box">
-                <h4 class="drink-title">ხილისა & მწვანე ჩაი</h4>
-                <p class="drink-desc">არომატული კენკრისა და პიტნის ნაყენი</p>
+          <div class="drink-row" data-crunch="true">
+            <div class="drink-left">
+              <span class="drink-letter-badge">ჩ</span>
+              <div class="drink-texts">
+                <h4 class="drink-name">ხილისა & მწვანე ჩაი</h4>
+                <p class="drink-detail">არომატული კენკრისა და პიტნის ნაყენი</p>
               </div>
             </div>
-            <div class="drink-price-tag">₾ 4.00</div>
+            <div class="drink-price">₾ 4.00</div>
           </div>
 
-          <!-- Drink 3: [კ] კოლა & გაზიანი -->
-          <div class="drink-item" data-crunch="true">
-            <div class="drink-item-header">
-              <div class="item-id-pill">კ</div>
-              <div class="item-title-box">
-                <h4 class="drink-title">Coca-Cola & Sprite</h4>
-                <p class="drink-desc">ყინულითა და ლიმონით (0.33ლ)</p>
+          <!-- Drink 3: [კ] კოლა -->
+          <div class="drink-row" data-crunch="true">
+            <div class="drink-left">
+              <span class="drink-letter-badge">კ</span>
+              <div class="drink-texts">
+                <h4 class="drink-name">Coca-Cola & Sprite</h4>
+                <p class="drink-detail">ყინულითა და ლიმონით (0.33ლ)</p>
               </div>
             </div>
-            <div class="drink-price-tag">₾ 3.50</div>
+            <div class="drink-price">₾ 3.50</div>
           </div>
 
           <!-- Drink 4: [წ] წვენი -->
-          <div class="drink-item" data-crunch="true">
-            <div class="drink-item-header">
-              <div class="item-id-pill">წ</div>
-              <div class="item-title-box">
-                <h4 class="drink-title">საფირმო ლიმონათი</h4>
-                <p class="drink-desc">ახალდაწურული ციტრუსი & პიტნა</p>
+          <div class="drink-row" data-crunch="true">
+            <div class="drink-left">
+              <span class="drink-letter-badge">წ</span>
+              <div class="drink-texts">
+                <h4 class="drink-name">საფირმო ლიმონათი</h4>
+                <p class="drink-detail">ახალდაწურული ციტრუსი & პიტნა</p>
               </div>
             </div>
-            <div class="drink-price-tag">₾ 6.50</div>
+            <div class="drink-price">₾ 6.50</div>
           </div>
 
         </div>
       </section>
 
       <!-- ==========================================
-           COLUMN 3: toppings (Right Column)
+           COLUMN 3: toppings (Single Clean Panel with Pink Outline)
            ========================================== -->
-      <section class="menu-column col-toppings" id="colToppings">
-        <div class="column-header">
-          <h2 class="column-title">toppings</h2>
-          <span class="column-hint">დამატებითი ინგრედიენტები</span>
-        </div>
+      <section class="menu-col col-toppings" id="colToppings">
+        <h2 class="col-heading">toppings</h2>
 
-        <div class="column-panel toppings-panel">
+        <div class="panel-box toppings-panel">
           
-          <!-- Topping 1: შოკოლადი & სიროფები -->
-          <div class="topping-group" data-crunch="true">
-            <div class="topping-group-head">
-              <span class="topping-icon">🍫</span>
-              <div class="topping-titles">
+          <!-- Topping 1 -->
+          <div class="topping-row" data-crunch="true">
+            <div class="topping-top-line">
+              <div class="topping-title-group">
+                <span class="topping-symbol">🍫</span>
                 <h4 class="topping-name">შოკოლადი & სიროფები</h4>
-                <span class="topping-cost">+ ₾ 2.50</span>
               </div>
+              <span class="topping-price">+ ₾ 2.50</span>
             </div>
-            <p class="topping-details">ბელგიური შოკოლადი, ნუტელა, მარილიანი კარამელი, ნეკერჩხლის სიროფი</p>
+            <p class="topping-detail">ბელგიური შოკოლადი, ნუტელა, მარილიანი კარამელი, ნეკერჩხლის სიროფი</p>
           </div>
 
-          <!-- Topping 2: ხილი & კენკრა -->
-          <div class="topping-group" data-crunch="true">
-            <div class="topping-group-head">
-              <span class="topping-icon">🍓</span>
-              <div class="topping-titles">
+          <!-- Topping 2 -->
+          <div class="topping-row" data-crunch="true">
+            <div class="topping-top-line">
+              <div class="topping-title-group">
+                <span class="topping-symbol">🍓</span>
                 <h4 class="topping-name">ახალი ხილი & კენკრა</h4>
-                <span class="topping-cost">+ ₾ 2.00</span>
               </div>
+              <span class="topping-price">+ ₾ 2.00</span>
             </div>
-            <p class="topping-details">მარწყვი, ბანანი, მოცვი, კივი, ტყის კენკრის მიქსი</p>
+            <p class="topping-detail">მარწყვი, ბანანი, მოცვი, კივი, ტყის კენკრა</p>
           </div>
 
-          <!-- Topping 3: ნაყინი & ნაღები -->
-          <div class="topping-group" data-crunch="true">
-            <div class="topping-group-head">
-              <span class="topping-icon">🍦</span>
-              <div class="topping-titles">
+          <!-- Topping 3 -->
+          <div class="topping-row" data-crunch="true">
+            <div class="topping-top-line">
+              <div class="topping-title-group">
+                <span class="topping-symbol">🍦</span>
                 <h4 class="topping-name">ნაყინი & ნაღები</h4>
-                <span class="topping-cost">+ ₾ 3.00</span>
               </div>
+              <span class="topping-price">+ ₾ 3.00</span>
             </div>
-            <p class="topping-details">ვანილის ნაყინის ბურთულა, ათქვეფილი ნაზი ნაღები</p>
+            <p class="topping-detail">ვანილის ნაყინის ბურთულა, ათქვეფილი ნაღები</p>
           </div>
 
-          <!-- Topping 4: ხრაშუნები & ტკბილეული -->
-          <div class="topping-group" data-crunch="true">
-            <div class="topping-group-head">
-              <span class="topping-icon">🍬</span>
-              <div class="topping-titles">
+          <!-- Topping 4 -->
+          <div class="topping-row" data-crunch="true">
+            <div class="topping-top-line">
+              <div class="topping-title-group">
+                <span class="topping-symbol">🍬</span>
                 <h4 class="topping-name">ხრაშუნები & თხილი</h4>
-                <span class="topping-cost">+ ₾ 1.80</span>
               </div>
+              <span class="topping-price">+ ₾ 1.80</span>
             </div>
-            <p class="topping-details">M&M's, ორეოს ნამცხვარი, მოხალული პეკანი, მარშმელოუ</p>
+            <p class="topping-detail">M&M's, ორეო, მოხალული პეკანი, მარშმელოუ</p>
           </div>
 
         </div>
@@ -269,21 +228,21 @@
 
     </main>
 
-    <!-- Bottom Footer Bar (matches Figma Desktop - 1) -->
-    <footer class="menu-bottom-footer">
-      <div class="footer-left">
-        <a href="https://waff-club.vercel.app" class="footer-domain" target="_blank" rel="noopener">waff.ge</a>
+    <!-- Clean Bottom Bar (Matches Figma: 3 text items) -->
+    <footer class="menu-footer">
+      <div class="footer-col-left">
+        <a href="https://waff-club.vercel.app" class="footer-link">saitebi.ge</a>
       </div>
-      <div class="footer-center">
-        <span class="footer-info">📍 თბილისი | 📞 +995 555 WAFF-CLUB | ყოველდღე: 10:00 – 22:00</span>
+      <div class="footer-col-center">
+        <span class="footer-location">📍 თბილისი | 📞 +995 555 WAFF-CLUB | 10:00 - 22:00</span>
       </div>
-      <div class="footer-right">
-        <a href="https://instagram.com" class="footer-social" target="_blank" rel="noopener" title="Instagram">instagram.ge/@waff</a>
+      <div class="footer-col-right">
+        <a href="https://instagram.com" class="footer-link" target="_blank" rel="noopener">instagram.ge/@waff</a>
       </div>
     </footer>
 
   </div>
 
-  <script src="script.js?v=6.0"></script>
+  <script src="script.js?v=7.0"></script>
 </body>
 </html>
