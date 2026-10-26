@@ -1,85 +1,111 @@
 /**
- * WAFF - Minimalist Landing Menu
- * Audio & Tab Interaction
+ * WAFF - Minimalist Menu
+ * Modal / Lightbox Logic & Smooth Mobile Tabs (Sound Disabled)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  let soundEnabled = true;
-  let audioCtx = null;
-  const crunchAudio = new Audio('audio/crunch.mp3');
-  crunchAudio.preload = 'auto';
-
-  const soundMiniBtn = document.getElementById('soundMiniBtn');
-  const soundOnSvg = document.getElementById('soundOnSvg');
-  const soundOffSvg = document.getElementById('soundOffSvg');
-  const crunchElements = document.querySelectorAll('[data-crunch="true"]');
+  // DOM Elements
+  const menuRows = document.querySelectorAll('.menu-item-row');
+  const modal = document.getElementById('productModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSubtitle = document.getElementById('modalSubtitle');
+  const modalPrice = document.getElementById('modalPrice');
+  const modalDesc = document.getElementById('modalDesc');
   const mobileTabBtns = document.querySelectorAll('.mobile-tab-btn');
 
-  function getAudioCtx() {
-    if (!audioCtx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) audioCtx = new AudioCtx();
+  // Open Modal with Product Details
+  function openModal(row) {
+    const title = row.getAttribute('data-title') || '';
+    const subtitle = row.getAttribute('data-subtitle') || '';
+    const price = row.getAttribute('data-price') || '';
+    const desc = row.getAttribute('data-desc') || '';
+    const img = row.getAttribute('data-img') || '';
+
+    modalTitle.textContent = title;
+    modalSubtitle.textContent = subtitle;
+    modalPrice.textContent = price;
+    modalDesc.textContent = desc;
+
+    if (img) {
+      modalImg.src = img;
+      modalImg.alt = title;
+      modalImg.style.display = 'block';
+    } else {
+      modalImg.style.display = 'none';
     }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume().catch(() => {});
-    }
-    return audioCtx;
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   }
 
-  function playCrunchSound() {
-    if (!soundEnabled) return;
-    try {
-      getAudioCtx();
-      crunchAudio.currentTime = 0;
-      crunchAudio.volume = 0.8;
-      const p = crunchAudio.play();
-      if (p !== undefined) {
-        p.catch(() => {});
+  // Close Modal
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click listeners to all menu rows
+  menuRows.forEach(row => {
+    row.addEventListener('click', () => openModal(row));
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(row);
       }
-    } catch (e) {}
-  }
-
-  // Sound toggle button
-  if (soundMiniBtn) {
-    soundMiniBtn.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      if (soundEnabled) {
-        soundOnSvg.style.display = 'block';
-        soundOffSvg.style.display = 'none';
-        soundMiniBtn.setAttribute('title', 'ხმის გამორთვა');
-        playCrunchSound();
-      } else {
-        soundOnSvg.style.display = 'none';
-        soundOffSvg.style.display = 'block';
-        soundMiniBtn.setAttribute('title', 'ხმის ჩართვა');
-      }
-    });
-  }
-
-  // Crunch sound on click
-  crunchElements.forEach(el => {
-    el.addEventListener('click', () => {
-      playCrunchSound();
-      el.style.opacity = '0.85';
-      setTimeout(() => { el.style.opacity = '1'; }, 100);
     });
   });
 
-  // Mobile Tabs
+  // Close button click
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeModal);
+  }
+
+  // Click outside modal card to close
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  // Escape key to close modal
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+
+  // Mobile Tabs Smooth Scrolling & Active State
   mobileTabBtns.forEach(tab => {
     tab.addEventListener('click', () => {
       mobileTabBtns.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      playCrunchSound();
     });
   });
 
-  // Unlock audio
-  const unlockAudio = () => {
-    getAudioCtx();
-    window.removeEventListener('click', unlockAudio);
-    window.removeEventListener('touchstart', unlockAudio);
-  };
-  window.addEventListener('click', unlockAudio, { once: true });
-  window.addEventListener('touchstart', unlockAudio, { once: true });
+  const sections = [
+    { id: 'colWaffles', tab: mobileTabBtns[0] },
+    { id: 'colDrinks', tab: mobileTabBtns[1] },
+    { id: 'colToppings', tab: mobileTabBtns[2] }
+  ];
+
+  window.addEventListener('scroll', () => {
+    const scrollPos = window.scrollY + 140;
+    sections.forEach(({ id, tab }) => {
+      const el = document.getElementById(id);
+      if (el && tab) {
+        const top = el.offsetTop;
+        const height = el.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          mobileTabBtns.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        }
+      }
+    });
+  }, { passive: true });
 });

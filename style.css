@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WAFF - Balanced Palette (Obsidian Black, Golden Yellow, Royal Violet)
+   WAFF - Minimalist Menu (Obsidian Black, Golden Yellow, Royal Violet)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Fredoka:wght@600;700&family=Caveat:wght@700&display=swap');
@@ -49,7 +49,7 @@
 :root {
   --bg-obsidian: #0E0C15;
   --panel-bg: #181524;
-  --panel-bg-hover: #221E32;
+  --panel-bg-hover: #231E33;
   --panel-border-yellow: #F5B016;
   --panel-border-purple: #8B5CF6;
   --panel-border-purple-light: #A855F7;
@@ -64,7 +64,7 @@
   --text-white: #FFFFFF;
   --text-offwhite: #E5E7EB;
   --text-muted: #9CA3AF;
-  --card-radius: 14px;
+  --card-radius: 16px;
 }
 
 /* --- Base & Reset --- */
@@ -110,7 +110,7 @@ body.waff-landing {
 }
 
 /* ==========================================================================
-   Header: Brand, Bubble "MENU", Sound Control
+   Header: Brand, Bubble "MENU", Clean Layout (No Sound Buttons)
    ========================================================================== */
 .menu-top-header {
   display: flex;
@@ -144,6 +144,10 @@ body.waff-landing {
   height: 32px;
   width: auto;
   display: block;
+}
+
+.header-right-spacer {
+  flex: 1;
 }
 
 /* Center MENU Title */
@@ -190,34 +194,6 @@ body.waff-landing {
   transform: rotate(2deg) translateY(-6px);
   display: inline-block;
   white-space: nowrap;
-}
-
-/* Sound Toggle */
-.sound-side {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.sound-toggle-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #181524;
-  color: var(--accent-yellow);
-  border: 1.8px solid var(--accent-yellow);
-  box-shadow: 0 0 12px rgba(245, 176, 22, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.sound-toggle-btn:hover {
-  background: var(--accent-yellow);
-  color: #0E0C15;
-  transform: scale(1.08);
 }
 
 /* Mobile Quick Tabs */
@@ -292,13 +268,12 @@ body.waff-landing {
   overflow: hidden;
 }
 
-/* Column 1 (Waffles): Golden Yellow Accent Border */
+/* Borders */
 .waffles-panel {
   border: 2px solid var(--panel-border-yellow);
   box-shadow: 0 8px 24px rgba(245, 176, 22, 0.12);
 }
 
-/* Column 2 & 3 (Drinks & Toppings): Royal Purple Accent Border */
 .drinks-panel {
   border: 2px solid var(--panel-border-purple);
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
@@ -310,31 +285,34 @@ body.waff-landing {
 }
 
 /* ==========================================================================
-   Column 1: Waffles (3 Rows)
+   Clean Menu Item Rows (Photo + Big Name + Price Only)
    ========================================================================== */
-.waffle-row {
+.menu-item-row {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 18px 22px;
+  gap: 18px;
+  padding: 20px 24px;
   border-bottom: 1.5px solid var(--divider-color);
   background: transparent;
   cursor: pointer;
   flex: 1;
-  transition: background 0.18s ease;
+  transition: background 0.18s ease, transform 0.15s ease;
+  position: relative;
 }
 
-.waffle-row:last-child {
+.menu-item-row:last-child {
   border-bottom: none;
 }
 
-.waffle-row:hover {
+.menu-item-row:hover {
   background: var(--panel-bg-hover);
+  transform: translateX(3px);
 }
 
-.waffle-thumb-wrap {
-  width: 96px;
-  height: 96px;
+/* Thumbnails */
+.item-thumb-wrap {
+  width: 82px;
+  height: 82px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -343,17 +321,18 @@ body.waff-landing {
   border: 1.5px solid rgba(245, 176, 22, 0.35);
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
 }
 
-.waffle-thumb-img {
+.item-thumb-img {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
   transition: transform 0.2s ease;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
-.waffle-row:hover .waffle-thumb-img {
+.menu-item-row:hover .item-thumb-img {
   transform: scale(1.08);
 }
 
@@ -367,100 +346,30 @@ body.waff-landing {
   transform: rotate(-10deg);
 }
 
-.waffle-row:hover .stick-thumb {
+.menu-item-row:hover .stick-thumb {
   transform: rotate(-4deg) scale(1.1);
 }
 
-.waffle-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.waffle-title-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 2px;
-}
-
-.waffle-item-title {
-  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  letter-spacing: 0.5px;
-}
-
-.price-val {
-  font-family: 'FiraGO', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--accent-yellow);
-  white-space: nowrap;
-}
-
-.waffle-sub-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent-purple-light);
-  margin-bottom: 4px;
-}
-
-.waffle-ingredients {
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: var(--text-muted);
-}
-
-/* ==========================================================================
-   Column 2: Drinks (With Small Photos & Letters)
-   ========================================================================== */
-.drink-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  border-bottom: 1.5px solid var(--divider-color);
-  cursor: pointer;
-  flex: 1;
-  gap: 12px;
-  transition: background 0.18s ease;
-}
-
-.drink-row:last-child {
-  border-bottom: none;
-}
-
-.drink-row:hover {
-  background: var(--panel-bg-hover);
-}
-
-/* Small Thumbnail with Badge Overlay */
-.item-thumb-box {
-  position: relative;
-  width: 48px;
-  height: 48px;
+/* Compact Thumbnails for Drinks and Toppings */
+.thumb-compact {
+  width: 52px;
+  height: 52px;
   border-radius: 10px;
-  overflow: hidden;
-  border: 1.5px solid rgba(139, 92, 246, 0.4);
-  flex-shrink: 0;
+  border-color: rgba(139, 92, 246, 0.4);
   background: #110F18;
 }
 
-.item-thumb-img {
+.thumb-compact .item-thumb-img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.2s ease;
+  filter: none;
 }
 
-.drink-row:hover .item-thumb-img, .topping-row:hover .item-thumb-img {
-  transform: scale(1.1);
-}
-
-.drink-badge {
+/* Drink Letter Overlay */
+.item-letter-badge {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -477,106 +386,37 @@ body.waff-landing {
   justify-content: center;
 }
 
-.drink-texts {
+/* Large Item Name (Focus of the Row!) */
+.item-large-name {
+  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
   flex: 1;
   min-width: 0;
-  padding-left: 4px;
 }
 
-.drink-name {
-  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.item-drink .item-large-name, .item-topping .item-large-name {
+  font-size: 1.08rem;
 }
 
-.drink-detail {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 2px;
-}
-
-.drink-price {
-  font-size: 0.95rem;
+/* Price Tag */
+.item-price-tag {
+  font-family: 'FiraGO', sans-serif;
+  font-size: 1.25rem;
   font-weight: 800;
   color: var(--accent-yellow);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-/* ==========================================================================
-   Column 3: Toppings (With Small Photos)
-   ========================================================================== */
-.topping-row {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 13px 18px;
-  border-bottom: 1.5px solid var(--divider-color);
-  cursor: pointer;
-  flex: 1;
-  gap: 4px;
-  transition: background 0.18s ease;
-}
-
-.topping-row:last-child {
-  border-bottom: none;
-}
-
-.topping-row:hover {
-  background: var(--panel-bg-hover);
-}
-
-.topping-main-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.topping-info-box {
-  flex: 1;
-  min-width: 0;
-}
-
-.topping-title-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.topping-name {
-  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.topping-price {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: var(--accent-yellow);
-  white-space: nowrap;
-}
-
-.topping-detail {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  line-height: 1.35;
-  margin-top: 2px;
+.item-drink .item-price-tag, .item-topping .item-price-tag {
+  font-size: 1rem;
 }
 
 /* ==========================================================================
-   Footer: Clean Dark & Purple Bar
+   Footer
    ========================================================================== */
 .menu-footer {
   display: flex;
@@ -604,6 +444,145 @@ body.waff-landing {
   color: var(--text-muted);
   font-size: 0.85rem;
   text-align: center;
+}
+
+/* ==========================================================================
+   Product Modal / Lightbox (Opens Large on Click)
+   ========================================================================== */
+.product-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 8, 16, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  background: #181524;
+  border: 2px solid var(--accent-yellow);
+  border-radius: 20px;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(245, 176, 22, 0.18);
+  overflow: hidden;
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-modal-backdrop.is-open .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--accent-yellow);
+  color: #0E0C15;
+  border-color: var(--accent-yellow);
+  transform: scale(1.08);
+}
+
+/* Large Photo Container in Modal */
+.modal-media {
+  width: 100%;
+  height: 240px;
+  background: radial-gradient(circle, rgba(245, 176, 22, 0.1) 0%, rgba(24, 21, 36, 0.95) 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+}
+
+.modal-content {
+  padding: 22px 24px 26px;
+}
+
+.modal-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-title {
+  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.modal-subtitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-purple-light);
+  margin-top: 4px;
+}
+
+.modal-price {
+  font-family: 'FiraGO', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-yellow);
+  background: rgba(245, 176, 22, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--accent-yellow);
+  white-space: nowrap;
+}
+
+.modal-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 16px 0;
+}
+
+.modal-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #D1D5DB;
 }
 
 /* ==========================================================================
@@ -644,27 +623,35 @@ body.waff-landing {
     padding: 2px 8px;
   }
 
-  .waffle-row {
-    padding: 12px 14px;
-    gap: 12px;
+  .menu-item-row {
+    padding: 14px 16px;
+    gap: 14px;
   }
 
-  .waffle-thumb-wrap {
-    width: 68px;
-    height: 68px;
-    border-radius: 10px;
+  .item-thumb-wrap {
+    width: 64px;
+    height: 64px;
   }
 
-  .waffle-item-title {
-    font-size: 1.05rem;
+  .thumb-compact {
+    width: 44px;
+    height: 44px;
   }
 
-  .price-val {
-    font-size: 1.05rem;
+  .item-large-name {
+    font-size: 1.15rem;
   }
 
-  .waffle-ingredients {
-    font-size: 0.76rem;
+  .item-drink .item-large-name, .item-topping .item-large-name {
+    font-size: 0.98rem;
+  }
+
+  .item-price-tag {
+    font-size: 1.1rem;
+  }
+
+  .item-drink .item-price-tag, .item-topping .item-price-tag {
+    font-size: 0.92rem;
   }
 
   .menu-footer {
@@ -679,8 +666,12 @@ body.waff-landing {
     font-size: 2.2rem;
   }
 
-  .waffle-thumb-wrap {
-    width: 58px;
-    height: 58px;
+  .item-thumb-wrap {
+    width: 52px;
+    height: 52px;
+  }
+
+  .item-large-name {
+    font-size: 1rem;
   }
 }
