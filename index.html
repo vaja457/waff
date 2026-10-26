@@ -29,20 +29,26 @@
       <div class="header-right-spacer"></div>
     </header>
 
-    <!-- Mobile Quick Navigation Tabs -->
-    <nav class="mobile-tabs" aria-label="კატეგორიები">
-      <a href="#colWaffles" class="mobile-tab-btn active">🧇 Waffles</a>
-      <a href="#colDrinks" class="mobile-tab-btn">🥤 Drinks</a>
-      <a href="#colToppings" class="mobile-tab-btn">🍓 Toppings</a>
+    <!-- Mobile Navigation Tabs (Swipe & Click) -->
+    <nav class="mobile-tabs" aria-label="კატეგორიები" id="mobileTabsNav">
+      <button type="button" class="mobile-tab-btn active" data-tab="0">
+        <span class="tab-emoji">🧇</span> Waffles
+      </button>
+      <button type="button" class="mobile-tab-btn" data-tab="1">
+        <span class="tab-emoji">🥤</span> Drinks
+      </button>
+      <button type="button" class="mobile-tab-btn" data-tab="2">
+        <span class="tab-emoji">🍓</span> Toppings
+      </button>
     </nav>
 
-    <!-- Main 3-Column Menu Grid -->
-    <main class="menu-grid">
+    <!-- Main Menu (Swipeable Tabs on Mobile, 3 Columns on Desktop) -->
+    <main class="menu-grid" id="menuSlider">
 
       <!-- ==========================================
            COLUMN 1: Waffles
            ========================================== -->
-      <section class="menu-col col-waffles" id="colWaffles">
+      <section class="menu-col col-waffles" id="colWaffles" data-index="0">
         <h2 class="col-heading heading-yellow">Waffles</h2>
         
         <div class="panel-box waffles-panel">
@@ -93,10 +99,10 @@
       </section>
 
       <!-- ==========================================
-           COLUMN 2: drinks
+           COLUMN 2: Drinks
            ========================================== -->
-      <section class="menu-col col-drinks" id="colDrinks">
-        <h2 class="col-heading heading-purple">drinks</h2>
+      <section class="menu-col col-drinks" id="colDrinks" data-index="1">
+        <h2 class="col-heading heading-purple">Drinks</h2>
 
         <div class="panel-box drinks-panel">
           
@@ -164,10 +170,10 @@
       </section>
 
       <!-- ==========================================
-           COLUMN 3: toppings
+           COLUMN 3: Toppings
            ========================================== -->
-      <section class="menu-col col-toppings" id="colToppings">
-        <h2 class="col-heading heading-purple">toppings</h2>
+      <section class="menu-col col-toppings" id="colToppings" data-index="2">
+        <h2 class="col-heading heading-purple">Toppings</h2>
 
         <div class="panel-box toppings-panel">
           
