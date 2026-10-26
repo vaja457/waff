@@ -1,6 +1,5 @@
 /* ==========================================================================
-   WAFF - Minimalist & Clean Waffleria Landing Menu
-   Design: Flat Canary Yellow, Clean Neutral Panels, Magenta Accents
+   WAFF - Balanced Palette (Obsidian Black, Golden Yellow, Royal Violet)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Fredoka:wght@600;700&family=Caveat:wght@700&display=swap');
@@ -46,18 +45,25 @@
   font-display: swap;
 }
 
-/* --- Design Variables --- */
+/* --- Color Theme Variables --- */
 :root {
-  --bg-yellow: #FFE81D;
-  --panel-bg: #EAEAEA;
-  --panel-border: #222222;
-  --panel-border-pink: #FF2E7E;
-  --divider-color: #D6D6D6;
-  --text-primary: #181818;
-  --text-secondary: #5A5A5A;
-  --text-muted: #7A7A7A;
-  --accent-pink: #FF2E7E;
-  --accent-pink-dark: #D81B60;
+  --bg-obsidian: #0E0C15;
+  --panel-bg: #181524;
+  --panel-bg-hover: #221E32;
+  --panel-border-yellow: #F5B016;
+  --panel-border-purple: #8B5CF6;
+  --panel-border-purple-light: #A855F7;
+  --divider-color: rgba(255, 255, 255, 0.08);
+
+  --accent-yellow: #F5B016;
+  --accent-yellow-light: #FCD34D;
+  --accent-purple: #8B5CF6;
+  --accent-purple-light: #C084FC;
+  --accent-purple-dark: #6D28D9;
+
+  --text-white: #FFFFFF;
+  --text-offwhite: #E5E7EB;
+  --text-muted: #9CA3AF;
   --card-radius: 14px;
 }
 
@@ -74,8 +80,12 @@ html {
 }
 
 body.waff-landing {
-  background-color: var(--bg-yellow);
-  color: var(--text-primary);
+  background-color: var(--bg-obsidian);
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(245, 176, 22, 0.09) 0%, transparent 40%),
+    radial-gradient(circle at 90% 25%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+  color: var(--text-offwhite);
   font-family: 'FiraGO', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
   min-height: 100dvh;
@@ -85,7 +95,7 @@ body.waff-landing {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- Main Page Container --- */
+/* --- Canvas Wrapper --- */
 .landing-canvas {
   max-width: 1380px;
   width: 100%;
@@ -100,7 +110,7 @@ body.waff-landing {
 }
 
 /* ==========================================================================
-   Top Header: Clean Minimal Bar
+   Header: Brand, Bubble "MENU", Sound Control
    ========================================================================== */
 .menu-top-header {
   display: flex;
@@ -118,15 +128,20 @@ body.waff-landing {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  transition: transform 0.15s ease;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(245, 176, 22, 0.4);
+  transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
 .brand-link:hover {
   transform: scale(1.04);
+  border-color: var(--accent-yellow);
 }
 
 .brand-logo-img {
-  height: 34px;
+  height: 32px;
   width: auto;
   display: block;
 }
@@ -143,15 +158,16 @@ body.waff-landing {
 
 .menu-bubble-title {
   font-family: 'Titan One', 'Fredoka', cursive, sans-serif;
-  font-size: clamp(3rem, 5.5vw, 4.4rem);
+  font-size: clamp(3.2rem, 5.5vw, 4.5rem);
   line-height: 1;
-  color: var(--accent-pink);
+  color: var(--accent-yellow);
   text-transform: uppercase;
   letter-spacing: 2px;
-  -webkit-text-stroke: 3px #181818;
+  -webkit-text-stroke: 2.5px #0E0C15;
   text-shadow: 
-    2.5px 2.5px 0 var(--accent-pink-dark),
-    5px 5px 0 #181818;
+    3px 3px 0 var(--accent-purple-dark),
+    6px 6px 0 rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(245, 176, 22, 0.35);
   transform: rotate(-1.5deg);
   user-select: none;
   transition: transform 0.2s ease;
@@ -165,18 +181,18 @@ body.waff-landing {
   font-family: 'Caveat', cursive, sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.35rem);
   font-weight: 700;
-  color: #181818;
-  background: #FFFFFF;
-  padding: 2px 12px;
+  color: #FFFFFF;
+  background: var(--accent-purple);
+  padding: 2px 14px;
   border-radius: 16px;
-  border: 1.8px solid #181818;
-  box-shadow: 2px 2px 0 #181818;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
   transform: rotate(2deg) translateY(-6px);
   display: inline-block;
   white-space: nowrap;
 }
 
-/* Right Sound Control */
+/* Sound Toggle */
 .sound-side {
   flex: 1;
   display: flex;
@@ -187,10 +203,10 @@ body.waff-landing {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #FFFFFF;
-  color: #181818;
-  border: 2px solid #181818;
-  box-shadow: 2px 2px 0 #181818;
+  background: #181524;
+  color: var(--accent-yellow);
+  border: 1.8px solid var(--accent-yellow);
+  box-shadow: 0 0 12px rgba(245, 176, 22, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,9 +215,9 @@ body.waff-landing {
 }
 
 .sound-toggle-btn:hover {
-  background: var(--accent-pink);
-  color: #FFFFFF;
-  transform: scale(1.06);
+  background: var(--accent-yellow);
+  color: #0E0C15;
+  transform: scale(1.08);
 }
 
 /* Mobile Quick Tabs */
@@ -214,25 +230,26 @@ body.waff-landing {
 .mobile-tab-btn {
   flex: 1;
   text-align: center;
-  background: #FFFFFF;
-  color: #181818;
+  background: #181524;
+  color: var(--text-offwhite);
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
   padding: 8px 12px;
   border-radius: 20px;
-  border: 2px solid #181818;
-  box-shadow: 2px 2px 0 #181818;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
   transition: all 0.15s ease;
 }
 
 .mobile-tab-btn.active, .mobile-tab-btn:hover {
-  background: var(--accent-pink);
-  color: #FFFFFF;
+  background: var(--accent-yellow);
+  color: #0E0C15;
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 12px rgba(245, 176, 22, 0.3);
 }
 
 /* ==========================================================================
-   Main Menu Grid (Waffles | drinks | toppings)
+   Main Menu Grid (3 Columns)
    ========================================================================== */
 .menu-grid {
   display: grid;
@@ -251,37 +268,50 @@ body.waff-landing {
   font-family: 'Fredoka', 'FiraGO', sans-serif;
   font-size: 1.65rem;
   font-weight: 700;
-  color: var(--text-primary);
   margin-bottom: 10px;
   padding-left: 2px;
   letter-spacing: 0.5px;
 }
 
-/* Minimalist Clean Panels */
+.heading-yellow {
+  color: var(--accent-yellow);
+}
+
+.heading-purple {
+  color: var(--accent-purple-light);
+}
+
+/* Panel Containers */
 .panel-box {
   background: var(--panel-bg);
   border-radius: var(--card-radius);
-  border: 2px solid var(--panel-border);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* Drinks & Toppings: Distinct Pink Border from Figma */
-.drinks-panel, .toppings-panel {
-  border: 2.5px solid var(--panel-border-pink);
+/* Column 1 (Waffles): Golden Yellow Accent Border */
+.waffles-panel {
+  border: 2px solid var(--panel-border-yellow);
+  box-shadow: 0 8px 24px rgba(245, 176, 22, 0.12);
+}
+
+/* Column 2 & 3 (Drinks & Toppings): Royal Purple Accent Border */
+.drinks-panel {
+  border: 2px solid var(--panel-border-purple);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+}
+
+.toppings-panel {
+  border: 2px solid var(--panel-border-purple-light);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
 }
 
 /* ==========================================================================
-   Column 1: Waffles (3 Clean Horizontal Rows)
+   Column 1: Waffles (3 Rows)
    ========================================================================== */
-.waffles-panel {
-  display: flex;
-  flex-direction: column;
-}
-
 .waffle-row {
   display: flex;
   align-items: center;
@@ -299,10 +329,9 @@ body.waff-landing {
 }
 
 .waffle-row:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--panel-bg-hover);
 }
 
-/* Media Box & Thumbnails */
 .waffle-thumb-wrap {
   width: 96px;
   height: 96px;
@@ -310,8 +339,8 @@ body.waff-landing {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #FFFFFF;
-  border: 1.5px solid #222222;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(245, 176, 22, 0.35);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -321,6 +350,7 @@ body.waff-landing {
   max-height: 90%;
   object-fit: contain;
   transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
 .waffle-row:hover .waffle-thumb-img {
@@ -328,7 +358,8 @@ body.waff-landing {
 }
 
 .wrap-stick {
-  background: #FFF5F8;
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.4);
 }
 
 .stick-thumb {
@@ -357,7 +388,7 @@ body.waff-landing {
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #FFFFFF;
   letter-spacing: 0.5px;
 }
 
@@ -365,36 +396,31 @@ body.waff-landing {
   font-family: 'FiraGO', sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: var(--accent-yellow);
   white-space: nowrap;
 }
 
 .waffle-sub-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--accent-purple-light);
   margin-bottom: 4px;
 }
 
 .waffle-ingredients {
   font-size: 0.82rem;
   line-height: 1.4;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 /* ==========================================================================
-   Column 2: Drinks (4 Clean Rows)
+   Column 2: Drinks (With Small Photos & Letters)
    ========================================================================== */
-.drinks-panel {
-  display: flex;
-  flex-direction: column;
-}
-
 .drink-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
+  padding: 14px 18px;
   border-bottom: 1.5px solid var(--divider-color);
   cursor: pointer;
   flex: 1;
@@ -407,41 +433,61 @@ body.waff-landing {
 }
 
 .drink-row:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--panel-bg-hover);
 }
 
-.drink-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
+/* Small Thumbnail with Badge Overlay */
+.item-thumb-box {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  flex-shrink: 0;
+  background: #110F18;
 }
 
-/* Clean Pink Circle Badge with Georgian Letter */
-.drink-letter-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--accent-pink);
+.item-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.drink-row:hover .item-thumb-img, .topping-row:hover .item-thumb-img {
+  transform: scale(1.1);
+}
+
+.drink-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--accent-purple);
   color: #FFFFFF;
-  font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
-  font-size: 1rem;
+  font-family: 'BPG ExtraSquare Mtavruli', sans-serif;
+  font-size: 0.72rem;
   font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px 0 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 .drink-texts {
+  flex: 1;
   min-width: 0;
+  padding-left: 4px;
 }
 
 .drink-name {
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #FFFFFF;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -449,7 +495,7 @@ body.waff-landing {
 
 .drink-detail {
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -459,24 +505,19 @@ body.waff-landing {
 .drink-price {
   font-size: 0.95rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: var(--accent-yellow);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 /* ==========================================================================
-   Column 3: Toppings (4 Clean Groups)
+   Column 3: Toppings (With Small Photos)
    ========================================================================== */
-.toppings-panel {
-  display: flex;
-  flex-direction: column;
-}
-
 .topping-row {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 15px 18px;
+  padding: 13px 18px;
   border-bottom: 1.5px solid var(--divider-color);
   cursor: pointer;
   flex: 1;
@@ -489,75 +530,78 @@ body.waff-landing {
 }
 
 .topping-row:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--panel-bg-hover);
 }
 
-.topping-top-line {
+.topping-main-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
 }
 
-.topping-title-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.topping-info-box {
+  flex: 1;
   min-width: 0;
 }
 
-.topping-symbol {
-  font-size: 1.15rem;
-  line-height: 1;
+.topping-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .topping-name {
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
   font-size: 0.92rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .topping-price {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
-  color: var(--accent-pink-dark);
+  color: var(--accent-yellow);
   white-space: nowrap;
 }
 
 .topping-detail {
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: 1.35;
-  padding-left: 26px;
+  margin-top: 2px;
 }
 
 /* ==========================================================================
-   Footer: Clean, Minimalist 3-Part Bar
+   Footer: Clean Dark & Purple Bar
    ========================================================================== */
 .menu-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 4px 4px;
+  padding: 12px 4px 4px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #181818;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-link {
-  color: #181818;
+  color: var(--accent-yellow);
   text-decoration: none;
   font-weight: 700;
   transition: color 0.15s ease;
 }
 
 .footer-link:hover {
-  color: var(--accent-pink);
+  color: var(--accent-purple-light);
 }
 
 .footer-location {
-  color: #333333;
+  color: var(--text-muted);
   font-size: 0.85rem;
   text-align: center;
 }
@@ -565,8 +609,6 @@ body.waff-landing {
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
-
-/* Tablet & Smaller Screens (< 1024px) */
 @media (max-width: 1024px) {
   .landing-canvas {
     padding: 18px 20px;
@@ -586,7 +628,6 @@ body.waff-landing {
   }
 }
 
-/* Mobile Screens (< 768px) */
 @media (max-width: 768px) {
   .landing-canvas {
     padding: 14px 14px 16px;
@@ -595,7 +636,7 @@ body.waff-landing {
 
   .menu-bubble-title {
     font-size: 2.6rem;
-    -webkit-text-stroke: 2.5px #181818;
+    -webkit-text-stroke: 2px #0E0C15;
   }
 
   .menu-tagline {
@@ -633,7 +674,6 @@ body.waff-landing {
   }
 }
 
-/* Extra Small Screens (< 400px) */
 @media (max-width: 400px) {
   .menu-bubble-title {
     font-size: 2.2rem;
