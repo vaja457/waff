@@ -6,27 +6,19 @@
   <title>WAFF - ვაფლერიის მენიუ</title>
   
   <link rel="icon" type="image/png" href="images/waff-logo-trimmed.png">
-  <link rel="stylesheet" href="style.css?v=11.0">
+  <link rel="stylesheet" href="style.css?v=12.0">
 </head>
 <body class="waff-landing">
 
   <div class="landing-canvas">
 
-    <!-- Top Header (Clean: Logo & Center MENU) -->
+    <!-- Top Header (Centered MENU with Grand Frameless WAFF Background Watermark) -->
     <header class="menu-top-header">
-      <div class="brand-side">
-        <a href="#" class="brand-link" title="WAFF">
-          <img src="images/waff-logo-trimmed.png" alt="WAFF Logo" class="brand-logo-img">
-        </a>
-      </div>
-
-      <!-- Center Title: Balanced Yellow & Purple Bubble "MENU" -->
       <div class="menu-title-block">
+        <img src="images/waff-logo-trimmed.png" alt="WAFF" class="menu-bg-logo" aria-hidden="true">
         <h1 class="menu-bubble-title">MENU</h1>
         <span class="menu-tagline">#1 waffles in the world</span>
       </div>
-
-      <div class="header-right-spacer"></div>
     </header>
 
     <!-- Mobile Navigation Tabs (Swipe & Click) -->
@@ -35,10 +27,10 @@
         <span class="tab-emoji">🧇</span> Waffles
       </button>
       <button type="button" class="mobile-tab-btn" data-tab="1">
-        <span class="tab-emoji">🥤</span> Drinks
+        <span class="tab-emoji">🍓</span> Toppings
       </button>
       <button type="button" class="mobile-tab-btn" data-tab="2">
-        <span class="tab-emoji">🍓</span> Toppings
+        <span class="tab-emoji">🥤</span> Drinks
       </button>
     </nav>
 
@@ -127,76 +119,9 @@
       </section>
 
       <!-- ==========================================
-           COLUMN 2: Drinks
+           COLUMN 2: Toppings
            ========================================== -->
-      <section class="menu-col col-drinks" id="colDrinks" data-index="1">
-        <h2 class="col-heading heading-purple">Drinks</h2>
-
-        <div class="panel-box drinks-panel">
-          
-          <!-- Drink 1: ყავა -->
-          <article class="menu-item-row item-drink" tabindex="0" role="button"
-            data-title="ესპრესო & კაპუჩინო"
-            data-subtitle="ცხელი ყავა"
-            data-price="₾ 4.50 – 6.00"
-            data-desc="100% პრემიუმ არაბიკას მარცვლები, ახლად დაფქული ყავის მდიდარი არომატით, იდეალური ქაფითა და ხავერდოვანი გემოთი."
-            data-img="images/drink-coffee.jpg">
-            <div class="item-thumb-wrap">
-              <img src="images/drink-coffee.jpg" alt="ყავა" class="item-thumb-img" loading="lazy">
-            </div>
-            <h3 class="item-large-name">ესპრესო &amp;&nbsp;კაპუჩინო</h3>
-            <span class="item-price-tag">₾ 4.50 – 6.00</span>
-          </article>
-
-          <!-- Drink 2: ჩაი -->
-          <article class="menu-item-row item-drink" tabindex="0" role="button"
-            data-title="ხილის & მწვანე ჩაი"
-            data-subtitle="არომატული ჩაი"
-            data-price="₾ 4.00"
-            data-desc="ნატურალური მთის მწვანე ჩაი და არომატული ტყის კენკრისა და პიტნის გამომაცოცხლებელი ნაყენი."
-            data-img="images/drink-tea.jpg">
-            <div class="item-thumb-wrap">
-              <img src="images/drink-tea.jpg" alt="ჩაი" class="item-thumb-img" loading="lazy">
-            </div>
-            <h3 class="item-large-name">ხილის &amp; მწვანე ჩაი</h3>
-            <span class="item-price-tag">₾ 4.00</span>
-          </article>
-
-          <!-- Drink 3: კოლა -->
-          <article class="menu-item-row item-drink" tabindex="0" role="button"
-            data-title="Coca-Cola & Sprite"
-            data-subtitle="ცივი სასმელი"
-            data-price="₾ 3.50"
-            data-desc="ყინულოვანი გაზიანი გამაგრილებელი სასმელი ციტრუსის ნაჭრითა და ყინულის კუბიკებით (0.33ლ)."
-            data-img="images/drink-cola.jpg">
-            <div class="item-thumb-wrap">
-              <img src="images/drink-cola.jpg" alt="კოლა" class="item-thumb-img" loading="lazy">
-            </div>
-            <h3 class="item-large-name">Coca-Cola &amp;&nbsp;Sprite</h3>
-            <span class="item-price-tag">₾ 3.50</span>
-          </article>
-
-          <!-- Drink 4: წვენი -->
-          <article class="menu-item-row item-drink" tabindex="0" role="button"
-            data-title="საფირმო ლიმონათი"
-            data-subtitle="ახალი წვენი"
-            data-price="₾ 6.50"
-            data-desc="ახალდაწურული ფორთოხლისა და ლიმონის წვენი, ახალი პიტნის ფოთლები და მსუბუქი გაზირება."
-            data-img="images/drink-lemonade.jpg">
-            <div class="item-thumb-wrap">
-              <img src="images/drink-lemonade.jpg" alt="ლიმონათი" class="item-thumb-img" loading="lazy">
-            </div>
-            <h3 class="item-large-name">საფირმო ლიმონათი</h3>
-            <span class="item-price-tag">₾ 6.50</span>
-          </article>
-
-        </div>
-      </section>
-
-      <!-- ==========================================
-           COLUMN 3: Toppings
-           ========================================== -->
-      <section class="menu-col col-toppings" id="colToppings" data-index="2">
+      <section class="menu-col col-toppings" id="colToppings" data-index="1">
         <h2 class="col-heading heading-purple">Toppings</h2>
 
         <div class="panel-box toppings-panel">
@@ -255,6 +180,73 @@
             </div>
             <h3 class="item-large-name">ხრაშუნები &amp;&nbsp;თხილი</h3>
             <span class="item-price-tag">+ ₾ 1.80</span>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           COLUMN 3: Drinks
+           ========================================== -->
+      <section class="menu-col col-drinks" id="colDrinks" data-index="2">
+        <h2 class="col-heading heading-purple">Drinks</h2>
+
+        <div class="panel-box drinks-panel">
+          
+          <!-- Drink 1: ყავა -->
+          <article class="menu-item-row item-drink" tabindex="0" role="button"
+            data-title="ესპრესო & კაპუჩინო"
+            data-subtitle="ცხელი ყავა"
+            data-price="₾ 4.50 – 6.00"
+            data-desc="100% პრემიუმ არაბიკას მარცვლები, ახლად დაფქული ყავის მდიდარი არომატით, იდეალური ქაფითა და ხავერდოვანი გემოთი."
+            data-img="images/drink-coffee.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/drink-coffee.jpg" alt="ყავა" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">ესპრესო &amp;&nbsp;კაპუჩინო</h3>
+            <span class="item-price-tag">₾ 4.50 – 6.00</span>
+          </article>
+
+          <!-- Drink 2: ჩაი -->
+          <article class="menu-item-row item-drink" tabindex="0" role="button"
+            data-title="ხილის & მწვანე ჩაი"
+            data-subtitle="არომატული ჩაი"
+            data-price="₾ 4.00"
+            data-desc="ნატურალური მთის მწვანე ჩაი და არომატული ტყის კენკრისა და პიტნის გამომაცოცხლებელი ნაყენი."
+            data-img="images/drink-tea.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/drink-tea.jpg" alt="ჩაი" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">ხილის &amp; მწვანე ჩაი</h3>
+            <span class="item-price-tag">₾ 4.00</span>
+          </article>
+
+          <!-- Drink 3: კოლა -->
+          <article class="menu-item-row item-drink" tabindex="0" role="button"
+            data-title="Coca-Cola & Sprite"
+            data-subtitle="ცივი სასმელი"
+            data-price="₾ 3.50"
+            data-desc="ყინულოვანი გაზიანი გამაგრილებელი სასმელი ციტრუსის ნაჭრითა და ყინულის კუბიკებით (0.33ლ)."
+            data-img="images/drink-cola.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/drink-cola.jpg" alt="კოლა" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">Coca-Cola &amp;&nbsp;Sprite</h3>
+            <span class="item-price-tag">₾ 3.50</span>
+          </article>
+
+          <!-- Drink 4: წვენი -->
+          <article class="menu-item-row item-drink" tabindex="0" role="button"
+            data-title="საფირმო ლიმონათი"
+            data-subtitle="ახალი წვენი"
+            data-price="₾ 6.50"
+            data-desc="ახალდაწურული ფორთოხლისა და ლიმონის წვენი, ახალი პიტნის ფოთლები და მსუბუქი გაზირება."
+            data-img="images/drink-lemonade.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/drink-lemonade.jpg" alt="ლიმონათი" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">საფირმო ლიმონათი</h3>
+            <span class="item-price-tag">₾ 6.50</span>
           </article>
 
         </div>
