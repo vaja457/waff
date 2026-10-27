@@ -74,10 +74,15 @@
   padding: 0;
 }
 
-/* Hide window scrollbars on document level */
+/* Hide window scrollbars on document level & Prevent Vertical Site Scroll */
 html {
-  scroll-behavior: smooth;
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
   font-size: 16px;
+  scroll-behavior: smooth;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
@@ -96,11 +101,15 @@ body.waff-landing {
     radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
   color: var(--text-offwhite);
   font-family: 'FiraGO', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100%;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden !important;
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
@@ -112,18 +121,22 @@ body.waff-landing::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* --- Canvas Wrapper --- */
+/* --- Canvas Wrapper: Fits perfectly on screen with zero vertical scrolling --- */
 .landing-canvas {
   max-width: 1490px;
   width: 100%;
   margin: 0 auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 20px 32px 18px;
+  height: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: 16px 32px 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
+  gap: 14px;
+  overflow: hidden !important;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -263,6 +276,7 @@ body.waff-landing::-webkit-scrollbar {
   gap: 20px;
   align-items: stretch;
   flex: 1;
+  min-height: 0;
   width: 100%;
   box-sizing: border-box;
 }
@@ -271,6 +285,8 @@ body.waff-landing::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
 }
 
 .col-heading {
@@ -280,6 +296,7 @@ body.waff-landing::-webkit-scrollbar {
   margin-bottom: 10px;
   padding-left: 2px;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .heading-yellow {
@@ -290,82 +307,49 @@ body.waff-landing::-webkit-scrollbar {
   color: var(--accent-purple-light);
 }
 
-/* Panel Containers with Internal Scrollbar Matching Site Design */
+/* Panel Containers: Smooth Scrolling with Hidden Scrollbar Line */
 .panel-box {
   background: var(--panel-bg);
   border-radius: var(--card-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  max-height: clamp(430px, calc(100vh - 240px), 520px);
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-/* Branded Custom Scrollbars */
-.panel-box::-webkit-scrollbar {
-  display: block !important;
-  width: 8px !important;
+/* Hide Scrollbar Line Completely Across All Browsers */
+.panel-box::-webkit-scrollbar,
+.waffles-panel::-webkit-scrollbar,
+.drinks-panel::-webkit-scrollbar,
+.toppings-panel::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-.panel-box::-webkit-scrollbar-track {
-  background: rgba(14, 12, 21, 0.6) !important;
-  border-radius: 6px !important;
-  margin: 8px 3px !important;
-}
-
-/* Waffles Panel: Golden Yellow Scrollbar & Border */
+/* Waffles Panel: Golden Yellow Border */
 .waffles-panel {
   border: 2px solid var(--panel-border-yellow);
   box-shadow: 0 8px 24px rgba(245, 176, 22, 0.12);
-  scrollbar-color: var(--accent-yellow) rgba(14, 12, 21, 0.6);
 }
 
-.waffles-panel::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #F5B016 0%, #D97706 100%) !important;
-  border-radius: 6px !important;
-}
-
-.waffles-panel::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-yellow-light) !important;
-  box-shadow: 0 0 10px rgba(245, 176, 22, 0.6) !important;
-}
-
-/* Drinks Panel: Royal Purple Scrollbar & Border */
+/* Drinks Panel: Royal Purple Border */
 .drinks-panel {
   border: 2px solid var(--panel-border-purple);
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
-  scrollbar-color: var(--accent-purple) rgba(14, 12, 21, 0.6);
 }
 
-.drinks-panel::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #A855F7 0%, #6D28D9 100%) !important;
-  border-radius: 6px !important;
-}
-
-.drinks-panel::-webkit-scrollbar-thumb:hover {
-  background: #D8B4FE !important;
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.6) !important;
-}
-
-/* Toppings Panel: Light Purple / Violet Scrollbar & Border */
+/* Toppings Panel: Light Purple / Violet Border */
 .toppings-panel {
   border: 2px solid var(--panel-border-purple-light);
   box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
-  scrollbar-color: var(--panel-border-purple-light) rgba(14, 12, 21, 0.6);
-}
-
-.toppings-panel::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #C084FC 0%, #7C3AED 100%) !important;
-  border-radius: 6px !important;
-}
-
-.toppings-panel::-webkit-scrollbar-thumb:hover {
-  background: #E9D5FF !important;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.6) !important;
 }
 
 /* ==========================================================================
@@ -682,12 +666,16 @@ body.waff-landing::-webkit-scrollbar {
    ========================================================================== */
 @media (max-width: 1024px) {
   .landing-canvas {
-    padding: 14px 16px 20px;
-    gap: 14px;
+    padding: 12px 16px 10px;
+    gap: 8px;
     width: 100%;
     max-width: 100vw;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow: hidden !important;
   }
 
   /* Header: Clean Centered Stack so WAFF and MENU never collide */
@@ -745,6 +733,7 @@ body.waff-landing::-webkit-scrollbar {
   .mobile-tabs {
     display: flex;
     margin: 2px 0 6px;
+    flex-shrink: 0;
   }
 
   /* Menu Slider: Smooth Horizontal Swiping with Zero Scrollbars */
@@ -757,9 +746,11 @@ body.waff-landing::-webkit-scrollbar {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
-    padding: 2px 0 8px;
+    padding: 2px 0 6px;
     margin: 0;
     width: 100%;
+    flex: 1;
+    min-height: 0;
     box-sizing: border-box;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
@@ -780,21 +771,36 @@ body.waff-landing::-webkit-scrollbar {
     box-sizing: border-box;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
   }
 
   .col-heading {
     font-size: 1.45rem;
     margin-bottom: 10px;
     padding-left: 4px;
+    flex-shrink: 0;
   }
 
   .panel-box {
     width: 100%;
     box-sizing: border-box;
     border-radius: 20px;
-    max-height: clamp(380px, calc(100dvh - 290px), 480px);
+    flex: 1;
+    min-height: 0;
+    max-height: none;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .panel-box::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   /* All rows in mobile have identical component sizes */
@@ -852,15 +858,21 @@ body.waff-landing::-webkit-scrollbar {
   .menu-footer {
     flex-direction: column;
     gap: 6px;
-    padding-top: 10px;
+    padding-top: 8px;
     text-align: center;
+    flex-shrink: 0;
   }
 }
 
 @media (max-width: 420px) {
   .landing-canvas {
-    padding: 12px 14px 18px;
-    gap: 12px;
+    padding: 10px 14px 8px;
+    gap: 6px;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden !important;
   }
 
   .menu-bubble-title {
