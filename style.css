@@ -72,16 +72,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
 }
 
-*::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
+/* Hide window scrollbars on document level */
 html {
   scroll-behavior: smooth;
   font-size: 16px;
@@ -262,19 +255,22 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 /* ==========================================================================
-   Main Menu Grid (3 Columns Perfectly Symmetrical)
+   Main Menu Grid (3 Balanced Columns)
    ========================================================================== */
 .menu-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1.2fr 1.2fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   align-items: stretch;
   flex: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .menu-col {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .col-heading {
@@ -294,7 +290,7 @@ body.waff-landing::-webkit-scrollbar {
   color: var(--accent-purple-light);
 }
 
-/* Panel Containers */
+/* Panel Containers with Internal Scrollbar Matching Site Design */
 .panel-box {
   background: var(--panel-bg);
   border-radius: var(--card-radius);
@@ -302,44 +298,95 @@ body.waff-landing::-webkit-scrollbar {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  max-height: clamp(340px, calc(100vh - 290px), 375px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Borders */
+/* Branded Custom Scrollbars */
+.panel-box::-webkit-scrollbar {
+  display: block !important;
+  width: 7px !important;
+}
+
+.panel-box::-webkit-scrollbar-track {
+  background: rgba(14, 12, 21, 0.6) !important;
+  border-radius: 6px !important;
+  margin: 6px 2px !important;
+}
+
+/* Waffles Panel: Golden Yellow Scrollbar & Border */
 .waffles-panel {
   border: 2px solid var(--panel-border-yellow);
   box-shadow: 0 8px 24px rgba(245, 176, 22, 0.12);
+  scrollbar-color: var(--accent-yellow) rgba(14, 12, 21, 0.6);
 }
 
+.waffles-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #F5B016 0%, #D97706 100%) !important;
+  border-radius: 6px !important;
+}
+
+.waffles-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-yellow-light) !important;
+  box-shadow: 0 0 10px rgba(245, 176, 22, 0.6) !important;
+}
+
+/* Drinks Panel: Royal Purple Scrollbar & Border */
 .drinks-panel {
   border: 2px solid var(--panel-border-purple);
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+  scrollbar-color: var(--accent-purple) rgba(14, 12, 21, 0.6);
 }
 
+.drinks-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #A855F7 0%, #6D28D9 100%) !important;
+  border-radius: 6px !important;
+}
+
+.drinks-panel::-webkit-scrollbar-thumb:hover {
+  background: #D8B4FE !important;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.6) !important;
+}
+
+/* Toppings Panel: Light Purple / Violet Scrollbar & Border */
 .toppings-panel {
   border: 2px solid var(--panel-border-purple-light);
   box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
+  scrollbar-color: var(--panel-border-purple-light) rgba(14, 12, 21, 0.6);
+}
+
+.toppings-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #C084FC 0%, #7C3AED 100%) !important;
+  border-radius: 6px !important;
+}
+
+.toppings-panel::-webkit-scrollbar-thumb:hover {
+  background: #E9D5FF !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.6) !important;
 }
 
 /* ==========================================================================
-   Clean Menu Item Rows (Symmetrical 1-Line Layout Everywhere!)
-   ========================================================================== */
+   Clean Menu Item Rows (Identical Size Across Waffles, Drinks & Toppings!)
+   ========================================================================= */
 .menu-item-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 12px 14px;
   border-bottom: 1.5px solid var(--divider-color);
   background: transparent;
   cursor: pointer;
-  flex: 1;
+  flex-shrink: 0;
   transition: background 0.18s ease, transform 0.15s ease;
   position: relative;
 }
 
 .waffles-panel .menu-item-row {
-  padding: 20px 22px;
-  gap: 18px;
+  padding: 12px 14px;
+  gap: 12px;
 }
 
 .menu-item-row:last-child {
@@ -351,10 +398,10 @@ body.waff-landing::-webkit-scrollbar {
   transform: translateX(3px);
 }
 
-/* Thumbnails */
+/* Large Thumbnails Everywhere (Matching Waffles Menu Size!) */
 .item-thumb-wrap {
-  width: 90px;
-  height: 90px;
+  width: 66px;
+  height: 66px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -366,11 +413,23 @@ body.waff-landing::-webkit-scrollbar {
   position: relative;
 }
 
+.item-drink .item-thumb-wrap,
+.item-topping .item-thumb-wrap {
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
 .item-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.waffles-panel .item-thumb-img {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
-  transition: transform 0.2s ease;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
@@ -392,49 +451,13 @@ body.waff-landing::-webkit-scrollbar {
   transform: rotate(-4deg) scale(1.1);
 }
 
-/* Compact Thumbnails for Drinks and Toppings */
-.thumb-compact {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  border-color: rgba(139, 92, 246, 0.4);
-  background: #110F18;
-}
-
-.thumb-compact .item-thumb-img {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  filter: none;
-}
-
-/* Drink Letter Overlay */
-.item-letter-badge {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background: var(--accent-purple);
-  color: #FFFFFF;
-  font-family: 'BPG ExtraSquare Mtavruli', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 800;
-  width: 18px;
-  height: 18px;
-  border-radius: 6px 0 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Item Name: Strictly 1 Line Everywhere for Perfect Symmetry */
+/* Large Item Name: Identical Large Font Size Across All Categories */
 .item-large-name {
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
-  font-size: clamp(1.35rem, 1.7vw, 1.75rem);
+  font-size: clamp(0.96rem, 1.12vw, 1.22rem);
   font-weight: 800;
   color: #FFFFFF;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   line-height: 1.2;
   flex: 1;
   min-width: 0;
@@ -443,28 +466,29 @@ body.waff-landing::-webkit-scrollbar {
   text-overflow: ellipsis;
 }
 
-/* Drinks & Toppings: Strictly 1 Line */
-.item-drink .item-large-name, .item-topping .item-large-name {
-  font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+.item-drink .item-large-name,
+.item-topping .item-large-name {
+  font-size: clamp(0.96rem, 1.12vw, 1.22rem);
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Price Tag */
+/* Price Tag: Identical Large Font Size Across All Categories */
 .item-price-tag {
   font-family: 'FiraGO', sans-serif;
-  font-size: clamp(1.25rem, 1.6vw, 1.55rem);
+  font-size: clamp(1rem, 1.15vw, 1.25rem);
   font-weight: 800;
   color: var(--accent-yellow);
   white-space: nowrap;
   flex-shrink: 0;
-  padding-left: 8px;
+  padding-left: 6px;
 }
 
-.item-drink .item-price-tag, .item-topping .item-price-tag {
-  font-size: clamp(0.92rem, 1.1vw, 1.15rem);
+.item-drink .item-price-tag,
+.item-topping .item-price-tag {
+  font-size: clamp(1rem, 1.15vw, 1.25rem);
   padding-left: 6px;
 }
 
@@ -753,42 +777,31 @@ body.waff-landing::-webkit-scrollbar {
     width: 100%;
     box-sizing: border-box;
     border-radius: 20px;
+    max-height: clamp(340px, calc(100dvh - 310px), 430px);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
+  /* All rows in mobile have identical component sizes */
   .menu-item-row {
-    padding: 14px 16px;
-    gap: 14px;
-  }
-
-  .waffles-panel .menu-item-row {
-    padding: 16px 18px;
-    gap: 16px;
+    padding: 10px 12px;
+    gap: 10px;
   }
 
   .item-thumb-wrap {
-    width: 60px;
-    height: 60px;
-  }
-
-  .thumb-compact {
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
   }
 
   .item-large-name {
-    font-size: 1.12rem;
-  }
-
-  .item-drink .item-large-name, .item-topping .item-large-name {
-    font-size: 0.98rem;
+    font-size: 0.88rem;
+    letter-spacing: 0.1px;
   }
 
   .item-price-tag {
-    font-size: 1.15rem;
-  }
-
-  .item-drink .item-price-tag, .item-topping .item-price-tag {
-    font-size: 0.92rem;
+    font-size: 0.98rem;
+    padding-left: 4px;
   }
 
   .menu-footer {
@@ -825,38 +838,21 @@ body.waff-landing::-webkit-scrollbar {
   }
 
   .menu-item-row {
-    padding: 12px 14px;
-    gap: 10px;
-  }
-
-  .waffles-panel .menu-item-row {
-    padding: 14px 14px;
-    gap: 12px;
+    padding: 8px 10px;
+    gap: 8px;
   }
 
   .item-thumb-wrap {
-    width: 52px;
-    height: 52px;
-  }
-
-  .thumb-compact {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
   }
 
   .item-large-name {
-    font-size: 1rem;
-  }
-
-  .item-drink .item-large-name, .item-topping .item-large-name {
-    font-size: 0.88rem;
+    font-size: 0.84rem;
   }
 
   .item-price-tag {
-    font-size: 1.05rem;
-  }
-
-  .item-drink .item-price-tag, .item-topping .item-price-tag {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
   }
 }
