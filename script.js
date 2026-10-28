@@ -144,12 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let opacity;
       if (cosVal >= 0) {
-        opacity = 0.55 + 0.45 * cosVal;
+        opacity = 0.94 + 0.06 * cosVal;
       } else {
-        opacity = Math.max(0, 0.55 * Math.pow(1 + cosVal, 1.6));
+        opacity = Math.max(0, 0.94 * Math.pow(1 + cosVal, 1.8));
       }
 
       const blur = Math.max(0, (1 - cosVal) * 3.5);
+      const brightness = 0.88 + 0.12 * Math.max(0, cosVal);
       const zIndex = Math.round(1 + 14 * ((1 + cosVal) / 2));
 
       if (withTransition) {
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       col.style.transform = `translate3d(calc(-50% + ${x.toFixed(1)}px), 0, ${z.toFixed(1)}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg)`;
-      col.style.filter = `blur(${blur.toFixed(1)}px)`;
+      col.style.filter = `blur(${blur.toFixed(1)}px) brightness(${brightness.toFixed(2)})`;
       col.style.opacity = opacity.toFixed(3);
       col.style.zIndex = zIndex;
       col.style.visibility = opacity < 0.02 ? 'hidden' : 'visible';

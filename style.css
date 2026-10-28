@@ -47,19 +47,18 @@
 
 /* --- Color Theme Variables --- */
 :root {
+  --bg-yellow: #fde503;
   --bg-obsidian: #0E0C15;
-  --panel-bg: #181524;
-  --panel-bg-hover: #231E33;
-  --panel-border-yellow: #F5B016;
-  --panel-border-purple: #8B5CF6;
-  --panel-border-purple-light: #A855F7;
+  --panel-bg: #14111E;
+  --panel-bg-hover: #1E192C;
+  --panel-border-purple: #7C3AED;
+  --panel-border-purple-light: #8B5CF6;
   --divider-color: rgba(255, 255, 255, 0.08);
 
-  --accent-yellow: #F5B016;
-  --accent-yellow-light: #FCD34D;
-  --accent-purple: #8B5CF6;
-  --accent-purple-light: #C084FC;
-  --accent-purple-dark: #6D28D9;
+  --accent-yellow: #fde503;
+  --accent-purple: #7C3AED;
+  --accent-purple-light: #8B5CF6;
+  --accent-purple-dark: #5B21B6;
 
   --text-white: #FFFFFF;
   --text-offwhite: #E5E7EB;
@@ -82,6 +81,7 @@ html {
   padding: 0;
   overflow: hidden !important;
   font-size: 16px;
+  background-color: var(--bg-yellow);
   scroll-behavior: smooth;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
@@ -95,7 +95,7 @@ html::-webkit-scrollbar {
 
 body.waff-landing {
   position: relative;
-  background-color: var(--bg-obsidian);
+  background-color: var(--bg-yellow);
   color: var(--text-offwhite);
   font-family: 'FiraGO', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   height: 100%;
@@ -110,33 +110,6 @@ body.waff-landing {
   -webkit-font-smoothing: antialiased;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-}
-
-/* Subtle, atmospheric waffle photo background across entire site */
-body.waff-landing::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url('images/site-bg.jpg');
-  background-position: center 32%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.22;
-  filter: brightness(0.82) contrast(1.08) saturate(1.2);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Atmospheric vignette & gradient overlay to keep it dim and non-intrusive */
-body.waff-landing::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 50% 45%, rgba(14, 12, 21, 0.4) 0%, rgba(14, 12, 21, 0.84) 85%),
-    linear-gradient(to bottom, rgba(14, 12, 21, 0.65) 0%, rgba(14, 12, 21, 0.2) 50%, rgba(14, 12, 21, 0.82) 100%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 body.waff-landing::-webkit-scrollbar {
@@ -192,14 +165,14 @@ body.waff-landing::-webkit-scrollbar {
   font-family: 'Titan One', 'Fredoka', cursive, sans-serif;
   font-size: clamp(3.2rem, 5.5vw, 4.5rem);
   line-height: 1;
-  color: var(--accent-yellow);
+  color: #7C3AED;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  -webkit-text-stroke: 2.5px #0E0C15;
+  letter-spacing: 2.5px;
+  -webkit-text-stroke: 3.5px #0E0C15;
   text-shadow: 
-    3px 3px 0 var(--accent-purple-dark),
-    6px 6px 0 rgba(0, 0, 0, 0.8),
-    0 0 25px rgba(245, 176, 22, 0.35);
+    4px 4px 0 #0E0C15,
+    7px 7px 0 #5B21B6,
+    0 0 25px rgba(124, 58, 237, 0.4);
   transform: rotate(-1.5deg);
   user-select: none;
   position: relative;
@@ -216,11 +189,11 @@ body.waff-landing::-webkit-scrollbar {
   font-size: clamp(1rem, 1.8vw, 1.35rem);
   font-weight: 700;
   color: #FFFFFF;
-  background: var(--accent-purple);
-  padding: 2px 14px;
+  background: #0E0C15;
+  padding: 3px 16px;
   border-radius: 16px;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  border: 1.5px solid #8B5CF6;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.45);
   transform: rotate(2deg) translateY(-6px);
   display: inline-block;
   white-space: nowrap;
@@ -238,9 +211,9 @@ body.waff-landing::-webkit-scrollbar {
 .mobile-tab-btn {
   flex: 1;
   text-align: center;
-  background: #181524;
-  color: var(--text-offwhite);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: #0E0C15;
+  color: #FFFFFF;
+  border: 1.5px solid #7C3AED;
   border-radius: 18px;
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
   font-weight: 700;
@@ -262,9 +235,12 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .mobile-tab-btn.active, .mobile-tab-btn:hover {
-  background: var(--accent-yellow);
-  color: #0E0C15;
-  border-color: var(--accent-yellow);
+  background: #7C3AED;
+  color: #FFFFFF;
+  border-color: #0E0C15;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.45);
+  transform: translateY(-1px);
+}
   box-shadow: 0 4px 16px rgba(245, 176, 22, 0.35);
   transform: translateY(-1px);
 }
@@ -303,33 +279,30 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .col-heading {
-  font-family: 'Fredoka', 'FiraGO', sans-serif;
+  font-family: 'Titan One', 'Fredoka', 'FiraGO', sans-serif;
   font-size: 1.65rem;
   font-weight: 700;
   margin-bottom: 10px;
   padding-left: 2px;
   letter-spacing: 0.5px;
   flex-shrink: 0;
+  color: #0E0C15;
+  text-shadow: 1.5px 1.5px 0 #8B5CF6;
 }
 
-.heading-yellow {
-  color: var(--accent-yellow);
-}
-
-.heading-purple {
-  color: var(--accent-purple-light);
-}
-
+.heading-yellow,
+.heading-purple,
 .heading-coral {
-  color: #FB7185;
-  text-shadow: 0 0 20px rgba(251, 113, 133, 0.35);
+  color: #0E0C15;
+  text-shadow: 1.5px 1.5px 0 #7C3AED;
 }
 
-/* Panel Containers: Smooth Scrolling with Hidden Scrollbar Line */
+/* Panel Containers: Smooth Scrolling with Black & Purple Borders */
 .panel-box {
   background: var(--panel-bg);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border: 2.5px solid #0E0C15;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 2px #7C3AED;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -353,33 +326,33 @@ body.waff-landing::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* Waffles Panel: Golden Yellow Border */
+/* Waffles Panel: Black & Royal Purple Border */
 .waffles-panel {
-  border: 2px solid var(--panel-border-yellow);
-  box-shadow: 0 8px 24px rgba(245, 176, 22, 0.12);
+  border: 2.5px solid #0E0C15;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #8B5CF6;
 }
 
-/* Drinks Panel: Royal Purple Border */
+/* Drinks Panel: Black & Deep Violet Border */
 .drinks-panel {
-  border: 2px solid var(--panel-border-purple);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+  border: 2.5px solid #0E0C15;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #7C3AED;
 }
 
-/* Toppings Panel: Light Purple / Violet Border */
+/* Toppings Panel: Black & Lavender/Purple Border */
 .toppings-panel {
-  border: 2px solid var(--panel-border-purple-light);
-  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
+  border: 2.5px solid #0E0C15;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #A855F7;
 }
 
-/* Extras Panel: Coral-Amber Glowing Border */
+/* Extras Panel: Black & Electric Purple Border */
 .extras-panel {
-  border: 2px solid rgba(251, 113, 133, 0.65);
-  box-shadow: 0 8px 24px rgba(251, 113, 133, 0.12);
+  border: 2.5px solid #0E0C15;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #9333EA;
 }
 
 .extras-panel:hover {
-  border-color: rgba(251, 113, 133, 0.88);
-  box-shadow: 0 12px 30px rgba(251, 113, 133, 0.22);
+  border-color: #0E0C15;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32), 0 0 0 2.5px #A855F7;
 }
 
 /* ==========================================================================
@@ -423,22 +396,18 @@ body.waff-landing::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(245, 176, 22, 0.35);
+  background: rgba(14, 12, 21, 0.6);
+  border: 1.5px solid #7C3AED;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
 }
 
 .item-drink .item-thumb-wrap,
-.item-topping .item-thumb-wrap {
-  background: rgba(139, 92, 246, 0.06);
-  border-color: rgba(139, 92, 246, 0.35);
-}
-
+.item-topping .item-thumb-wrap,
 .item-extra .item-thumb-wrap {
-  background: rgba(251, 113, 133, 0.07);
-  border-color: rgba(251, 113, 133, 0.35);
+  background: rgba(14, 12, 21, 0.6);
+  border-color: #8B5CF6;
 }
 
 .item-thumb-img {
@@ -524,26 +493,27 @@ body.waff-landing::-webkit-scrollbar {
   align-items: center;
   justify-content: space-between;
   padding: 12px 4px 4px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0E0C15;
+  border-top: 1.5px solid rgba(14, 12, 21, 0.2);
 }
 
 .footer-link {
-  color: var(--accent-yellow);
+  color: #5B21B6;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
   transition: color 0.15s ease;
 }
 
 .footer-link:hover {
-  color: var(--accent-purple-light);
+  color: #0E0C15;
 }
 
 .footer-location {
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  color: #0E0C15;
+  font-size: 0.88rem;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -575,12 +545,13 @@ body.waff-landing::-webkit-scrollbar {
   position: relative;
   max-width: 780px;
   width: 92%;
-  background: #161322;
-  border: 2.5px solid var(--accent-yellow);
+  background: #14111E;
+  border: 3px solid #0E0C15;
   border-radius: 28px;
   box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.9),
-    0 0 50px rgba(245, 176, 22, 0.25);
+    0 30px 80px rgba(0, 0, 0, 0.75),
+    0 0 0 2.5px #7C3AED,
+    0 0 40px rgba(124, 58, 237, 0.4);
   overflow: hidden;
   transform: scale(0.92) translateY(14px);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -600,9 +571,9 @@ body.waff-landing::-webkit-scrollbar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(14, 12, 21, 0.75);
+  background: #0E0C15;
   color: #FFFFFF;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid #8B5CF6;
   font-size: 1.3rem;
   display: flex;
   align-items: center;
@@ -614,9 +585,9 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .modal-close-btn:hover {
-  background: var(--accent-yellow);
-  color: #0E0C15;
-  border-color: var(--accent-yellow);
+  background: #7C3AED;
+  color: #FFFFFF;
+  border-color: #0E0C15;
   transform: scale(1.1) rotate(90deg);
 }
 
@@ -723,11 +694,9 @@ body.waff-landing::-webkit-scrollbar {
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(18, 14, 28, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid rgba(245, 176, 22, 0.45);
-    color: var(--accent-yellow);
+    background: #0E0C15;
+    border: 2px solid #8B5CF6;
+    color: #FFFFFF;
     font-size: 2.2rem;
     font-weight: 300;
     line-height: 1;
@@ -736,17 +705,17 @@ body.waff-landing::-webkit-scrollbar {
     cursor: pointer;
     z-index: 35;
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55), 0 0 16px rgba(245, 176, 22, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 14px rgba(139, 92, 246, 0.35);
     user-select: none;
     padding: 0;
   }
 
   .carousel-arrow-btn:hover {
-    background: var(--accent-yellow);
-    color: #0E0C15;
-    border-color: var(--accent-yellow);
+    background: #7C3AED;
+    color: #FFFFFF;
+    border-color: #0E0C15;
     transform: translateY(-50%) scale(1.12);
-    box-shadow: 0 8px 30px rgba(245, 176, 22, 0.55);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.55);
   }
 
   .carousel-arrow-btn:active {
@@ -804,14 +773,15 @@ body.waff-landing::-webkit-scrollbar {
   }
 
   .menu-col.carousel-center .panel-box {
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 30px rgba(245, 176, 22, 0.16);
+    border-color: #0E0C15;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45), 0 0 0 3px #8B5CF6, 0 0 28px rgba(139, 92, 246, 0.45);
   }
 
   /* Left Blurred Column in 3D Circle */
   .menu-col.carousel-left {
     transform: translate3d(calc(-50% - clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(13deg);
-    filter: blur(3.5px);
-    opacity: 0.55;
+    filter: blur(3.5px) brightness(0.88);
+    opacity: 0.95;
     z-index: 6;
     cursor: pointer;
     pointer-events: auto;
@@ -820,8 +790,8 @@ body.waff-landing::-webkit-scrollbar {
   /* Right Blurred Column in 3D Circle */
   .menu-col.carousel-right {
     transform: translate3d(calc(-50% + clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(-13deg);
-    filter: blur(3.5px);
-    opacity: 0.55;
+    filter: blur(3.5px) brightness(0.88);
+    opacity: 0.95;
     z-index: 6;
     cursor: pointer;
     pointer-events: auto;
@@ -829,14 +799,14 @@ body.waff-landing::-webkit-scrollbar {
 
   /* Tactile Hover on Side Columns */
   .menu-col.carousel-left:hover {
-    filter: blur(1.2px);
-    opacity: 0.85;
+    filter: blur(1.2px) brightness(0.98);
+    opacity: 1;
     transform: translate3d(calc(-50% - clamp(335px, 29.5vw, 435px)), 0, -50px) scale(0.88) rotateY(10deg);
   }
 
   .menu-col.carousel-right:hover {
-    filter: blur(1.2px);
-    opacity: 0.85;
+    filter: blur(1.2px) brightness(0.98);
+    opacity: 1;
     transform: translate3d(calc(-50% + clamp(335px, 29.5vw, 435px)), 0, -50px) scale(0.88) rotateY(-10deg);
   }
 
