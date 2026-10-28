@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuSlider = document.getElementById('menuSlider');
   const carouselStageWrap = document.querySelector('.carousel-stage-wrap');
   const menuCols = Array.from(document.querySelectorAll('.menu-col'));
-  const carouselPrevBtn = document.getElementById('carouselPrevBtn');
-  const carouselNextBtn = document.getElementById('carouselNextBtn');
 
   // Drag tracking flag to prevent accidental click on mouse drag
   let wasDragging = false;
@@ -228,21 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     snapCarouselToAngle(targetAngle);
   }
 
-  // Prev & Next Buttons
-  if (carouselPrevBtn) {
-    carouselPrevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      rotateCarousel(-1);
-    });
-  }
-
-  if (carouselNextBtn) {
-    carouselNextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      rotateCarousel(1);
-    });
-  }
-
   // Clicking side columns rotates them into center
   menuCols.forEach((col) => {
     col.addEventListener('click', (e) => {
@@ -264,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (stageTarget) {
     stageTarget.addEventListener('mousedown', (e) => {
       if (window.innerWidth <= 1024) return;
-      if (e.target.closest('.carousel-arrow-btn')) return;
 
       isDraggingMouse = true;
       wasDragging = false;
@@ -284,8 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
         wasDragging = true;
         stageTarget.style.cursor = 'grabbing';
 
-        // Sensitivity: ~300px horizontal drag corresponds to 1 full 90deg step
-        const angleDelta = -(deltaX / 300) * 90;
+        // Calibrated Sensitivity: ~460px drag per 90deg rotation for a smooth, stable, controlled feel
+        const angleDelta = -(deltaX / 460) * 90;
         const liveAngle = dragStartAngle + angleDelta;
         currentAngle = liveAngle;
 
@@ -303,10 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const deltaX = e.clientX - dragStartX;
         let targetAngle = dragStartAngle;
 
-        // If dragged more than threshold, advance to next / prev
-        if (deltaX < -35) {
+        // If dragged with deliberate intent beyond threshold, advance to next / prev
+        if (deltaX < -55) {
           targetAngle = dragStartAngle + 90;
-        } else if (deltaX > 35) {
+        } else if (deltaX > 55) {
           targetAngle = dragStartAngle - 90;
         } else {
           // Snap back to nearest 90-degree step

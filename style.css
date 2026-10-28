@@ -257,10 +257,6 @@ body.waff-landing::-webkit-scrollbar {
   align-items: stretch;
 }
 
-.carousel-arrow-btn {
-  display: none;
-}
-
 .menu-grid {
   display: flex;
   position: relative;
@@ -685,53 +681,6 @@ body.waff-landing::-webkit-scrollbar {
     perspective-origin: 50% 50%;
   }
 
-  /* Desktop Carousel Arrow Navigation Buttons */
-  .carousel-arrow-btn {
-    display: flex;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #0E0C15;
-    border: 2px solid #8B5CF6;
-    color: #FFFFFF;
-    font-size: 2.2rem;
-    font-weight: 300;
-    line-height: 1;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 35;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 14px rgba(139, 92, 246, 0.35);
-    user-select: none;
-    padding: 0;
-  }
-
-  .carousel-arrow-btn:hover {
-    background: #7C3AED;
-    color: #FFFFFF;
-    border-color: #0E0C15;
-    transform: translateY(-50%) scale(1.12);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.55);
-  }
-
-  .carousel-arrow-btn:active {
-    transform: translateY(-50%) scale(0.94);
-  }
-
-  .arrow-prev {
-    left: -10px;
-    padding-right: 3px;
-  }
-
-  .arrow-next {
-    right: -10px;
-    padding-left: 3px;
-  }
-
   /* 3D Circular Rotary Stage */
   .menu-grid {
     position: relative;
@@ -834,9 +783,6 @@ body.waff-landing::-webkit-scrollbar {
     overflow: hidden;
   }
 
-  .carousel-arrow-btn {
-    display: none !important;
-  }
   .landing-canvas {
     padding: 12px 16px 10px;
     gap: 8px;
