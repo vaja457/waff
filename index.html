@@ -6,7 +6,7 @@
   <title>WAFF - ვაფლერიის მენიუ</title>
   
   <link rel="icon" type="image/png" href="images/waff-logo-trimmed.png">
-  <link rel="stylesheet" href="style.css?v=12.0">
+  <link rel="stylesheet" href="style.css?v=13.0">
 </head>
 <body class="waff-landing">
 
@@ -32,10 +32,19 @@
       <button type="button" class="mobile-tab-btn" data-tab="2">
         <span class="tab-emoji">🥤</span> Drinks
       </button>
+      <button type="button" class="mobile-tab-btn" data-tab="3">
+        <span class="tab-emoji">✨</span> Extras
+      </button>
     </nav>
 
-    <!-- Main Menu (Swipeable Tabs on Mobile, 3 Columns on Desktop) -->
-    <main class="menu-grid" id="menuSlider">
+    <!-- Desktop 3D Carousel Stage Wrapper -->
+    <div class="carousel-stage-wrap">
+      <!-- Carousel Edge Navigation Controls (Desktop) -->
+      <button type="button" class="carousel-arrow-btn arrow-prev" id="carouselPrevBtn" aria-label="წინა მენიუ" title="წინა მენიუ">‹</button>
+      <button type="button" class="carousel-arrow-btn arrow-next" id="carouselNextBtn" aria-label="შემდეგი მენიუ" title="შემდეგი მენიუ">›</button>
+
+      <!-- Main Menu (Swipeable Tabs on Mobile, 3D Circular Rotary Carousel on Desktop) -->
+      <main class="menu-grid" id="menuSlider">
 
       <!-- ==========================================
            COLUMN 1: Waffles
@@ -252,7 +261,89 @@
         </div>
       </section>
 
+      <!-- ==========================================
+           COLUMN 4: Extras
+           ========================================== -->
+      <section class="menu-col col-extras" id="colExtras" data-index="3">
+        <h2 class="col-heading heading-coral">Extras</h2>
+
+        <div class="panel-box extras-panel">
+          
+          <!-- Extra 1: შოკოლადის დიპი -->
+          <article class="menu-item-row item-extra" tabindex="0" role="button"
+            data-title="შოკოლადის დიპი"
+            data-subtitle="თბილი ბელგიური დიპი 🍫"
+            data-price="₾ 2.50"
+            data-desc="მდნარი თბილი ბელგიური შოკოლადის სქელი დიპი, იდეალურია ვაფლის ჩასაწობად და განსაკუთრებული სიტკბოსთვის."
+            data-img="images/extra-dip.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/extra-dip.jpg" alt="შოკოლადის დიპი" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">შოკოლადის დიპი</h3>
+            <span class="item-price-tag">₾ 2.50</span>
+          </article>
+
+          <!-- Extra 2: სასაჩუქრე ყუთი -->
+          <article class="menu-item-row item-extra" tabindex="0" role="button"
+            data-title="სასაჩუქრე ყუთი"
+            data-subtitle="პრემიუმ შეფუთვა 🎁"
+            data-price="₾ 3.50"
+            data-desc="პრემიუმ ხარისხის საფირმო WAFF სასაჩუქრე ყუთი ოქროსფერი აბრეშუმის ლენტითა და ბრენდული გაფორმებით."
+            data-img="images/extra-box.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/extra-box.jpg" alt="სასაჩუქრე ყუთი" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">სასაჩუქრე ყუთი</h3>
+            <span class="item-price-tag">₾ 3.50</span>
+          </article>
+
+          <!-- Extra 3: ბელგიური ნაღები -->
+          <article class="menu-item-row item-extra" tabindex="0" role="button"
+            data-title="ბელგიური ნაღები"
+            data-subtitle="ჰაეროვანი კრემი 🍦"
+            data-price="₾ 2.00"
+            data-desc="ნაზი, ჰაეროვანი ათქვეფილი ბელგიური ნაღები ნატურალური ვანილის არომატითა და მსუბუქი სტრუქტურით."
+            data-img="images/extra-cream.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/extra-cream.jpg" alt="ბელგიური ნაღები" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">ბელგიური ნაღები</h3>
+            <span class="item-price-tag">₾ 2.00</span>
+          </article>
+
+          <!-- Extra 4: ნეკერჩხლის სიროფი -->
+          <article class="menu-item-row item-extra" tabindex="0" role="button"
+            data-title="ნეკერჩხლის სიროფი"
+            data-subtitle="კანადური სიროფი 🍯"
+            data-price="₾ 2.50"
+            data-desc="100% ნატურალური კანადური ნეკერჩხლის ოქროსფერი სიროფი განსაკუთრებული სიტკბოთი და კარამელის ნოტებით."
+            data-img="images/extra-syrup.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/extra-syrup.jpg" alt="ნეკერჩხლის სიროფი" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">ნეკერჩხლის სიროფი</h3>
+            <span class="item-price-tag">₾ 2.50</span>
+          </article>
+
+          <!-- Extra 5: სადღესასწაულო ნაკრები -->
+          <article class="menu-item-row item-extra" tabindex="0" role="button"
+            data-title="სადღესასწაულო ნაკრები"
+            data-subtitle="წვეულების ნაკრები 🎉"
+            data-price="₾ 2.00"
+            data-desc="ფერადი სადღესასწაულო სანთლები და მინი-ბუშტები დაბადების დღისა და განსაკუთრებული მომენტებისთვის."
+            data-img="images/extra-candle.jpg">
+            <div class="item-thumb-wrap">
+              <img src="images/extra-candle.jpg" alt="სადღესასწაულო ნაკრები" class="item-thumb-img" loading="lazy">
+            </div>
+            <h3 class="item-large-name">სადღესასწაულო ნაკრები</h3>
+            <span class="item-price-tag">₾ 2.00</span>
+          </article>
+
+        </div>
+      </section>
+
     </main>
+    </div>
 
     <!-- Clean Bottom Bar -->
     <footer class="menu-footer">
@@ -294,6 +385,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=9.0"></script>
+  <script src="script.js?v=10.0"></script>
 </body>
 </html>

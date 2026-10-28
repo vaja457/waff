@@ -266,16 +266,27 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 /* ==========================================================================
-   Main Menu Grid (3 Balanced Columns)
+   Carousel Stage Wrapper & Base Grid
    ========================================================================== */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  align-items: stretch;
+.carousel-stage-wrap {
+  position: relative;
+  width: 100%;
   flex: 1;
   min-height: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.carousel-arrow-btn {
+  display: none;
+}
+
+.menu-grid {
+  display: flex;
+  position: relative;
   width: 100%;
+  flex: 1;
+  min-height: 0;
   box-sizing: border-box;
 }
 
@@ -305,6 +316,11 @@ body.waff-landing::-webkit-scrollbar {
   color: var(--accent-purple-light);
 }
 
+.heading-coral {
+  color: #FB7185;
+  text-shadow: 0 0 20px rgba(251, 113, 133, 0.35);
+}
+
 /* Panel Containers: Smooth Scrolling with Hidden Scrollbar Line */
 .panel-box {
   background: var(--panel-bg);
@@ -326,7 +342,8 @@ body.waff-landing::-webkit-scrollbar {
 .panel-box::-webkit-scrollbar,
 .waffles-panel::-webkit-scrollbar,
 .drinks-panel::-webkit-scrollbar,
-.toppings-panel::-webkit-scrollbar {
+.toppings-panel::-webkit-scrollbar,
+.extras-panel::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
@@ -348,6 +365,17 @@ body.waff-landing::-webkit-scrollbar {
 .toppings-panel {
   border: 2px solid var(--panel-border-purple-light);
   box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
+}
+
+/* Extras Panel: Coral-Amber Glowing Border */
+.extras-panel {
+  border: 2px solid rgba(251, 113, 133, 0.65);
+  box-shadow: 0 8px 24px rgba(251, 113, 133, 0.12);
+}
+
+.extras-panel:hover {
+  border-color: rgba(251, 113, 133, 0.88);
+  box-shadow: 0 12px 30px rgba(251, 113, 133, 0.22);
 }
 
 /* ==========================================================================
@@ -404,6 +432,11 @@ body.waff-landing::-webkit-scrollbar {
   border-color: rgba(139, 92, 246, 0.35);
 }
 
+.item-extra .item-thumb-wrap {
+  background: rgba(251, 113, 133, 0.07);
+  border-color: rgba(251, 113, 133, 0.35);
+}
+
 .item-thumb-img {
   width: 100%;
   height: 100%;
@@ -452,7 +485,8 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .item-drink .item-large-name,
-.item-topping .item-large-name {
+.item-topping .item-large-name,
+.item-extra .item-large-name {
   font-size: clamp(1rem, 1.1vw, 1.18rem);
   line-height: 1.25;
   white-space: nowrap;
@@ -472,7 +506,8 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .item-drink .item-price-tag,
-.item-topping .item-price-tag {
+.item-topping .item-price-tag,
+.item-extra .item-price-tag {
   font-size: clamp(1.15rem, 1.25vw, 1.38rem);
   padding-left: 8px;
 }
@@ -660,9 +695,174 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 /* ==========================================================================
+   Desktop 3D Rotary Carousel Stage (3 Visible Menus, Circular Depth)
+   ========================================================================== */
+@media (min-width: 1025px) {
+  .carousel-stage-wrap {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+  }
+
+  /* Desktop Carousel Arrow Navigation Buttons */
+  .carousel-arrow-btn {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(18, 14, 28, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(245, 176, 22, 0.45);
+    color: var(--accent-yellow);
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 35;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55), 0 0 16px rgba(245, 176, 22, 0.2);
+    user-select: none;
+    padding: 0;
+  }
+
+  .carousel-arrow-btn:hover {
+    background: var(--accent-yellow);
+    color: #0E0C15;
+    border-color: var(--accent-yellow);
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 8px 30px rgba(245, 176, 22, 0.55);
+  }
+
+  .carousel-arrow-btn:active {
+    transform: translateY(-50%) scale(0.94);
+  }
+
+  .arrow-prev {
+    left: -10px;
+    padding-right: 3px;
+  }
+
+  .arrow-next {
+    right: -10px;
+    padding-left: 3px;
+  }
+
+  /* 3D Circular Rotary Stage */
+  .menu-grid {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .menu-col {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(370px, 29vw, 440px);
+    height: 100%;
+    left: 50%;
+    transform-style: preserve-3d;
+    transition: transform 0.52s cubic-bezier(0.2, 0.9, 0.3, 1),
+                opacity 0.45s ease,
+                filter 0.45s ease;
+    user-select: none;
+    will-change: transform, filter, opacity;
+  }
+
+  /* Center Active Column: Focused, Unblurred, Full Opacity */
+  .menu-col.carousel-center {
+    transform: translate3d(-50%, 0, 0) scale(1) rotateY(0deg);
+    filter: blur(0px);
+    opacity: 1;
+    z-index: 15;
+    pointer-events: auto;
+    cursor: default;
+  }
+
+  .menu-col.carousel-center .panel-box {
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 30px rgba(245, 176, 22, 0.16);
+  }
+
+  /* Left Blurred Column in 3D Circle */
+  .menu-col.carousel-left {
+    transform: translate3d(calc(-50% - clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(13deg);
+    filter: blur(3.5px);
+    opacity: 0.55;
+    z-index: 6;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  /* Right Blurred Column in 3D Circle */
+  .menu-col.carousel-right {
+    transform: translate3d(calc(-50% + clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(-13deg);
+    filter: blur(3.5px);
+    opacity: 0.55;
+    z-index: 6;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  /* Tactile Hover on Side Columns */
+  .menu-col.carousel-left:hover {
+    filter: blur(1.2px);
+    opacity: 0.85;
+    transform: translate3d(calc(-50% - clamp(335px, 29.5vw, 435px)), 0, -50px) scale(0.88) rotateY(10deg);
+  }
+
+  .menu-col.carousel-right:hover {
+    filter: blur(1.2px);
+    opacity: 0.85;
+    transform: translate3d(calc(-50% + clamp(335px, 29.5vw, 435px)), 0, -50px) scale(0.88) rotateY(-10deg);
+  }
+
+  /* Hidden 4th Column behind in circular orbit */
+  .menu-col.carousel-hidden {
+    transform: translate3d(-50%, 0, -280px) scale(0.65) rotateY(0deg);
+    filter: blur(8px);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 @media (max-width: 1024px) {
+  .carousel-stage-wrap {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .carousel-arrow-btn {
+    display: none !important;
+  }
   .landing-canvas {
     padding: 12px 16px 10px;
     gap: 8px;
@@ -736,6 +936,7 @@ body.waff-landing::-webkit-scrollbar {
     box-sizing: border-box;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    pointer-events: auto !important;
   }
 
   .menu-grid::-webkit-scrollbar {
@@ -744,13 +945,29 @@ body.waff-landing::-webkit-scrollbar {
     height: 0 !important;
   }
 
-  /* Each Category Slide fills exactly 100% of visible container */
-  .menu-col {
-    flex: 0 0 100%;
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+  /* Each Category Slide fills exactly 100% of visible container (Reset Desktop Carousel) */
+  .menu-col,
+  .menu-col.carousel-center,
+  .menu-col.carousel-left,
+  .menu-col.carousel-right,
+  .menu-col.carousel-hidden {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    cursor: default !important;
+    z-index: auto !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: flex;
