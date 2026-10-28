@@ -94,11 +94,8 @@ html::-webkit-scrollbar {
 }
 
 body.waff-landing {
+  position: relative;
   background-color: var(--bg-obsidian);
-  background-image: 
-    radial-gradient(circle at 10% 15%, rgba(245, 176, 22, 0.09) 0%, transparent 40%),
-    radial-gradient(circle at 90% 25%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
   color: var(--text-offwhite);
   font-family: 'FiraGO', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   height: 100%;
@@ -115,6 +112,33 @@ body.waff-landing {
   -ms-overflow-style: none !important;
 }
 
+/* Subtle, atmospheric waffle photo background across entire site */
+body.waff-landing::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('images/site-bg.jpg');
+  background-position: center 32%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.22;
+  filter: brightness(0.82) contrast(1.08) saturate(1.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric vignette & gradient overlay to keep it dim and non-intrusive */
+body.waff-landing::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 45%, rgba(14, 12, 21, 0.4) 0%, rgba(14, 12, 21, 0.84) 85%),
+    linear-gradient(to bottom, rgba(14, 12, 21, 0.65) 0%, rgba(14, 12, 21, 0.2) 50%, rgba(14, 12, 21, 0.82) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 body.waff-landing::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
@@ -123,6 +147,8 @@ body.waff-landing::-webkit-scrollbar {
 
 /* --- Canvas Wrapper: Fits perfectly on screen with zero vertical scrolling --- */
 .landing-canvas {
+  position: relative;
+  z-index: 1;
   max-width: 1490px;
   width: 100%;
   margin: 0 auto;
@@ -140,7 +166,7 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 /* ==========================================================================
-   Header: Centered Bubble "MENU" with Grand Frameless WAFF Background
+   Header: Centered Bubble "MENU"
    ========================================================================== */
 .menu-top-header {
   display: flex;
@@ -151,7 +177,7 @@ body.waff-landing::-webkit-scrollbar {
   width: 100%;
 }
 
-/* Center MENU Title Block with Background Logo */
+/* Center MENU Title Block */
 .menu-title-block {
   display: flex;
   flex-direction: column;
@@ -160,28 +186,6 @@ body.waff-landing::-webkit-scrollbar {
   position: relative;
   text-align: center;
   width: 100%;
-}
-
-/* Frameless Grand WAFF Logo as Translucent Background Watermark */
-.menu-bg-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -58%);
-  width: clamp(420px, 46vw, 680px);
-  max-width: 96vw;
-  height: auto;
-  opacity: 0.22;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-  filter: drop-shadow(0 0 40px rgba(245, 176, 22, 0.45)) brightness(1.18) contrast(1.1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.menu-title-block:hover .menu-bg-logo {
-  opacity: 0.28;
-  transform: translate(-50%, -58%) scale(1.02);
 }
 
 .menu-bubble-title {
@@ -891,13 +895,6 @@ body.waff-landing::-webkit-scrollbar {
     margin-top: 2px;
   }
 
-  .menu-bg-logo {
-    width: clamp(310px, 86vw, 440px);
-    opacity: 0.22;
-    transform: translate(-50%, -56%);
-    filter: drop-shadow(0 0 30px rgba(245, 176, 22, 0.4)) brightness(1.18);
-  }
-
   .menu-bubble-title {
     font-size: 2.85rem;
     line-height: 1;
@@ -1076,11 +1073,6 @@ body.waff-landing::-webkit-scrollbar {
 
   .menu-bubble-title {
     font-size: 2.35rem;
-  }
-
-  .menu-bg-logo {
-    width: clamp(260px, 92vw, 320px);
-    opacity: 0.22;
   }
 
   .mobile-tab-btn {

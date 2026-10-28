@@ -1,6 +1,6 @@
 /**
  * WAFF - Minimalist Menu
- * Modal Details, Desktop 3D Rotary Carousel & Mobile Horizontal Swipe Tabs
+ * Modal Details, Real-Time Interactive 3D Rotary Carousel & Mobile Horizontal Swipe Tabs
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Drag tracking flag to prevent accidental click on mouse drag
   let wasDragging = false;
+  let dragBlockTimer = null;
 
   // =========================================================================
   // Modal / Lightbox Logic (Zero Sound)
@@ -69,9 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   menuRows.forEach(row => {
-    row.addEventListener('click', (e) => {
-      // Desktop side-column clicks should be handled by column rotation
+    row.addEventListener('click', () => {
       if (window.innerWidth > 1024) {
+        if (wasDragging) return;
         const parentCol = row.closest('.menu-col');
         if (parentCol && !parentCol.classList.contains('carousel-center')) {
           return;
@@ -107,18 +108,72 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // Desktop 3D Rotary Carousel (Center Waffles initially, Circular Depth)
+  // Desktop Real-Time 3D Rotary Carousel (Direct Mouse Drag Sync)
   // =========================================================================
-  // Order of categories in DOM: 0: Waffles, 1: Toppings, 2: Drinks, 3: Extras
-  let activeCenterIdx = 0; // Waffles is in center initially
+  // Column order: 0: Waffles, 1: Toppings, 2: Drinks, 3: Extras
+  let activeCenterIdx = 0; // Waffles initially in center
+  let currentAngle = 0;
+  let isDraggingMouse = false;
+  let dragStartX = 0;
+  let dragStartAngle = 0;
+  let snapAnimationTimer = null;
 
-  function updateDesktopCarousel() {
+  // Calculates 3D geometry for any continuous angle A
+  function renderCarouselAngle(angle, withTransition = false) {
+    if (window.innerWidth <= 1024) return;
+
+    const stageTarget = carouselStageWrap || menuSlider;
+    const stageWidth = stageTarget ? stageTarget.clientWidth : window.innerWidth;
+    const Rx = Math.max(340, Math.min(435, stageWidth * 0.295));
+    const Rz = 100;
+
+    menuCols.forEach((col, i) => {
+      // Relative angular offset from front center
+      let rel = (i * 90 - angle) % 360;
+      if (rel > 180) rel -= 360;
+      if (rel < -180) rel += 360;
+
+      const rad = rel * (Math.PI / 180);
+      const cosVal = Math.cos(rad);
+      const sinVal = Math.sin(rad);
+
+      const x = sinVal * Rx;
+      const z = (cosVal - 1) * Rz; // 0 at center, -100px at sides, -200px at back
+      const scale = 0.70 + 0.30 * ((1 + cosVal) / 2); // 1.0 at center, 0.85 at sides, 0.70 at back
+      const rotY = -sinVal * 13.5;
+
+      let opacity;
+      if (cosVal >= 0) {
+        opacity = 0.55 + 0.45 * cosVal;
+      } else {
+        opacity = Math.max(0, 0.55 * Math.pow(1 + cosVal, 1.6));
+      }
+
+      const blur = Math.max(0, (1 - cosVal) * 3.5);
+      const zIndex = Math.round(1 + 14 * ((1 + cosVal) / 2));
+
+      if (withTransition) {
+        col.style.transition = 'transform 0.48s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.42s ease, filter 0.42s ease';
+      } else {
+        col.style.transition = 'none';
+      }
+
+      col.style.transform = `translate3d(calc(-50% + ${x.toFixed(1)}px), 0, ${z.toFixed(1)}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg)`;
+      col.style.filter = `blur(${blur.toFixed(1)}px)`;
+      col.style.opacity = opacity.toFixed(3);
+      col.style.zIndex = zIndex;
+      col.style.visibility = opacity < 0.02 ? 'hidden' : 'visible';
+      col.style.pointerEvents = Math.abs(rel) < 105 ? 'auto' : 'none';
+      col.style.cursor = Math.abs(rel) < 15 ? 'default' : (Math.abs(rel) < 105 ? 'pointer' : 'default');
+    });
+  }
+
+  // Updates helper CSS classes based on current activeCenterIdx
+  function updateCarouselClasses() {
     if (window.innerWidth <= 1024) return;
 
     menuCols.forEach((col, i) => {
       col.classList.remove('carousel-center', 'carousel-left', 'carousel-right', 'carousel-hidden');
-
-      // Circular offset from current active center
       const offset = (i - activeCenterIdx + menuCols.length) % menuCols.length;
 
       if (offset === 0) {
@@ -133,13 +188,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function rotateCarousel(direction) {
-    // direction: +1 (next / rightward orbit) or -1 (prev / leftward orbit)
-    activeCenterIdx = (activeCenterIdx + direction + menuCols.length) % menuCols.length;
-    updateDesktopCarousel();
+  // Smoothly snaps the carousel to a target angle and updates state
+  function snapCarouselToAngle(targetAngle) {
+    clearTimeout(snapAnimationTimer);
+
+    renderCarouselAngle(targetAngle, true);
+
+    snapAnimationTimer = setTimeout(() => {
+      currentAngle = ((targetAngle % 360) + 360) % 360;
+      activeCenterIdx = (Math.round(currentAngle / 90) % menuCols.length + menuCols.length) % menuCols.length;
+      updateCarouselClasses();
+
+      // Clear inline styles after snap transition finishes so CSS rules take over
+      menuCols.forEach((col) => {
+        col.style.transform = '';
+        col.style.filter = '';
+        col.style.opacity = '';
+        col.style.zIndex = '';
+        col.style.visibility = '';
+        col.style.transition = '';
+        col.style.cursor = '';
+        col.style.pointerEvents = '';
+      });
+    }, 480);
   }
 
-  // Prev / Next button click handlers
+  function rotateCarousel(direction) {
+    // direction: +1 (next / rightward) or -1 (prev / leftward)
+    const baseAngle = activeCenterIdx * 90;
+    const targetAngle = baseAngle + direction * 90;
+    
+    // Set starting position explicitly before transition
+    renderCarouselAngle(baseAngle, false);
+    
+    // Force DOM reflow so transition animates smoothly
+    void menuCols[0].offsetHeight;
+
+    snapCarouselToAngle(targetAngle);
+  }
+
+  // Prev & Next Buttons
   if (carouselPrevBtn) {
     carouselPrevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -154,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Click on side columns rotates them directly into center
+  // Clicking side columns rotates them into center
   menuCols.forEach((col) => {
     col.addEventListener('click', (e) => {
       if (window.innerWidth <= 1024 || wasDragging) return;
@@ -169,10 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mouse Drag / Swipe on Desktop
-  let isMouseDown = false;
-  let mouseStartX = 0;
-  let mouseDeltaX = 0;
+  // Real-Time Mouse Dragging & Gesture Sync
   const stageTarget = carouselStageWrap || menuSlider;
 
   if (stageTarget) {
@@ -180,40 +265,61 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.innerWidth <= 1024) return;
       if (e.target.closest('.carousel-arrow-btn')) return;
 
-      isMouseDown = true;
-      mouseStartX = e.clientX;
-      mouseDeltaX = 0;
+      isDraggingMouse = true;
       wasDragging = false;
+      dragStartX = e.clientX;
+      dragStartAngle = activeCenterIdx * 90;
+
+      // Prepare cards for real-time tracking
+      renderCarouselAngle(dragStartAngle, false);
     });
 
     window.addEventListener('mousemove', (e) => {
-      if (!isMouseDown || window.innerWidth <= 1024) return;
-      mouseDeltaX = e.clientX - mouseStartX;
-      if (Math.abs(mouseDeltaX) > 12) {
+      if (!isDraggingMouse || window.innerWidth <= 1024) return;
+
+      const deltaX = e.clientX - dragStartX;
+
+      if (Math.abs(deltaX) > 6) {
         wasDragging = true;
         stageTarget.style.cursor = 'grabbing';
+
+        // Sensitivity: ~300px horizontal drag corresponds to 1 full 90deg step
+        const angleDelta = -(deltaX / 300) * 90;
+        const liveAngle = dragStartAngle + angleDelta;
+        currentAngle = liveAngle;
+
+        // Directly sync carousel in real-time with mouse movement!
+        renderCarouselAngle(liveAngle, false);
       }
     });
 
-    window.addEventListener('mouseup', () => {
-      if (!isMouseDown || window.innerWidth <= 1024) return;
-      isMouseDown = false;
+    window.addEventListener('mouseup', (e) => {
+      if (!isDraggingMouse || window.innerWidth <= 1024) return;
+      isDraggingMouse = false;
       if (stageTarget) stageTarget.style.cursor = '';
 
-      if (wasDragging && Math.abs(mouseDeltaX) > 45) {
-        if (mouseDeltaX < -45) {
-          // Dragged left -> rotate next (show right card)
-          rotateCarousel(1);
-        } else if (mouseDeltaX > 45) {
-          // Dragged right -> rotate prev (show left card)
-          rotateCarousel(-1);
-        }
-      }
+      if (wasDragging) {
+        const deltaX = e.clientX - dragStartX;
+        let targetAngle = dragStartAngle;
 
-      // Reset wasDragging after brief moment to block spurious click
-      setTimeout(() => {
-        wasDragging = false;
-      }, 100);
+        // If dragged more than threshold, advance to next / prev
+        if (deltaX < -35) {
+          targetAngle = dragStartAngle + 90;
+        } else if (deltaX > 35) {
+          targetAngle = dragStartAngle - 90;
+        } else {
+          // Snap back to nearest 90-degree step
+          targetAngle = Math.round(currentAngle / 90) * 90;
+        }
+
+        snapCarouselToAngle(targetAngle);
+
+        // Keep wasDragging flag active briefly to block accidental item clicks
+        clearTimeout(dragBlockTimer);
+        dragBlockTimer = setTimeout(() => {
+          wasDragging = false;
+        }, 120);
+      }
     });
   }
 
@@ -264,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Click handler for mobile tab buttons
   mobileTabBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -275,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Scroll synchronization (tracks finger dragging & snap on mobile)
   if (menuSlider) {
     menuSlider.addEventListener('scroll', () => {
       if (window.innerWidth > 1024 || isProgrammaticScroll) return;
@@ -295,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // Touch Swipe Gesture on Mobile
+  // Touch Swipe on Mobile
   let touchStartX = 0;
   let touchStartY = 0;
   let touchEndX = 0;
@@ -316,15 +420,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = touchEndX - touchStartX;
       const deltaY = touchEndY - touchStartY;
 
-      // Ensure horizontal swipe is dominant and exceeds minimum distance
       if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
         if (deltaX < 0) {
-          // Swipe Left -> Next Tab
           if (currentTabIndex < menuCols.length - 1) {
             goToTab(currentTabIndex + 1);
           }
         } else {
-          // Swipe Right -> Previous Tab
           if (currentTabIndex > 0) {
             goToTab(currentTabIndex - 1);
           }
@@ -333,15 +434,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // Window resize handler: switch cleanly between desktop carousel & mobile tabs
+  // Window Resize: Cleanly switch between Desktop 3D Rotary & Mobile Tabs
   window.addEventListener('resize', () => {
     if (window.innerWidth > 1024) {
-      updateDesktopCarousel();
+      updateCarouselClasses();
     } else {
+      // Clear any desktop inline styles on mobile
+      menuCols.forEach((col) => {
+        col.style.transform = '';
+        col.style.filter = '';
+        col.style.opacity = '';
+        col.style.zIndex = '';
+        col.style.visibility = '';
+        col.style.transition = '';
+        col.style.cursor = '';
+        col.style.pointerEvents = '';
+      });
       setActiveTab(currentTabIndex);
     }
   });
 
-  // Initialize Desktop Carousel
-  updateDesktopCarousel();
+  // Initialize Desktop State
+  updateCarouselClasses();
 });
