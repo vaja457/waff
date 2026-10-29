@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WAFF - Minimalist Menu (Obsidian Black, Golden Yellow, Royal Violet)
+   WAFF - Minimalist Menu (Golden Yellow, Chocolate Brown, Obsidian Black)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Fredoka:wght@600;700&family=Caveat:wght@700&display=swap');
@@ -50,20 +50,22 @@
   --bg-yellow: #fde503;
   --bg-obsidian: #0E0C15;
   --panel-bg: #14111E;
-  --panel-bg-hover: #1E192C;
-  --panel-border-purple: #7C3AED;
-  --panel-border-purple-light: #8B5CF6;
+  --panel-bg-hover: #1f1929;
   --divider-color: rgba(255, 255, 255, 0.08);
 
-  --accent-yellow: #fde503;
-  --accent-purple: #7C3AED;
-  --accent-purple-light: #8B5CF6;
-  --accent-purple-dark: #5B21B6;
+  /* Appetizing Chocolate / Dark Brown Tones */
+  --chocolate-deep: #1a0f0a;
+  --chocolate-dark: #2d1810;
+  --chocolate-med: #3e2723;
+  --chocolate-light: #4e342e;
+  --chocolate-warm: #5d4037;
+  --chocolate-accent: #795548;
 
+  --accent-yellow: #fde503;
   --text-white: #FFFFFF;
   --text-offwhite: #E5E7EB;
   --text-muted: #9CA3AF;
-  --card-radius: 16px;
+  --card-radius: 18px;
 }
 
 /* --- Base & Reset --- */
@@ -165,14 +167,13 @@ body.waff-landing::-webkit-scrollbar {
   font-family: 'Titan One', 'Fredoka', cursive, sans-serif;
   font-size: clamp(3.2rem, 5.5vw, 4.5rem);
   line-height: 1;
-  color: #7C3AED;
+  color: var(--chocolate-med);
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  -webkit-text-stroke: 3.5px #0E0C15;
+  -webkit-text-stroke: 3.5px var(--chocolate-deep);
   text-shadow: 
-    4px 4px 0 #0E0C15,
-    7px 7px 0 #5B21B6,
-    0 0 25px rgba(124, 58, 237, 0.4);
+    4px 4px 0 var(--chocolate-deep),
+    7px 7px 0 rgba(45, 24, 16, 0.35);
   transform: rotate(-1.5deg);
   user-select: none;
   position: relative;
@@ -189,11 +190,11 @@ body.waff-landing::-webkit-scrollbar {
   font-size: clamp(1rem, 1.8vw, 1.35rem);
   font-weight: 700;
   color: #FFFFFF;
-  background: #0E0C15;
+  background: var(--chocolate-dark);
   padding: 3px 16px;
   border-radius: 16px;
-  border: 1.5px solid #8B5CF6;
-  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.45);
+  border: 1.5px solid var(--chocolate-light);
+  box-shadow: 0 4px 14px rgba(45, 24, 16, 0.35);
   transform: rotate(2deg) translateY(-6px);
   display: inline-block;
   white-space: nowrap;
@@ -211,9 +212,9 @@ body.waff-landing::-webkit-scrollbar {
 .mobile-tab-btn {
   flex: 1;
   text-align: center;
-  background: #0E0C15;
+  background: var(--chocolate-dark);
   color: #FFFFFF;
-  border: 1.5px solid #7C3AED;
+  border: 1.5px solid var(--chocolate-light);
   border-radius: 18px;
   font-family: 'BPG ExtraSquare Mtavruli', 'FiraGO', sans-serif;
   font-weight: 700;
@@ -235,13 +236,10 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .mobile-tab-btn.active, .mobile-tab-btn:hover {
-  background: #7C3AED;
-  color: #FFFFFF;
-  border-color: #0E0C15;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.45);
-  transform: translateY(-1px);
-}
-  box-shadow: 0 4px 16px rgba(245, 176, 22, 0.35);
+  background: var(--chocolate-light);
+  color: var(--accent-yellow);
+  border-color: var(--chocolate-deep);
+  box-shadow: 0 4px 14px rgba(45, 24, 16, 0.38);
   transform: translateY(-1px);
 }
 
@@ -282,23 +280,17 @@ body.waff-landing::-webkit-scrollbar {
   padding-left: 2px;
   letter-spacing: 0.5px;
   flex-shrink: 0;
-  color: #0E0C15;
-  text-shadow: 1.5px 1.5px 0 #8B5CF6;
+  color: var(--chocolate-deep);
+  text-shadow: 1.5px 1.5px 0 rgba(62, 39, 35, 0.22);
 }
 
-.heading-yellow,
-.heading-purple,
-.heading-coral {
-  color: #0E0C15;
-  text-shadow: 1.5px 1.5px 0 #7C3AED;
-}
-
-/* Panel Containers: Smooth Scrolling with Black & Purple Borders */
+/* Panel Containers: No Colored Borders - Soft, Dark Drop Shadow on Yellow Background */
 .panel-box {
   background: var(--panel-bg);
   border-radius: var(--card-radius);
-  border: 2.5px solid #0E0C15;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 2px #7C3AED;
+  border: none;
+  outline: none;
+  box-shadow: 0 16px 38px rgba(45, 24, 16, 0.28), 0 4px 12px rgba(45, 24, 16, 0.16);
   flex: 1;
   min-height: 0;
   display: flex;
@@ -322,33 +314,19 @@ body.waff-landing::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* Waffles Panel: Black & Royal Purple Border */
-.waffles-panel {
-  border: 2.5px solid #0E0C15;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #8B5CF6;
-}
-
-/* Drinks Panel: Black & Deep Violet Border */
-.drinks-panel {
-  border: 2.5px solid #0E0C15;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #7C3AED;
-}
-
-/* Toppings Panel: Black & Lavender/Purple Border */
-.toppings-panel {
-  border: 2.5px solid #0E0C15;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #A855F7;
-}
-
-/* Extras Panel: Black & Electric Purple Border */
+/* Specific Category Panels (All Borders Removed, Clean Dark Shadow) */
+.waffles-panel,
+.drinks-panel,
+.toppings-panel,
 .extras-panel {
-  border: 2.5px solid #0E0C15;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 2px #9333EA;
+  border: none;
+  outline: none;
+  box-shadow: 0 16px 38px rgba(45, 24, 16, 0.28), 0 4px 12px rgba(45, 24, 16, 0.16);
 }
 
 .extras-panel:hover {
-  border-color: #0E0C15;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32), 0 0 0 2.5px #A855F7;
+  border: none;
+  box-shadow: 0 18px 42px rgba(45, 24, 16, 0.34), 0 4px 14px rgba(45, 24, 16, 0.18);
 }
 
 /* ==========================================================================
@@ -380,7 +358,7 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .menu-item-row:hover {
-  background: var(--panel-bg-hover);
+  background: rgba(78, 52, 46, 0.22);
   transform: translateX(3px);
 }
 
@@ -392,8 +370,8 @@ body.waff-landing::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(14, 12, 21, 0.6);
-  border: 1.5px solid #7C3AED;
+  background: rgba(45, 24, 16, 0.35);
+  border: 1.5px solid rgba(78, 52, 46, 0.45);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -402,8 +380,8 @@ body.waff-landing::-webkit-scrollbar {
 .item-drink .item-thumb-wrap,
 .item-topping .item-thumb-wrap,
 .item-extra .item-thumb-wrap {
-  background: rgba(14, 12, 21, 0.6);
-  border-color: #8B5CF6;
+  background: rgba(45, 24, 16, 0.35);
+  border-color: rgba(78, 52, 46, 0.45);
 }
 
 .item-thumb-img {
@@ -425,8 +403,8 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .wrap-stick {
-  background: rgba(139, 92, 246, 0.08);
-  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(78, 52, 46, 0.22);
+  border-color: rgba(78, 52, 46, 0.5);
 }
 
 .stick-thumb {
@@ -491,23 +469,23 @@ body.waff-landing::-webkit-scrollbar {
   padding: 12px 4px 4px;
   font-size: 0.92rem;
   font-weight: 700;
-  color: #0E0C15;
-  border-top: 1.5px solid rgba(14, 12, 21, 0.2);
+  color: var(--chocolate-dark);
+  border-top: 1.5px solid rgba(45, 24, 16, 0.18);
 }
 
 .footer-link {
-  color: #5B21B6;
+  color: var(--chocolate-med);
   text-decoration: none;
   font-weight: 800;
   transition: color 0.15s ease;
 }
 
 .footer-link:hover {
-  color: #0E0C15;
+  color: var(--chocolate-deep);
 }
 
 .footer-location {
-  color: #0E0C15;
+  color: var(--chocolate-dark);
   font-size: 0.88rem;
   font-weight: 700;
   text-align: center;
@@ -520,7 +498,7 @@ body.waff-landing::-webkit-scrollbar {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(10, 8, 16, 0.85);
+  background: rgba(26, 15, 10, 0.82);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
@@ -542,12 +520,11 @@ body.waff-landing::-webkit-scrollbar {
   max-width: 780px;
   width: 92%;
   background: #14111E;
-  border: 3px solid #0E0C15;
+  border: none;
   border-radius: 28px;
   box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.75),
-    0 0 0 2.5px #7C3AED,
-    0 0 40px rgba(124, 58, 237, 0.4);
+    0 32px 80px rgba(26, 15, 10, 0.75),
+    0 4px 20px rgba(26, 15, 10, 0.35);
   overflow: hidden;
   transform: scale(0.92) translateY(14px);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -567,9 +544,9 @@ body.waff-landing::-webkit-scrollbar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #0E0C15;
+  background: var(--chocolate-dark);
   color: #FFFFFF;
-  border: 1.5px solid #8B5CF6;
+  border: 1.5px solid var(--chocolate-light);
   font-size: 1.3rem;
   display: flex;
   align-items: center;
@@ -581,9 +558,9 @@ body.waff-landing::-webkit-scrollbar {
 }
 
 .modal-close-btn:hover {
-  background: #7C3AED;
-  color: #FFFFFF;
-  border-color: #0E0C15;
+  background: var(--chocolate-light);
+  color: var(--accent-yellow);
+  border-color: var(--chocolate-deep);
   transform: scale(1.1) rotate(90deg);
 }
 
@@ -591,7 +568,7 @@ body.waff-landing::-webkit-scrollbar {
 .modal-media {
   width: 100%;
   height: 380px;
-  background: radial-gradient(circle at center, rgba(245, 176, 22, 0.16) 0%, rgba(139, 92, 246, 0.1) 45%, #161322 80%);
+  background: radial-gradient(circle at center, rgba(253, 229, 3, 0.12) 0%, rgba(78, 52, 46, 0.25) 50%, #161322 80%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -637,7 +614,7 @@ body.waff-landing::-webkit-scrollbar {
 .modal-subtitle {
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--accent-purple-light);
+  color: #d7ccc8;
   margin-top: 6px;
 }
 
@@ -711,7 +688,7 @@ body.waff-landing::-webkit-scrollbar {
     will-change: transform, filter, opacity;
   }
 
-  /* Center Active Column: Focused, Unblurred, Full Opacity */
+  /* Center Active Column: Focused, Unblurred, Full Opacity, No Border, Soft Deep Shadow */
   .menu-col.carousel-center {
     transform: translate3d(-50%, 0, 0) scale(1) rotateY(0deg);
     filter: blur(0px);
@@ -722,14 +699,14 @@ body.waff-landing::-webkit-scrollbar {
   }
 
   .menu-col.carousel-center .panel-box {
-    border-color: #0E0C15;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45), 0 0 0 3px #8B5CF6, 0 0 28px rgba(139, 92, 246, 0.45);
+    border: none;
+    box-shadow: 0 24px 54px rgba(45, 24, 16, 0.42), 0 8px 20px rgba(45, 24, 16, 0.22);
   }
 
   /* Left Blurred Column in 3D Circle */
   .menu-col.carousel-left {
     transform: translate3d(calc(-50% - clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(13deg);
-    filter: blur(3.5px) brightness(0.88);
+    filter: blur(3.5px) brightness(0.92);
     opacity: 0.95;
     z-index: 6;
     cursor: pointer;
@@ -739,7 +716,7 @@ body.waff-landing::-webkit-scrollbar {
   /* Right Blurred Column in 3D Circle */
   .menu-col.carousel-right {
     transform: translate3d(calc(-50% + clamp(335px, 29.5vw, 435px)), 0, -85px) scale(0.85) rotateY(-13deg);
-    filter: blur(3.5px) brightness(0.88);
+    filter: blur(3.5px) brightness(0.92);
     opacity: 0.95;
     z-index: 6;
     cursor: pointer;
@@ -814,7 +791,7 @@ body.waff-landing::-webkit-scrollbar {
   .menu-bubble-title {
     font-size: 2.85rem;
     line-height: 1;
-    -webkit-text-stroke: 2px #0E0C15;
+    -webkit-text-stroke: 2px var(--chocolate-deep);
   }
 
   .menu-tagline {
