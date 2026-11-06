@@ -277,6 +277,7 @@ navLinks.forEach((link, idx) => {
 
 window.addEventListener('resize', () => {
   updateNavIndicator(currentSlide);
+  goToSlide(currentSlide);
 });
 
 // ========================================================
@@ -480,14 +481,14 @@ const viewportEl = carouselViewport || window;
 viewportEl.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  // On Slide 1 (Menu), users interact with vertical scrolling, category carousels, and product cards.
-  // Never initiate global slide swipe from Slide 1 or from within the menu section, rail, or carousels.
-  if (currentSlide === 1) {
+  // On Slide 1 (Menu) and Slide 2 (About Us), allow natural vertical scrolling & interaction.
+  // Never initiate global horizontal slide drag from Slide 1 or Slide 2, avoiding empty space shifts.
+  if (currentSlide === 1 || currentSlide === 2) {
     return;
   }
 
   // Don't drag if clicking directly on fixed UI controls, menu, rails or modals
-  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills, #section-menu, .site-section.section-menu, .menu-category-rail, .category-carousel, .category-carousel-track, .menu-item-card, .mobile-drawer-overlay, .mobile-menu-btn')) {
+  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills, #section-menu, .site-section.section-menu, #section-about, .site-section.section-about, .menu-category-rail, .category-carousel, .category-carousel-track, .menu-item-card, .mobile-drawer-overlay, .mobile-menu-btn')) {
     return;
   }
 
@@ -504,8 +505,8 @@ viewportEl.addEventListener('pointerdown', (e) => {
 window.addEventListener('pointermove', (e) => {
   if (!isPointerDown) return;
 
-  // If currently on Slide 1, immediately cancel any global slide drag
-  if (currentSlide === 1) {
+  // If currently on Slide 1 or Slide 2, immediately cancel any global slide drag
+  if (currentSlide === 1 || currentSlide === 2) {
     isPointerDown = false;
     isDragging = false;
     return;
@@ -532,6 +533,9 @@ window.addEventListener('pointermove', (e) => {
 
   if (isDragging) {
     if (e.cancelable) e.preventDefault();
+    // Strictly forbid dragging past boundary slides into empty void
+    if (currentSlide === 0 && deltaX > 0) deltaX = 0;
+    if (currentSlide >= 2 && deltaX < 0) deltaX = 0;
     const currentOffsetPx = -currentSlide * window.innerWidth;
     carouselTrack.style.transform = `translateX(${currentOffsetPx + deltaX}px)`;
   }
@@ -555,11 +559,21 @@ function handlePointerUpOrCancel() {
     const distanceThreshold = Math.min(100, window.innerWidth * 0.1);
 
     if (deltaX < -distanceThreshold || velocity < -0.28) {
-      nextSlide();
+      if (currentSlide < 2) {
+        nextSlide();
+      } else {
+        carouselTrack.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        goToSlide(currentSlide);
+      }
     } else if (deltaX > distanceThreshold || velocity > 0.28) {
-      prevSlide();
+      if (currentSlide > 0) {
+        prevSlide();
+      } else {
+        carouselTrack.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        goToSlide(currentSlide);
+      }
     } else {
-      carouselTrack.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
+      carouselTrack.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
       goToSlide(currentSlide);
     }
   }

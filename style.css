@@ -2580,6 +2580,8 @@ body.theme-light .drawer-footer-text {
     text-align: center !important;
     max-width: 500px !important;
     width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
     gap: 14px !important;
     margin: 0 auto !important;
   }
@@ -2587,6 +2589,8 @@ body.theme-light .drawer-footer-text {
   .about-text-col {
     padding-right: 0 !important;
     width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
