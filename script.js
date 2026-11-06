@@ -222,15 +222,53 @@ function updateNavIndicator(targetIndex = currentSlide) {
   });
 }
 
-// Hover preview on navigation links
-navLinks.forEach((link, idx) => {
-  link.addEventListener('mouseenter', () => {
-    updateNavIndicator(idx);
-    playBubbleSound(700 + idx * 50, 0.05);
+// Smooth gliding navigation indicator with continuous seamless mouse tracking
+let currentHoveredNavIdx = null;
+
+function getClosestNavIndex(clientX) {
+  if (!navLinks || navLinks.length === 0) return currentSlide;
+  let closestIdx = 0;
+  let minDistance = Infinity;
+  navLinks.forEach((link, idx) => {
+    const rect = link.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const dist = Math.abs(clientX - centerX);
+    if (dist < minDistance) {
+      minDistance = dist;
+      closestIdx = idx;
+    }
   });
-  link.addEventListener('mouseleave', () => {
+  return closestIdx;
+}
+
+if (navMenu) {
+  // Continuous tracking across the tabs and gaps: yellow pill follows the mouse without jitter
+  navMenu.addEventListener('mousemove', (e) => {
+    const closestIdx = getClosestNavIndex(e.clientX);
+    if (currentHoveredNavIdx !== closestIdx) {
+      currentHoveredNavIdx = closestIdx;
+      updateNavIndicator(closestIdx);
+      playBubbleSound(700 + closestIdx * 50, 0.05);
+    }
+  });
+
+  // Smoothly return indicator to the active slide when mouse leaves the entire nav area
+  navMenu.addEventListener('mouseleave', () => {
+    currentHoveredNavIdx = null;
     updateNavIndicator(currentSlide);
   });
+
+  // Clicking anywhere in the tab hit bridge navigates to the closest tab
+  navMenu.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-link')) {
+      const closestIdx = getClosestNavIndex(e.clientX);
+      goToSlide(closestIdx);
+    }
+  });
+}
+
+// Direct link clicks
+navLinks.forEach((link, idx) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     goToSlide(idx);

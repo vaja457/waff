@@ -437,6 +437,19 @@ body.theme-light .thumb-price {
   z-index: 3;
 }
 
+/* Invisible hit bridge to eliminate dead space between tabs */
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: calc(-1 * clamp(18px, 2.75vw, 38px) - 2px);
+  right: calc(-1 * clamp(18px, 2.75vw, 38px) - 2px);
+  background: transparent;
+  pointer-events: auto;
+  z-index: 2;
+}
+
 .nav-link:hover {
   color: #FFDF11;
   text-shadow: 0 0 12px rgba(245, 174, 24, 0.45);
@@ -1144,10 +1157,10 @@ body.theme-light .thumb-price {
    ======================================================== */
 .edge-menu-drawer {
   position: fixed;
-  top: 50%;
-  height: 88vh;
+  top: calc(50% + 10px);
+  height: min(80vh, calc(100vh - 150px));
   width: clamp(108px, 8.8vw, 142px);
-  z-index: 45;
+  z-index: 60;
   background: rgba(20, 12, 32, 0.58);
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
@@ -1712,8 +1725,10 @@ body.theme-light .edge-menu-drawer:hover .edge-next-icon {
   }
 
   .edge-menu-drawer {
-    height: 70vh;
+    top: calc(50% + 12px);
+    height: min(70vh, calc(100vh - 130px));
     width: clamp(68px, 16vw, 84px);
+    z-index: 60;
   }
   .edge-char {
     font-size: clamp(32px, 7.5vw, 42px);
