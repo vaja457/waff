@@ -2543,9 +2543,8 @@ body.theme-light .drawer-footer-text {
     height: 185px !important;
   }
 
-  /* Hero & About Layouts on Mobile */
-  .hero-container,
-  .about-container {
+  /* Hero Layout on Mobile */
+  .hero-container {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 16px;
@@ -2553,8 +2552,114 @@ body.theme-light .drawer-footer-text {
   .hero-content {
     align-items: center;
   }
-  .about-stats-grid {
-    grid-template-columns: 1fr;
+
+  /* ========================================================
+     SLIDE 2: ჩვენ შესახებ (About Us) Mobile View
+     ======================================================== */
+  .site-section.section-about {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y pinch-zoom;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding-top: max(72px, calc(env(safe-area-inset-top) + 64px)) !important;
+    padding-bottom: max(90px, calc(env(safe-area-inset-bottom) + 82px)) !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    max-width: 500px !important;
+    width: 100% !important;
+    gap: 14px !important;
+    margin: 0 auto !important;
+  }
+
+  .about-text-col {
+    padding-right: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .section-about .section-title {
+    font-size: clamp(1.4rem, 6vw, 1.75rem) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+  }
+
+  .section-about .about-p {
+    font-size: 0.9rem !important;
+    line-height: 1.52 !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+    max-width: 440px !important;
+  }
+
+  .section-about .about-stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin-top: 10px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .section-about .stat-box {
+    padding: 10px 4px !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+  }
+
+  .section-about .stat-box strong {
+    font-size: 1.22rem !important;
+    display: block !important;
+    margin-bottom: 2px !important;
+  }
+
+  .section-about .stat-box span {
+    font-size: 0.68rem !important;
+    line-height: 1.2 !important;
+    display: block !important;
+  }
+
+  .about-visual-col {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 4px !important;
+  }
+
+  .about-image-card {
+    width: 100% !important;
+    max-width: 240px !important;
+    aspect-ratio: auto !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .about-hero-img {
+    width: 100% !important;
+    max-width: 220px !important;
+    max-height: 200px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 20px rgba(245, 174, 24, 0.22)) !important;
   }
 }
 

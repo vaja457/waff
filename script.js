@@ -288,6 +288,14 @@ function goToSlide(slideIndex) {
   isDragging = false;
   currentSlide = slideIndex;
 
+  if (slideIndex === 2) {
+    const secAbout = document.getElementById('section-about');
+    if (secAbout) secAbout.scrollTop = 0;
+  } else if (slideIndex === 1) {
+    const secMenu = document.getElementById('section-menu');
+    if (secMenu) secMenu.scrollTop = 0;
+  }
+
   playBubbleSound(520 + slideIndex * 90, 0.08);
 
   // Smooth Horizontal Translate across 3 slides
@@ -423,8 +431,8 @@ window.addEventListener('keydown', (e) => {
 // Wheel Navigation: Allows natural vertical scroll on Menu!
 // ========================================================
 window.addEventListener('wheel', (e) => {
-  // If user is on Slide 1 (Menu), allow natural vertical scroll without hindrance!
-  if (currentSlide === 1) {
+  // If user is on Slide 1 (Menu) or Slide 2 (About Us), allow natural vertical scroll without hindrance!
+  if (currentSlide === 1 || currentSlide === 2) {
     return;
   }
 

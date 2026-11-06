@@ -27,13 +27,20 @@
       background-color: #FFFDF8 !important;
     }
 
-    /* Critical Rules: Prevent unwanted outer scrollbars while enabling vertical scroll on Menu section */
-    html, body, .site-wrapper, .carousel-viewport, .carousel-track, .site-section:not(.section-menu) {
+    /* Critical Rules: Prevent unwanted outer scrollbars while enabling vertical scroll on Menu and About sections */
+    html, body, .site-wrapper, .carousel-viewport, .carousel-track, .site-section.section-home {
       overflow: hidden !important;
       height: 100vh !important;
       max-height: 100vh !important;
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
+    }
+    @media (min-width: 769px) {
+      .section-about {
+        overflow: hidden !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+      }
     }
     html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
       display: none;
@@ -48,6 +55,14 @@
       -webkit-overflow-scrolling: touch;
       scroll-behavior: smooth;
       overscroll-behavior-y: contain;
+    }
+    @media (max-width: 768px) {
+      .section-about {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+      }
     }
     .section-menu::-webkit-scrollbar {
       display: block !important;
