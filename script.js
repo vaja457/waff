@@ -284,6 +284,8 @@ window.addEventListener('resize', () => {
 // ========================================================
 function goToSlide(slideIndex) {
   if (slideIndex < 0 || slideIndex > 2) return;
+  isPointerDown = false;
+  isDragging = false;
   currentSlide = slideIndex;
 
   playBubbleSound(520 + slideIndex * 90, 0.08);
@@ -463,8 +465,14 @@ const viewportEl = carouselViewport || window;
 viewportEl.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  // Don't drag if clicking directly on fixed UI controls or inside open modal
-  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills')) {
+  // On Slide 1 (Menu), users interact with vertical scrolling, category carousels, and product cards.
+  // Never initiate global slide swipe from Slide 1 or from within the menu section, rail, or carousels.
+  if (currentSlide === 1) {
+    return;
+  }
+
+  // Don't drag if clicking directly on fixed UI controls, menu, rails or modals
+  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills, #section-menu, .site-section.section-menu, .menu-category-rail, .edge-menu-drawer, .category-carousel, .category-carousel-track, .menu-item-card')) {
     return;
   }
 
@@ -481,16 +489,15 @@ viewportEl.addEventListener('pointerdown', (e) => {
 window.addEventListener('pointermove', (e) => {
   if (!isPointerDown) return;
 
+  // If currently on Slide 1, immediately cancel any global slide drag
+  if (currentSlide === 1) {
+    isPointerDown = false;
+    isDragging = false;
+    return;
+  }
+
   deltaX = e.clientX - startX;
   deltaY = e.clientY - startY;
-
-  // On Slide 1 (Menu), if vertical movement dominates, allow vertical scrolling!
-  if (currentSlide === 1) {
-    if (Math.abs(deltaY) > Math.abs(deltaX)) {
-      isPointerDown = false;
-      return;
-    }
-  }
 
   if (!hasMoved) {
     const distSq = deltaX * deltaX + deltaY * deltaY;
@@ -661,7 +668,12 @@ carouselTracks.forEach(track => {
   let scrollLeft = 0;
   let hasDragged = false;
 
+  track.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+  });
+
   track.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
     if (e.target.closest('.view-details-link') || e.target.closest('button')) return;
     isDown = true;
     hasDragged = false;

@@ -770,9 +770,11 @@ body.theme-light .thumb-price {
 .rail-inner {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
-  padding: 12px 10px;
+  width: 66px;
+  box-sizing: border-box;
+  padding: 12px 8px;
   background: rgba(18, 10, 30, 0.78);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
@@ -782,6 +784,8 @@ body.theme-light .thumb-price {
     0 16px 42px rgba(0, 0, 0, 0.55),
     0 0 24px rgba(147, 51, 234, 0.18),
     inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: visible;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -789,16 +793,19 @@ body.theme-light .thumb-price {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   background: transparent;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 99px;
-  transition: background 0.25s ease, transform 0.22s ease;
+  padding: 0;
+  border-radius: 50%;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
+  overflow: visible;
 }
 
 .rail-icon-wrap {
@@ -811,6 +818,8 @@ body.theme-light .thumb-price {
   background: rgba(255, 255, 255, 0.06);
   border: 1.5px solid rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
   transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -821,31 +830,49 @@ body.theme-light .thumb-price {
 }
 
 .rail-label {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
   max-width: 0;
   opacity: 0;
   white-space: nowrap;
   overflow: hidden;
   font-family: 'FiraGO', sans-serif;
-  font-size: 0.98rem;
+  font-size: 0.94rem;
   font-weight: 800;
   color: #FFFDF8;
   padding: 0;
-  transition: max-width 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, padding 0.3s ease;
+  background: rgba(22, 12, 36, 0.94);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  border-left: none;
+  border-radius: 0 99px 99px 0;
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.55),
+    0 0 16px rgba(168, 85, 247, 0.22);
+  pointer-events: none;
+  z-index: 1;
+  transition: 
+    max-width 0.32s cubic-bezier(0.22, 1, 0.36, 1), 
+    opacity 0.22s ease, 
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), 
+    padding 0.28s ease;
 }
 
-/* Hover: expands horizontally revealing the full category name */
-.cat-rail-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
-}
-.cat-rail-btn:hover .rail-label {
-  max-width: 170px;
-  opacity: 1;
-  padding-left: 10px;
-  padding-right: 16px;
-}
+/* Hover: expands horizontally ONLY on this specific button's badge */
 .cat-rail-btn:hover .rail-icon-wrap {
   transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(245, 174, 24, 0.6);
+}
+
+.cat-rail-btn:hover .rail-label {
+  max-width: 175px;
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  padding: 10px 18px 10px 24px;
 }
 
 /* Active Glowing state: illuminates when section is in viewport */
@@ -862,6 +889,7 @@ body.theme-light .thumb-price {
 }
 .cat-rail-btn.active .rail-label {
   color: #FFDF11;
+  border-color: rgba(255, 223, 17, 0.55);
 }
 
 /* ========================================================
@@ -1032,7 +1060,8 @@ body.theme-light .thumb-price {
 }
 .category-carousel-track.is-dragging {
   cursor: grabbing;
-  scroll-snap-type: none;
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
   user-select: none;
 }
 
@@ -1078,6 +1107,9 @@ body.theme-light .thumb-price {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
   transition: transform 0.48s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -1179,6 +1211,16 @@ body.theme-transitional .rail-inner {
   border-color: rgba(245, 158, 11, 0.38);
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 24px rgba(217, 119, 6, 0.25);
 }
+body.theme-transitional .rail-label {
+  background: rgba(42, 22, 13, 0.95);
+  border-color: rgba(245, 158, 11, 0.45);
+  border-left: none;
+  color: #FFE8D6;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 16px rgba(217, 119, 6, 0.25);
+}
+body.theme-transitional .cat-rail-btn:hover .rail-icon-wrap {
+  border-color: #F59E0B;
+}
 body.theme-transitional .cat-rail-btn.active .rail-icon-wrap {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(217, 119, 6, 0.22));
   border-color: #F59E0B;
@@ -1186,6 +1228,7 @@ body.theme-transitional .cat-rail-btn.active .rail-icon-wrap {
 }
 body.theme-transitional .cat-rail-btn.active .rail-label {
   color: #FBBF24;
+  border-color: rgba(251, 191, 36, 0.6);
 }
 body.theme-transitional .category-title {
   color: #FBBF24;
@@ -1239,10 +1282,15 @@ body.theme-light .rail-icon-wrap {
   border-color: rgba(90, 48, 15, 0.18);
 }
 body.theme-light .rail-label {
+  background: rgba(255, 252, 244, 0.97);
+  border-color: rgba(217, 119, 6, 0.35);
+  border-left: none;
   color: #241308;
+  box-shadow: 0 12px 28px rgba(92, 49, 14, 0.16);
 }
-body.theme-light .cat-rail-btn:hover {
-  background: rgba(217, 119, 6, 0.1);
+body.theme-light .cat-rail-btn:hover .rail-icon-wrap {
+  border-color: #D97706;
+  background: rgba(217, 119, 6, 0.15);
 }
 body.theme-light .cat-rail-btn.active .rail-icon-wrap {
   background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
@@ -1251,6 +1299,7 @@ body.theme-light .cat-rail-btn.active .rail-icon-wrap {
 }
 body.theme-light .cat-rail-btn.active .rail-label {
   color: #B45309;
+  border-color: rgba(217, 119, 6, 0.6);
 }
 body.theme-light .category-header-row {
   border-bottom-color: rgba(92, 49, 14, 0.12);
@@ -2059,9 +2108,14 @@ body.theme-light .edge-menu-drawer:hover .edge-next-icon {
     left: 8px;
   }
   .rail-inner {
+    width: 52px;
     padding: 8px 6px;
     gap: 8px;
     border-radius: 26px;
+  }
+  .cat-rail-btn {
+    width: 38px;
+    height: 38px;
   }
   .rail-icon-wrap {
     width: 38px;
@@ -2069,6 +2123,14 @@ body.theme-light .edge-menu-drawer:hover .edge-next-icon {
   }
   .rail-icon {
     font-size: 1.25rem;
+  }
+  .rail-label {
+    left: 24px;
+    font-size: 0.82rem;
+  }
+  .cat-rail-btn:hover .rail-label {
+    padding: 8px 14px 8px 18px;
+    max-width: 145px;
   }
   .category-title {
     font-size: 1.6rem;
