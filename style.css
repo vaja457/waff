@@ -163,7 +163,8 @@ body.theme-transitional .bottom-center-dots {
 }
 body.theme-transitional .main-header {
   background: rgba(28, 15, 8, 0.86);
-  border-bottom: 1px solid rgba(245, 158, 11, 0.16);
+  border: none;
+  border-bottom: none;
 }
 body.theme-transitional .modal-card {
   background: #23120B;
@@ -266,8 +267,9 @@ body.theme-light .bottom-center-dots {
 }
 body.theme-light .main-header {
   background: rgba(255, 253, 248, 0.9);
-  border-bottom: 1px solid rgba(217, 119, 6, 0.16);
-  box-shadow: 0 4px 20px rgba(80, 42, 10, 0.06);
+  border: none;
+  border-bottom: none;
+  box-shadow: none;
 }
 body.theme-light .site-dot-btn {
   background: rgba(90, 48, 15, 0.28);
@@ -352,9 +354,10 @@ body.theme-light .thumb-price {
   background: rgba(12, 8, 19, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border: none;
+  border-bottom: none;
   pointer-events: none;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .header-inner {
@@ -473,7 +476,7 @@ body.theme-light .thumb-price {
   position: absolute;
   inset: 0;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: none;
   pointer-events: none;
 }
 
