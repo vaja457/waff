@@ -906,3 +906,202 @@ if (document.fonts && document.fonts.ready) {
 window.addEventListener('load', () => {
   updateNavIndicator(currentSlide);
 });
+
+// ========================================================
+// Dynamic Menu Rendering from menu-data.js (Live Admin Sync)
+// ========================================================
+function renderDynamicMenu() {
+  if (typeof getStoredMenu !== 'function') return;
+  const items = getStoredMenu();
+  if (!Array.isArray(items) || items.length === 0) return;
+
+  const categoryMap = {
+    'ვაფლები': { trackId: 'track-cat-waffles', sectionId: 'cat-waffles', countNoun: 'სახეობა' },
+    'ტოპინგები': { trackId: 'track-cat-toppings', sectionId: 'cat-toppings', countNoun: 'სახეობა' },
+    'სასმელები': { trackId: 'track-cat-drinks', sectionId: 'cat-drinks', countNoun: 'სახეობა' },
+    'ექსტრა': { trackId: 'track-cat-extras', sectionId: 'cat-extras', countNoun: 'სახეობა' }
+  };
+
+  Object.entries(categoryMap).forEach(([catName, cfg]) => {
+    const catItems = items.filter(item => item.category === catName);
+    const track = document.getElementById(cfg.trackId);
+    const section = document.getElementById(cfg.sectionId);
+
+    if (section) {
+      const countBadge = section.querySelector('.cat-count-badge');
+      if (countBadge) {
+        countBadge.textContent = `${catItems.length} ${cfg.countNoun}`;
+      }
+    }
+
+    if (track && catItems.length > 0) {
+      track.innerHTML = catItems.map(item => {
+        const ratingMatch = item.badge ? item.badge.match(/★\s*[\d.]+/) : null;
+        const ratingPill = ratingMatch ? ratingMatch[0] : (item.rating ? `★ ${item.rating}` : '');
+        return `
+          <article class="menu-item-card" 
+            data-id="${item.id}"
+            data-category="${item.category}"
+            data-title="${item.title}"
+            data-price="${item.price}"
+            data-image="${item.image}"
+            data-short-desc="${item.shortDesc || ''}"
+            data-detailed-desc="${item.detailedDesc || ''}"
+            data-badge="${item.badge || ''}"
+            tabindex="0"
+            role="button"
+          >
+            <div class="item-card-media">
+              <img src="${item.image}" alt="${item.title}" loading="lazy">
+              <span class="item-price-tag">${item.price}</span>
+              ${ratingPill ? `<span class="item-badge-pill">${ratingPill}</span>` : ''}
+            </div>
+            <div class="item-card-info">
+              <h4 class="item-title">${item.title}</h4>
+              <p class="item-desc">${item.shortDesc || ''}</p>
+              <div class="item-card-footer">
+                <span class="view-details-link">დეტალურად 🔍</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+  });
+
+  // Also update Slide 0 Hero Thumbnails from waffles
+  const waffles = items.filter(i => i.category === 'ვაფლები');
+  const thumbContainer = document.querySelector('.thumbnails-container');
+  if (thumbContainer && waffles.length >= 4) {
+    thumbContainer.innerHTML = waffles.slice(0, 4).map((w, idx) => `
+      <div class="thumb-card ${idx === currentWaffleIndex ? 'active' : ''}" data-waffle-index="${idx}" tabindex="0" role="button" aria-label="${w.title}">
+        <div class="thumb-img-box">
+          <img src="${w.image}" alt="${w.title}">
+        </div>
+        <div class="thumb-info">
+          <span class="thumb-name">${w.title}</span>
+          <span class="thumb-price">${w.price}</span>
+        </div>
+      </div>
+    `).join('');
+
+    thumbContainer.querySelectorAll('.thumb-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.waffleIndex, 10);
+        setFeaturedWaffle(idx);
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const idx = parseInt(card.dataset.waffleIndex, 10);
+          setFeaturedWaffle(idx);
+        }
+      });
+    });
+  }
+}
+
+// Initial Dynamic Menu Render
+renderDynamicMenu();
+
+// Live update menu if modified in another tab via Admin Panel
+window.addEventListener('storage', (e) => {
+  if (e.key === 'waff_menu_items_v2') {
+    renderDynamicMenu();
+  }
+});
+
+// ========================================================
+// Discrete Secret Admin Panel Triggers (Only for Owner)
+// ========================================================
+const secretModal = document.getElementById('adminSecretModal');
+const secretForm = document.getElementById('adminSecretForm');
+const secretInput = document.getElementById('secretAdminPassInput');
+const secretError = document.getElementById('secretAdminErrorMsg');
+const closeSecretBtn = document.getElementById('closeSecretModalBtn');
+
+function openSecretAdminModal() {
+  if (!secretModal) return;
+  secretModal.style.display = 'flex';
+  secretModal.setAttribute('aria-hidden', 'false');
+  if (secretError) secretError.style.display = 'none';
+  if (secretInput) {
+    secretInput.value = '';
+    setTimeout(() => secretInput.focus(), 120);
+  }
+}
+
+function closeSecretAdminModal() {
+  if (!secretModal) return;
+  secretModal.style.display = 'none';
+  secretModal.setAttribute('aria-hidden', 'true');
+  if (window.location.hash === '#admin') {
+    history.replaceState(null, null, window.location.pathname);
+  }
+}
+
+if (closeSecretBtn) {
+  closeSecretBtn.addEventListener('click', closeSecretAdminModal);
+}
+
+if (secretModal) {
+  secretModal.addEventListener('click', (e) => {
+    if (e.target === secretModal) closeSecretAdminModal();
+  });
+}
+
+if (secretForm) {
+  secretForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pass = secretInput ? secretInput.value.trim() : '';
+    if (typeof verifyAdminPassword === 'function' && verifyAdminPassword(pass)) {
+      if (typeof setAdminLoggedIn === 'function') setAdminLoggedIn(true);
+      window.location.href = 'admin.html';
+    } else {
+      if (secretError) secretError.style.display = 'block';
+      if (secretInput) {
+        secretInput.classList.add('error-shake');
+        setTimeout(() => secretInput.classList.remove('error-shake'), 500);
+      }
+    }
+  });
+}
+
+// Trigger 1: Triple Click / Tap on WAFF Logo within 1.2s
+let logoTapCount = 0;
+let logoTapTimer = null;
+const brandLogo = document.querySelector('.brand-logo');
+if (brandLogo) {
+  brandLogo.addEventListener('click', (e) => {
+    logoTapCount++;
+    if (logoTapCount === 1) {
+      logoTapTimer = setTimeout(() => {
+        logoTapCount = 0;
+      }, 1200);
+    } else if (logoTapCount >= 3) {
+      clearTimeout(logoTapTimer);
+      logoTapCount = 0;
+      e.preventDefault();
+      e.stopPropagation();
+      openSecretAdminModal();
+    }
+  });
+}
+
+// Trigger 2: Keyboard Shortcut (Ctrl + Shift + A or Cmd + Shift + A)
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    e.preventDefault();
+    openSecretAdminModal();
+  }
+});
+
+// Trigger 3: URL Hash (#admin)
+function checkAdminHash() {
+  if (window.location.hash === '#admin') {
+    openSecretAdminModal();
+  }
+}
+checkAdminHash();
+window.addEventListener('hashchange', checkAdminHash);
+

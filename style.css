@@ -2754,3 +2754,120 @@ body.theme-light .drawer-footer-text {
     transform: none !important;
   }
 }
+
+/* ========================================================
+   Discrete Secret Admin Login Modal
+   ======================================================== */
+.admin-secret-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 6, 18, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.25s ease;
+}
+
+.admin-secret-card {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(24, 14, 38, 0.95);
+  border: 1.5px solid rgba(255, 223, 17, 0.45);
+  border-radius: 20px;
+  padding: 28px 24px 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 174, 24, 0.25);
+  text-align: center;
+  color: #FFFDF8;
+}
+
+.secret-lock-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.secret-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFDF8;
+  margin-bottom: 4px;
+}
+
+.secret-desc {
+  font-size: 0.86rem;
+  color: rgba(235, 225, 250, 0.72);
+  margin-bottom: 18px;
+}
+
+.secret-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(12, 6, 20, 0.85);
+  border: 1.5px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #FFFDF8;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.secret-input:focus {
+  border-color: #FFDF11;
+  box-shadow: 0 0 14px rgba(255, 223, 17, 0.35);
+}
+
+.secret-error-msg {
+  color: #EF4444;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.secret-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.secret-cancel-btn,
+.secret-submit-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secret-cancel-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(235, 225, 250, 0.8);
+}
+
+.secret-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFF;
+}
+
+.secret-submit-btn {
+  background: linear-gradient(135deg, #FFDF11 0%, #F5AE18 100%);
+  border: none;
+  color: #1A0D04;
+  box-shadow: 0 4px 14px rgba(245, 174, 24, 0.35);
+}
+
+.secret-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 223, 17, 0.5);
+}

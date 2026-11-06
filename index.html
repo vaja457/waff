@@ -1012,6 +1012,32 @@
     </div>
   </div>
 
-  <script src="script.js?v=5.0"></script>
+  <!-- ==============================================
+       Discrete Secret Admin Access Modal (Only for Owner)
+       ============================================== -->
+  <div class="admin-secret-modal-overlay" id="adminSecretModal" style="display: none;" aria-hidden="true" role="dialog">
+    <div class="admin-secret-card">
+      <span class="secret-lock-icon">🔒</span>
+      <h3 class="secret-title">ადმინ პანელი</h3>
+      <p class="secret-desc">შეიყვანეთ ადმინისტრატორის პაროლი</p>
+      <form id="adminSecretForm" autocomplete="off">
+        <input 
+          type="password" 
+          id="secretAdminPassInput" 
+          class="secret-input" 
+          placeholder="შეიყვანეთ პაროლი..." 
+          required
+        >
+        <div class="secret-error-msg" id="secretAdminErrorMsg" style="display: none;">არასწორი პაროლი!</div>
+        <div class="secret-btn-row">
+          <button type="button" class="secret-cancel-btn" id="closeSecretModalBtn">გაუქმება</button>
+          <button type="submit" class="secret-submit-btn">შესვლა →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="menu-data.js"></script>
+  <script src="script.js?v=5.1"></script>
 </body>
 </html>
