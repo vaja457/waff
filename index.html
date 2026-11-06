@@ -59,12 +59,12 @@
     <!-- Fixed Top Navigation Header -->
     <header class="main-header">
       <div class="header-inner">
-        <!-- Logo on the Left -->
+        <!-- Logo (Left on Desktop, Centered on Mobile) -->
         <a href="#home" class="brand-logo" aria-label="WAFF Home" onclick="goToSlide(0); return false;">
           <img src="images/waff-logo-trimmed.png" alt="WAFF Logo" class="logo-img">
         </a>
 
-        <!-- Centered Navigation Links with Generous Spacing -->
+        <!-- Centered Navigation Links with Generous Spacing (Desktop) -->
         <nav class="nav-menu" id="navMenu">
           <div class="nav-indicator-box" id="navIndicatorBox"></div>
           <ul class="nav-list" id="navList">
@@ -73,6 +73,13 @@
             <li><a href="#about" class="nav-link" data-slide-target="2">ჩვენ შესახებ</a></li>
           </ul>
         </nav>
+
+        <!-- Mobile Hamburger Button (Top Right Corner, 3 Lines) -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="მენიუს გახსნა" aria-expanded="false">
+          <span class="ham-line ham-line-1"></span>
+          <span class="ham-line ham-line-2"></span>
+          <span class="ham-line ham-line-3"></span>
+        </button>
       </div>
     </header>
 
@@ -830,39 +837,7 @@
       </div>
     </aside>
 
-    <!-- Right Side Menu Drawer (Visible on Slide 0: მთავარი -> გადასვლა მენიუში) -->
-    <aside class="edge-menu-drawer edge-drawer-right is-active" id="edgeDrawerRight" title="გადასვლა მენიუში" aria-label="გადასვლა მენიუში">
-      <div class="edge-drawer-inner">
-        <div class="edge-next-title">
-          <span class="edge-char">მ</span>
-          <span class="edge-char">ე</span>
-          <span class="edge-char">ნ</span>
-          <span class="edge-char">ი</span>
-          <span class="edge-char">უ</span>
-        </div>
-        <svg class="edge-next-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-    </aside>
-
-    <!-- Left Side Menu Drawer (Visible on Slide 2: ჩვენ შესახებ -> გადასვლა მენიუში) -->
-    <aside class="edge-menu-drawer edge-drawer-left" id="edgeDrawerLeft" title="გადასვლა მენიუში" aria-label="გადასვლა მენიუში">
-      <div class="edge-drawer-inner">
-        <div class="edge-next-title">
-          <span class="edge-char">მ</span>
-          <span class="edge-char">ე</span>
-          <span class="edge-char">ნ</span>
-          <span class="edge-char">ი</span>
-          <span class="edge-char">უ</span>
-        </div>
-        <svg class="edge-next-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </div>
-    </aside>
-
-    <!-- Bottom Right Controls: 3 Distinct Themes (Dark, Transitional, Light) & Sound Toggle -->
+    <!-- Bottom Right Controls: 3 Distinct Themes (Dark, Transitional, Light) & Sound Toggle (Desktop) -->
     <aside class="quick-toolbar">
       <div class="shade-switcher" title="აირჩიეთ რეჟიმი">
         <button class="shade-btn active" data-theme="theme-honey" title="მუქი რეჟიმი (Dark Obsidian)">
@@ -888,6 +863,79 @@
         </svg>
       </button>
     </aside>
+
+    <!-- ==============================================
+         Mobile Navigation Drawer (დამალული მენიუ)
+         ============================================== -->
+    <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" aria-hidden="true">
+      <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
+      <div class="mobile-drawer-panel" id="mobileDrawerPanel">
+        
+        <div class="mobile-drawer-header">
+          <div class="drawer-logo-wrap">
+            <img src="images/waff-logo-trimmed.png" alt="WAFF Logo" class="drawer-logo-img">
+          </div>
+          <button class="mobile-drawer-close-btn" id="mobileDrawerCloseBtn" aria-label="მენიუს დახურვა">✕</button>
+        </div>
+
+        <div class="mobile-drawer-body">
+          <!-- 3 Navigation Tabs: მთავარი, მენიუ, ჩვენ შესახებ -->
+          <div class="drawer-group">
+            <span class="drawer-group-title">ნავიგაცია</span>
+            <div class="drawer-nav-list">
+              <button class="mobile-nav-item active" data-slide-target="0">
+                <span class="m-nav-icon">🧇</span>
+                <span class="m-nav-name">მთავარი</span>
+                <span class="m-nav-arrow">→</span>
+              </button>
+              <button class="mobile-nav-item" data-slide-target="1">
+                <span class="m-nav-icon">📋</span>
+                <span class="m-nav-name">მენიუ</span>
+                <span class="m-nav-arrow">→</span>
+              </button>
+              <button class="mobile-nav-item" data-slide-target="2">
+                <span class="m-nav-icon">💛</span>
+                <span class="m-nav-name">ჩვენ შესახებ</span>
+                <span class="m-nav-arrow">→</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Mode Switcher (საიტის ფერის შეცვლა) -->
+          <div class="drawer-group">
+            <span class="drawer-group-title">🎨 საიტის ფერი</span>
+            <div class="mobile-shade-grid">
+              <button class="mobile-shade-btn active" data-theme="theme-honey">
+                <span class="color-dot dot-dark"></span>
+                <span class="m-shade-text">მუქი</span>
+              </button>
+              <button class="mobile-shade-btn" data-theme="theme-transitional">
+                <span class="color-dot dot-transitional"></span>
+                <span class="m-shade-text">გარდამავალი</span>
+              </button>
+              <button class="mobile-shade-btn" data-theme="theme-light">
+                <span class="color-dot dot-light"></span>
+                <span class="m-shade-text">ღია</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sound Effects Toggle -->
+          <div class="drawer-group">
+            <span class="drawer-group-title">🔊 ხმის ეფექტები</span>
+            <button class="mobile-sound-toggle-btn" id="mobileSoundToggleBtn" aria-label="ხმის ჩართვა/გამორთვა">
+              <span class="m-sound-label">ხმოვანი ეფექტები</span>
+              <span class="m-sound-pill" id="mobileSoundStatusText">ჩართულია 🔔</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mobile-drawer-footer">
+          <p class="drawer-footer-text">WAFF • ნამდვილი ბელგიური ხრაშუნი 🧇</p>
+        </div>
+
+      </div>
+    </div>
 
   </div>
 

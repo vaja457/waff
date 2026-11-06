@@ -300,15 +300,18 @@ function goToSlide(slideIndex) {
   });
   updateNavIndicator(slideIndex);
 
+  // Update Mobile Drawer Nav Active Tab
+  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+  mobileNavItems.forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === slideIndex);
+  });
+
   // Update 3 Bottom Center Dots
   siteDotBtns.forEach((dot, idx) => {
     const isActive = (idx === slideIndex);
     dot.classList.toggle('active', isActive);
     dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
-
-  // Update Side Menu Drawers Visibility
-  updateSideDrawers(slideIndex);
 
   // Update Persistent Left Category Rail Visibility (Active on Slide 1: Menu)
   const menuCategoryRail = document.getElementById('menuCategoryRail');
@@ -346,55 +349,59 @@ siteDotBtns.forEach((dot) => {
 });
 
 // ========================================================
-// Side Menu Drawers (Slide 0: Right -> Menu; Slide 2: Left -> Menu)
+// Mobile Hamburger & Drawer Menu Controls
 // ========================================================
-function updateSideDrawers(slideIndex = currentSlide) {
-  if (edgeDrawerRight) {
-    const isSlide0 = (slideIndex === 0);
-    edgeDrawerRight.classList.toggle('is-active', isSlide0);
-    if (!isSlide0) edgeDrawerRight.classList.remove('is-visible');
-  }
-  if (edgeDrawerLeft) {
-    const isSlide2 = (slideIndex === 2);
-    edgeDrawerLeft.classList.toggle('is-active', isSlide2);
-    if (!isSlide2) edgeDrawerLeft.classList.remove('is-visible');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileDrawerOverlay = document.getElementById('mobileDrawerOverlay');
+const mobileDrawerCloseBtn = document.getElementById('mobileDrawerCloseBtn');
+const mobileDrawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+function openMobileDrawer() {
+  if (!mobileDrawerOverlay) return;
+  playBubbleSound(600, 0.06);
+  mobileDrawerOverlay.classList.add('is-open');
+  mobileDrawerOverlay.setAttribute('aria-hidden', 'false');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.classList.add('is-active');
+    mobileMenuBtn.setAttribute('aria-expanded', 'true');
   }
 }
 
-if (edgeDrawerRight) {
-  edgeDrawerRight.addEventListener('click', () => {
-    playBubbleSound(620, 0.08);
-    goToSlide(1);
+function closeMobileDrawer() {
+  if (!mobileDrawerOverlay) return;
+  playBubbleSound(480, 0.05);
+  mobileDrawerOverlay.classList.remove('is-open');
+  mobileDrawerOverlay.setAttribute('aria-hidden', 'true');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.classList.remove('is-active');
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+if (mobileMenuBtn) {
+  mobileMenuBtn.addEventListener('click', () => {
+    if (mobileDrawerOverlay && mobileDrawerOverlay.classList.contains('is-open')) {
+      closeMobileDrawer();
+    } else {
+      openMobileDrawer();
+    }
   });
 }
-if (edgeDrawerLeft) {
-  edgeDrawerLeft.addEventListener('click', () => {
-    playBubbleSound(620, 0.08);
-    goToSlide(1);
-  });
+
+if (mobileDrawerCloseBtn) {
+  mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawer);
+}
+if (mobileDrawerBackdrop) {
+  mobileDrawerBackdrop.addEventListener('click', closeMobileDrawer);
 }
 
-// Mousemove proximity detection for edge drawers
-window.addEventListener('mousemove', (e) => {
-  const yInRange = (e.clientY >= 30 && e.clientY <= window.innerHeight - 30);
-
-  if (edgeDrawerRight && edgeDrawerRight.classList.contains('is-active')) {
-    const distanceToRight = window.innerWidth - e.clientX;
-    if (distanceToRight <= 80 && yInRange) {
-      edgeDrawerRight.classList.add('is-visible');
-    } else if (distanceToRight > 200 && !edgeDrawerRight.matches(':hover')) {
-      edgeDrawerRight.classList.remove('is-visible');
-    }
-  }
-
-  if (edgeDrawerLeft && edgeDrawerLeft.classList.contains('is-active')) {
-    const distanceToLeft = e.clientX;
-    if (distanceToLeft <= 80 && yInRange) {
-      edgeDrawerLeft.classList.add('is-visible');
-    } else if (distanceToLeft > 200 && !edgeDrawerLeft.matches(':hover')) {
-      edgeDrawerLeft.classList.remove('is-visible');
-    }
-  }
+mobileNavItems.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const targetIdx = parseInt(btn.dataset.slideTarget, 10);
+    goToSlide(targetIdx);
+    closeMobileDrawer();
+  });
 });
 
 // Keyboard Navigation
@@ -472,7 +479,7 @@ viewportEl.addEventListener('pointerdown', (e) => {
   }
 
   // Don't drag if clicking directly on fixed UI controls, menu, rails or modals
-  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills, #section-menu, .site-section.section-menu, .menu-category-rail, .edge-menu-drawer, .category-carousel, .category-carousel-track, .menu-item-card')) {
+  if (e.target.closest('.main-header, .quick-toolbar, .bottom-center-dots, .menu-modal-overlay, .category-nav-pills, #section-menu, .site-section.section-menu, .menu-category-rail, .category-carousel, .category-carousel-track, .menu-item-card, .mobile-drawer-overlay, .mobile-menu-btn')) {
     return;
   }
 
@@ -785,19 +792,30 @@ if (menuModal) {
 // ========================================================
 // 3 Theme Switcher (Dark Obsidian, Caramel Sunset, Bakery Light)
 // ========================================================
+const mobileShadeBtns = document.querySelectorAll('.mobile-shade-btn');
+
+function applyTheme(theme) {
+  document.body.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
+  document.body.classList.add(theme);
+
+  shadeBtns.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+  mobileShadeBtns.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+
+  updateNavIndicator(currentSlide);
+  try { localStorage.setItem('waff-theme-v5', theme); } catch(e) {}
+}
+
 shadeBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     playBubbleSound(680, 0.06);
-    const theme = btn.dataset.theme;
+    applyTheme(btn.dataset.theme);
+  });
+});
 
-    document.body.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
-    document.body.classList.add(theme);
-
-    shadeBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    updateNavIndicator(currentSlide);
-    try { localStorage.setItem('waff-theme-v5', theme); } catch(e) {}
+mobileShadeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    playBubbleSound(680, 0.06);
+    applyTheme(btn.dataset.theme);
   });
 });
 
@@ -805,23 +823,38 @@ shadeBtns.forEach(btn => {
 try {
   const savedTheme = localStorage.getItem('waff-theme-v5');
   if (savedTheme && ['theme-honey', 'theme-transitional', 'theme-light'].includes(savedTheme)) {
-    document.body.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
-    document.body.classList.add(savedTheme);
-    shadeBtns.forEach(b => b.classList.toggle('active', b.dataset.theme === savedTheme));
+    applyTheme(savedTheme);
   }
 } catch(e) {}
 
-// Sound Effects Toggle Button
+// Sound Effects Toggle Button (Desktop & Mobile Drawer)
+const mobileSoundToggleBtn = document.getElementById('mobileSoundToggleBtn');
+const mobileSoundStatusText = document.getElementById('mobileSoundStatusText');
+
+function updateSoundUI() {
+  if (soundOnIcon) soundOnIcon.style.display = soundEnabled ? 'block' : 'none';
+  if (soundOffIcon) soundOffIcon.style.display = soundEnabled ? 'none' : 'block';
+  if (mobileSoundStatusText) {
+    mobileSoundStatusText.textContent = soundEnabled ? 'ჩართულია 🔔' : 'გამორთულია 🔕';
+  }
+}
+
 if (soundToggleBtn) {
   soundToggleBtn.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
+    updateSoundUI();
     if (soundEnabled) {
-      soundOnIcon.style.display = 'block';
-      soundOffIcon.style.display = 'none';
       playWaffleCrunchSound();
-    } else {
-      soundOnIcon.style.display = 'none';
-      soundOffIcon.style.display = 'block';
+    }
+  });
+}
+
+if (mobileSoundToggleBtn) {
+  mobileSoundToggleBtn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    updateSoundUI();
+    if (soundEnabled) {
+      playWaffleCrunchSound();
     }
   });
 }
