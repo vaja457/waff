@@ -178,557 +178,570 @@
         <!-- ==============================================
              SLIDE 1: მენიუ (Menu Showcase - Vertical Scrolling)
              ============================================== -->
-        <section class="site-section section-menu" id="section-menu">
+                <section class="site-section section-menu" id="section-menu">
           <div class="menu-container">
             
-            <!-- Menu Top Heading -->
-            <div class="section-heading menu-main-heading">
-              <span class="menu-badge-lead">✨ WAFF კოლექცია</span>
-              <h2 class="section-title">ჩვენი სრული მენიუ</h2>
-              <p class="section-subtitle">გაეცანით ჩვენს ხრაშუნა ვაფლებს, ტოპინგებს, სასმელებსა და ექსტრა დანამატებს. დააკლიკეთ ნებისმიერ პროდუქტს დეტალური ინფორმაციისთვის.</p>
-            </div>
-
-            <!-- Sticky Category Navigation Pills Bar -->
-            <nav class="category-nav-pills" aria-label="მენიუს კატეგორიები">
-              <button class="cat-pill-btn active" data-target="cat-waffles">
-                <span class="pill-icon">🧇</span>
-                <span class="pill-text">ვაფლები</span>
-              </button>
-              <button class="cat-pill-btn" data-target="cat-toppings">
-                <span class="pill-icon">🍓</span>
-                <span class="pill-text">ტოპინგები</span>
-              </button>
-              <button class="cat-pill-btn" data-target="cat-drinks">
-                <span class="pill-icon">🥤</span>
-                <span class="pill-text">სასმელები</span>
-              </button>
-              <button class="cat-pill-btn" data-target="cat-extras">
-                <span class="pill-icon">✨</span>
-                <span class="pill-text">ექსტრა</span>
-              </button>
-            </nav>
-
-            <!-- --------------------------------------------
+            <!-- ==============================================
                  CATEGORY 1: ვაფლები (Waffles)
-                 -------------------------------------------- -->
-            <div class="menu-category-block" id="cat-waffles">
-              <div class="category-header">
-                <div class="cat-title-wrap">
-                  <span class="cat-icon-lg">🧇</span>
-                  <div>
-                    <h3 class="category-title">ვაფლები</h3>
-                    <p class="category-desc">ტრადიციული ბელგიური რეცეპტით გამომცხვარი, გარედან ხრაშუნა და შიგნიდან ჰაეროვანი</p>
+                 ============================================== -->
+            <section class="menu-category-section" id="cat-waffles" data-cat-id="cat-waffles">
+              <div class="category-header-row">
+                <div class="cat-header-main">
+                  <span class="cat-eyebrow">✨ კატეგორია #1</span>
+                  <h2 class="category-title"><span class="cat-title-icon">🧇</span> ვაფლები</h2>
+                  <p class="category-desc">ტრადიციული ბელგიური რეცეპტით გამომცხვარი, გარედან ხრაშუნა და შიგნიდან ჰაეროვანი</p>
+                </div>
+                <div class="cat-header-controls">
+                  <span class="cat-count-badge">5 სახეობა</span>
+                  <div class="carousel-arrow-group">
+                    <button class="carousel-arrow-btn prev" data-target="cat-waffles" aria-label="წინა ვაფლი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-arrow-btn next" data-target="cat-waffles" aria-label="შემდეგი ვაფლი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                   </div>
                 </div>
-                <span class="cat-count-badge">5 სახეობა</span>
               </div>
 
-              <div class="menu-items-grid">
-                <!-- Waffle Item 1 -->
-                <article class="menu-item-card" 
-                  data-id="waffle-1"
-                  data-category="ვაფლები"
-                  data-title="ბელგიური კლასიკა"
-                  data-price="₾ 14.90"
-                  data-image="images/thumb-1.jpg"
-                  data-short-desc="ახალი მარწყვით, მოცვით, ნეკერჩხლის სიროფითა და ნაზი ბელგიური ნაღებით."
-                  data-detailed-desc="ჩვენი ლეგენდარული საფირმო ბელგიური ვაფლი. ცხვება ტრადიციული ლიეჟური რეცეპტით, გარედან საოცრად ხრაშუნა და შიგნიდან ფუმფულა. ზემოდან ემატება მინდვრის ახალი მარწყვი, ველური მოცვი, 100% ორგანული კანადური ნეკერჩხლის სიროფი და ცივი, ნაზი ათქვეფილი ნაღები."
-                  data-badge="★ 4.9 • საფირმო"
-                >
-                  <div class="item-card-media">
-                    <img src="images/thumb-1.jpg" alt="ბელგიური კლასიკა" loading="lazy">
-                    <span class="item-price-tag">₾ 14.90</span>
-                    <span class="item-badge-pill">★ 4.9</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ბელგიური კლასიკა</h4>
-                    <p class="item-desc">ახალი მარწყვით, მოცვით, ნეკერჩხლის სიროფითა და ნაზი ბელგიური ნაღებით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+              <div class="category-carousel">
+                <div class="category-carousel-track" id="track-cat-waffles">
+                  <!-- Waffle 1 -->
+                  <article class="menu-item-card" 
+                    data-id="waffle-1"
+                    data-category="ვაფლები"
+                    data-title="ბელგიური კლასიკა"
+                    data-price="₾ 14.90"
+                    data-image="images/thumb-1.jpg"
+                    data-short-desc="ახალი მარწყვით, მოცვით, ნეკერჩხლის სიროფითა და ნაზი ბელგიური ნაღებით."
+                    data-detailed-desc="ჩვენი ლეგენდარული საფირმო ბელგიური ვაფლი. ცხვება ტრადიციული ლიეჟური რეცეპტით, გარედან საოცრად ხრაშუნა და შიგნიდან ფუმფულა. ზემოდან ემატება მინდვრის ახალი მარწყვი, ველური მოცვი, 100% ორგანული კანადური ნეკერჩხლის სიროფი და ცივი, ნაზი ათქვეფილი ნაღები."
+                    data-badge="★ 4.9 • საფირმო"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/thumb-1.jpg" alt="ბელგიური კლასიკა" loading="lazy">
+                      <span class="item-price-tag">₾ 14.90</span>
+                      <span class="item-badge-pill">★ 4.9</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ბელგიური კლასიკა</h4>
+                      <p class="item-desc">ახალი მარწყვით, მოცვით, ნეკერჩხლის სიროფითა და ნაზი ბელგიური ნაღებით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Waffle Item 2 -->
-                <article class="menu-item-card"
-                  data-id="waffle-2"
-                  data-category="ვაფლები"
-                  data-title="შოკოლადის ვულკანი"
-                  data-price="₾ 16.50"
-                  data-image="images/thumb-2.jpg"
-                  data-short-desc="მუქი ბელგიური შოკოლადის განაშით, კარამელიზებული ბანანითა და შოკოლადის ფანტელებით."
-                  data-detailed-desc="შოკოლადის მოყვარულთა ნამდვილი ოცნება. ცხელი ხრაშუნა ვაფლი უხვად დაფარული პრემიუმ ბელგიური მუქი შოკოლადის თბილი განაშით, ნაზი ბანანის ნაჭრებით, ხრაშუნა კაკაოს კუბიკებითა და შვეიცარიული შოკოლადის ფანტელებით."
-                  data-badge="★ 5.0 • ბესტსელერი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/thumb-2.jpg" alt="შოკოლადის ვულკანი" loading="lazy">
-                    <span class="item-price-tag">₾ 16.50</span>
-                    <span class="item-badge-pill">★ 5.0</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">შოკოლადის ვულკანი</h4>
-                    <p class="item-desc">მუქი ბელგიური შოკოლადის განაშით, კარამელიზებული ბანანითა და შოკოლადის ფანტელებით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Waffle 2 -->
+                  <article class="menu-item-card"
+                    data-id="waffle-2"
+                    data-category="ვაფლები"
+                    data-title="შოკოლადის ვულკანი"
+                    data-price="₾ 16.50"
+                    data-image="images/thumb-2.jpg"
+                    data-short-desc="მუქი ბელგიური შოკოლადის განაშით, კარამელიზებული ბანანითა და შოკოლადის ფანტელებით."
+                    data-detailed-desc="შოკოლადის მოყვარულთა ნამდვილი ოცნება. ცხელი ხრაშუნა ვაფლი უხვად დაფარული პრემიუმ ბელგიური მუქი შოკოლადის თბილი განაშით, ნაზი ბანანის ნაჭრებით, ხრაშუნა კაკაოს კუბიკებითა და შვეიცარიული შოკოლადის ფანტელებით."
+                    data-badge="★ 5.0 • ბესტსელერი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/thumb-2.jpg" alt="შოკოლადის ვულკანი" loading="lazy">
+                      <span class="item-price-tag">₾ 16.50</span>
+                      <span class="item-badge-pill">★ 5.0</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">შოკოლადის ვულკანი</h4>
+                      <p class="item-desc">მუქი ბელგიური შოკოლადის განაშით, კარამელიზებული ბანანითა და შოკოლადის ფანტელებით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Waffle Item 3 -->
-                <article class="menu-item-card"
-                  data-id="waffle-3"
-                  data-category="ვაფლები"
-                  data-title="კარამელი & პეკანი"
-                  data-price="₾ 15.90"
-                  data-image="images/thumb-3.jpg"
-                  data-short-desc="მოხალული ხრაშუნა პეკანით, მარილიანი ქარვისფერი კარამელითა და კარაქით."
-                  data-detailed-desc="მდიდარი და დახვეწილი გემოების ჰარმონია. ოქროსფრად გამომცხვარი ვაფლი, რომელიც გაჟღენთილია ხელნაკეთი მარილიანი კარამელით, მოხალული არომატული პეკანის კაკლითა და ნამდვილი ფრანგული კარაქის ნაზი კრემით."
-                  data-badge="★ 4.8 • გურმანი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/thumb-3.jpg" alt="კარამელი & პეკანი" loading="lazy">
-                    <span class="item-price-tag">₾ 15.90</span>
-                    <span class="item-badge-pill">★ 4.8</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">კარამელი & პეკანი</h4>
-                    <p class="item-desc">მოხალული ხრაშუნა პეკანით, მარილიანი ქარვისფერი კარამელითა და კარაქით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Waffle 3 -->
+                  <article class="menu-item-card"
+                    data-id="waffle-3"
+                    data-category="ვაფლები"
+                    data-title="კარამელი & პეკანი"
+                    data-price="₾ 15.90"
+                    data-image="images/thumb-3.jpg"
+                    data-short-desc="მოხალული ხრაშუნა პეკანით, მარილიანი ქარვისფერი კარამელითა და კარაქით."
+                    data-detailed-desc="მდიდარი და დახვეწილი გემოების ჰარმონია. ოქროსფრად გამომცხვარი ვაფლი, რომელიც გაჟღენთილია ხელნაკეთი მარილიანი კარამელით, მოხალული არომატული პეკანის კაკლითა და ნამდვილი ფრანგული კარაქის ნაზი კრემით."
+                    data-badge="★ 4.8 • გურმანი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/thumb-3.jpg" alt="კარამელი & პეკანი" loading="lazy">
+                      <span class="item-price-tag">₾ 15.90</span>
+                      <span class="item-badge-pill">★ 4.8</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">კარამელი & პეკანი</h4>
+                      <p class="item-desc">მოხალული ხრაშუნა პეკანით, მარილიანი ქარვისფერი კარამელითა და კარაქით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Waffle Item 4 -->
-                <article class="menu-item-card"
-                  data-id="waffle-4"
-                  data-category="ვაფლები"
-                  data-title="ტყის კენკრა"
-                  data-price="₾ 15.50"
-                  data-image="images/thumb-4.jpg"
-                  data-short-desc="ჟოლოს, მაყვლისა და მარწყვის მიქსით, ყვავილის თაფლითა და შაქრის პუდრით."
-                  data-detailed-desc="გამაგრილებელი და ხალასი ტყის არომატები. ვაფლი მორთულია ახალი ჟოლოს, მაყვლისა და ველური მარწყვის კენკროვანი ასორტით, მსუბუქი ყვავილის თაფლითა და თოვლივით ნაზი შაქრის პუდრით."
-                  data-badge="★ 4.9 • კენკროვანი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/thumb-4.jpg" alt="ტყის კენკრა" loading="lazy">
-                    <span class="item-price-tag">₾ 15.50</span>
-                    <span class="item-badge-pill">★ 4.9</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ტყის კენკრა</h4>
-                    <p class="item-desc">ჟოლოს, მაყვლისა და მარწყვის მიქსით, ყვავილის თაფლითა და შაქრის პუდრით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Waffle 4 -->
+                  <article class="menu-item-card"
+                    data-id="waffle-4"
+                    data-category="ვაფლები"
+                    data-title="ტყის კენკრა"
+                    data-price="₾ 15.50"
+                    data-image="images/thumb-4.jpg"
+                    data-short-desc="ჟოლოს, მაყვლისა და მარწყვის მიქსით, ყვავილის თაფლითა და შაქრის პუდრით."
+                    data-detailed-desc="გამაგრილებელი და ხალასი ტყის არომატები. ვაფლი მორთულია ახალი ჟოლოს, მაყვლისა და ველური მარწყვის კენკროვანი ასორტით, მსუბუქი ყვავილის თაფლითა და თოვლივით ნაზი შაქრის პუდრით."
+                    data-badge="★ 4.9 • კენკროვანი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/thumb-4.jpg" alt="ტყის კენკრა" loading="lazy">
+                      <span class="item-price-tag">₾ 15.50</span>
+                      <span class="item-badge-pill">★ 4.9</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ტყის კენკრა</h4>
+                      <p class="item-desc">ჟოლოს, მაყვლისა და მარწყვის მიქსით, ყვავილის თაფლითა და შაქრის პუდრით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Waffle Item 5 -->
-                <article class="menu-item-card"
-                  data-id="waffle-5"
-                  data-category="ვაფლები"
-                  data-title="ჩხირის ვაფლი (სტიკი)"
-                  data-price="₾ 9.50"
-                  data-image="images/waffle-stick-caramel.png"
-                  data-short-desc="მოხერხებული ხრაშუნა ვაფლი ჩხირზე, დაფარული შოკოლადითა და ქარვისფერი კარამელით."
-                  data-detailed-desc="სწრაფი და მოხერხებული დესერტი სასეირნოდ! ხრაშუნა ჩხირის ვაფლი ამოვლებული ბელგიურ შოკოლადში, მორთული ფერადი მოსაყრელებითა და ოქროსფერი კარამელის ხაზებით."
-                  data-badge="★ 4.7 • To-Go"
-                >
-                  <div class="item-card-media">
-                    <img src="images/waffle-stick-caramel.png" alt="ჩხირის ვაფლი" loading="lazy">
-                    <span class="item-price-tag">₾ 9.50</span>
-                    <span class="item-badge-pill">★ 4.7</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ჩხირის ვაფლი (სტიკი)</h4>
-                    <p class="item-desc">მოხერხებული ხრაშუნა ვაფლი ჩხირზე, დაფარული შოკოლადითა და ქარვისფერი კარამელით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Waffle 5 -->
+                  <article class="menu-item-card"
+                    data-id="waffle-5"
+                    data-category="ვაფლები"
+                    data-title="ჩხირის ვაფლი (სტიკი)"
+                    data-price="₾ 9.50"
+                    data-image="images/waffle-stick-caramel.png"
+                    data-short-desc="მოხერხებული ხრაშუნა ვაფლი ჩხირზე, დაფარული შოკოლადითა და ქარვისფერი კარამელით."
+                    data-detailed-desc="სწრაფი და მოხერხებული დესერტი სასეირნოდ! ხრაშუნა ჩხირის ვაფლი ამოვლებული ბელგიურ შოკოლადში, მორთული ფერადი მოსაყრელებითა და ოქროსფერი კარამელის ხაზებით."
+                    data-badge="★ 4.7 • To-Go"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/waffle-stick-caramel.png" alt="ჩხირის ვაფლი" loading="lazy">
+                      <span class="item-price-tag">₾ 9.50</span>
+                      <span class="item-badge-pill">★ 4.7</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ჩხირის ვაფლი (სტიკი)</h4>
+                      <p class="item-desc">მოხერხებული ხრაშუნა ვაფლი ჩხირზე, დაფარული შოკოლადითა და ქარვისფერი კარამელით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <!-- --------------------------------------------
+            <!-- ==============================================
                  CATEGORY 2: ტოპინგები (Toppings)
-                 -------------------------------------------- -->
-            <div class="menu-category-block" id="cat-toppings">
-              <div class="category-header">
-                <div class="cat-title-wrap">
-                  <span class="cat-icon-lg">🍓</span>
-                  <div>
-                    <h3 class="category-title">ტოპინგები</h3>
-                    <p class="category-desc">პრემიუმ ხარისხის დანამატები, შოკოლადები, ახალი კენკრა და იტალიური ნაყინი</p>
+                 ============================================== -->
+            <section class="menu-category-section" id="cat-toppings" data-cat-id="cat-toppings">
+              <div class="category-header-row">
+                <div class="cat-header-main">
+                  <span class="cat-eyebrow">✨ კატეგორია #2</span>
+                  <h2 class="category-title"><span class="cat-title-icon">🍓</span> ტოპინგები</h2>
+                  <p class="category-desc">პრემიუმ ხარისხის დანამატები, შოკოლადები, ახალი კენკრა და იტალიური ნაყინი</p>
+                </div>
+                <div class="cat-header-controls">
+                  <span class="cat-count-badge">4 სახეობა</span>
+                  <div class="carousel-arrow-group">
+                    <button class="carousel-arrow-btn prev" data-target="cat-toppings" aria-label="წინა ტოპინგი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-arrow-btn next" data-target="cat-toppings" aria-label="შემდეგი ტოპინგი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                   </div>
                 </div>
-                <span class="cat-count-badge">4 სახეობა</span>
               </div>
 
-              <div class="menu-items-grid">
-                <!-- Topping 1 -->
-                <article class="menu-item-card"
-                  data-id="topping-1"
-                  data-category="ტოპინგები"
-                  data-title="შოკოლადი & სიროფები"
-                  data-price="₾ 3.50"
-                  data-image="images/topping-choco.jpg"
-                  data-short-desc="ბელგიური მუქი, რძიანი და თეთრი შოკოლადი, ნუტელა, თბილი განაში."
-                  data-detailed-desc="უმაღლესი ხარისხის ბელგიური შოკოლადის პრემიუმ არჩევანი: ცხელი მუქი განაში, ნაზი რძიანი შოკოლადის სოუსი, ორიგინალი ნუტელა და ნეკერჩხლის არომატული სიროფი თქვენი ვაფლისთვის."
-                  data-badge="ბელგიური"
-                >
-                  <div class="item-card-media">
-                    <img src="images/topping-choco.jpg" alt="შოკოლადი & სიროფები" loading="lazy">
-                    <span class="item-price-tag">₾ 3.50</span>
-                    <span class="item-badge-pill">🍫 პრემიუმი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">შოკოლადი & სიროფები</h4>
-                    <p class="item-desc">ბელგიური მუქი, რძიანი და თეთრი შოკოლადი, ნუტელა, თბილი განაში.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+              <div class="category-carousel">
+                <div class="category-carousel-track" id="track-cat-toppings">
+                  <!-- Topping 1 -->
+                  <article class="menu-item-card"
+                    data-id="topping-1"
+                    data-category="ტოპინგები"
+                    data-title="შოკოლადი & სიროფები"
+                    data-price="₾ 3.50"
+                    data-image="images/topping-choco.jpg"
+                    data-short-desc="ბელგიური მუქი, რძიანი და თეთრი შოკოლადი, ნუტელა, თბილი განაში."
+                    data-detailed-desc="უმაღლესი ხარისხის ბელგიური შოკოლადის პრემიუმ არჩევანი: ცხელი მუქი განაში, ნაზი რძიანი შოკოლადის სოუსი, ორიგინალი ნუტელა და ნეკერჩხლის არომატული სიროფი თქვენი ვაფლისთვის."
+                    data-badge="ბელგიური"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/topping-choco.jpg" alt="შოკოლადი & სიროფები" loading="lazy">
+                      <span class="item-price-tag">₾ 3.50</span>
+                      <span class="item-badge-pill">🍫 პრემიუმი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">შოკოლადი & სიროფები</h4>
+                      <p class="item-desc">ბელგიური მუქი, რძიანი და თეთრი შოკოლადი, ნუტელა, თბილი განაში.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Topping 2 -->
-                <article class="menu-item-card"
-                  data-id="topping-2"
-                  data-category="ტოპინგები"
-                  data-title="ახალი ხილი & კენკრა"
-                  data-price="₾ 4.00"
-                  data-image="images/topping-berries.jpg"
-                  data-short-desc="სურნელოვანი მარწყვი, ველური მოცვი, ჟოლო, ბანანი და კივი."
-                  data-detailed-desc="ყოველდღიურად შერჩეული უახლესი და უტკბესი ხილი: მინდვრის მარწყვი, მთის მოცვი, სურნელოვანი ჟოლო და ბანანი, დაჭრილი ადგილზე შეკვეთისთანავე."
-                  data-badge="100% ახალი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/topping-berries.jpg" alt="ახალი ხილი & კენკრა" loading="lazy">
-                    <span class="item-price-tag">₾ 4.00</span>
-                    <span class="item-badge-pill">🍓 ნატურალური</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ახალი ხილი & კენკრა</h4>
-                    <p class="item-desc">სურნელოვანი მარწყვი, ველური მოცვი, ჟოლო, ბანანი და კივი.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Topping 2 -->
+                  <article class="menu-item-card"
+                    data-id="topping-2"
+                    data-category="ტოპინგები"
+                    data-title="ახალი ხილი & კენკრა"
+                    data-price="₾ 4.00"
+                    data-image="images/topping-berries.jpg"
+                    data-short-desc="სურნელოვანი მარწყვი, ველური მოცვი, ჟოლო, ბანანი და კივი."
+                    data-detailed-desc="ყოველდღიურად შერჩეული უახლესი და უტკბესი ხილი: მინდვრის მარწყვი, მთის მოცვი, სურნელოვანი ჟოლო და ბანანი, დაჭრილი ადგილზე შეკვეთისთანავე."
+                    data-badge="100% ახალი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/topping-berries.jpg" alt="ახალი ხილი & კენკრა" loading="lazy">
+                      <span class="item-price-tag">₾ 4.00</span>
+                      <span class="item-badge-pill">🍓 ნატურალური</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ახალი ხილი & კენკრა</h4>
+                      <p class="item-desc">სურნელოვანი მარწყვი, ველური მოცვი, ჟოლო, ბანანი და კივი.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Topping 3 -->
-                <article class="menu-item-card"
-                  data-id="topping-3"
-                  data-category="ტოპინგები"
-                  data-title="იტალიური ჯელატო & ნაღები"
-                  data-price="₾ 3.80"
-                  data-image="images/topping-icecream.jpg"
-                  data-short-desc="იტალიური ჯელატო ვანილით, შოკოლადით ან პისტაციით, ათქვეფილი ნაღები."
-                  data-detailed-desc="იტალიური კლასიკური ნაყინის (ჯელატოს) ბურთულა თქვენი არჩევით — მადაგასკარის ვანილი, მუქი შოკოლადი ან პისტაცია — შეხამებული ფაფუკ ბელგიურ ნაღებთან."
-                  data-badge="ჯელატო"
-                >
-                  <div class="item-card-media">
-                    <img src="images/topping-icecream.jpg" alt="იტალიური ჯელატო & ნაღები" loading="lazy">
-                    <span class="item-price-tag">₾ 3.80</span>
-                    <span class="item-badge-pill">🍨 გემრიელი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">იტალიური ჯელატო & ნაღები</h4>
-                    <p class="item-desc">იტალიური ჯელატო ვანილით, შოკოლადით ან პისტაციით, ათქვეფილი ნაღები.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Topping 3 -->
+                  <article class="menu-item-card"
+                    data-id="topping-3"
+                    data-category="ტოპინგები"
+                    data-title="იტალიური ჯელატო & ნაღები"
+                    data-price="₾ 3.80"
+                    data-image="images/topping-icecream.jpg"
+                    data-short-desc="იტალიური ჯელატო ვანილით, შოკოლადით ან პისტაციით, ათქვეფილი ნაღები."
+                    data-detailed-desc="იტალიური კლასიკური ნაყინის (ჯელატოს) ბურთულა თქვენი არჩევით — მადაგასკარის ვანილი, მუქი შოკოლადი ან პისტაცია — შეხამებული ფაფუკ ბელგიურ ნაღებთან."
+                    data-badge="ჯელატო"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/topping-icecream.jpg" alt="იტალიური ჯელატო & ნაღები" loading="lazy">
+                      <span class="item-price-tag">₾ 3.80</span>
+                      <span class="item-badge-pill">🍨 გემრიელი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">იტალიური ჯელატო & ნაღები</h4>
+                      <p class="item-desc">იტალიური ჯელატო ვანილით, შოკოლადით ან პისტაციით, ათქვეფილი ნაღები.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Topping 4 -->
-                <article class="menu-item-card"
-                  data-id="topping-4"
-                  data-category="ტოპინგები"
-                  data-title="მოხალული თხილი & ხრაშუნები"
-                  data-price="₾ 2.80"
-                  data-image="images/topping-crunch.jpg"
-                  data-short-desc="მოხალული ნუში, პეკანი, ფისტა, ორეოს ნამცხვრები და მარილიანი კარამელი."
-                  data-detailed-desc="იდეალური ტექსტურის კონტრასტი: მოხალული დაქუცმაცებული პეკანი, ხრაშუნა ნუშის ფანტელები, ნამდვილი ორეოს ნამსხვრევები და კარამელიზებული ხრაშუნები."
-                  data-badge="ხრაშუნა"
-                >
-                  <div class="item-card-media">
-                    <img src="images/topping-crunch.jpg" alt="მოხალული თხილი & ხრაშუნები" loading="lazy">
-                    <span class="item-price-tag">₾ 2.80</span>
-                    <span class="item-badge-pill">🥜 ხრაშუნა</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">მოხალული თხილი & ხრაშუნები</h4>
-                    <p class="item-desc">მოხალული ნუში, პეკანი, ფისტა, ორეოს ნამცხვრები და მარილიანი კარამელი.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Topping 4 -->
+                  <article class="menu-item-card"
+                    data-id="topping-4"
+                    data-category="ტოპინგები"
+                    data-title="მოხალული თხილი & ხრაშუნები"
+                    data-price="₾ 2.80"
+                    data-image="images/topping-crunch.jpg"
+                    data-short-desc="მოხალული ნუში, პეკანი, ფისტა, ორეოს ნამცხვრები და მარილიანი კარამელი."
+                    data-detailed-desc="იდეალური ტექსტურის კონტრასტი: მოხალული დაქუცმაცებული პეკანი, ხრაშუნა ნუშის ფანტელები, ნამდვილი ორეოს ნამსხვრევები და კარამელიზებული ხრაშუნები."
+                    data-badge="ხრაშუნა"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/topping-crunch.jpg" alt="მოხალული თხილი & ხრაშუნები" loading="lazy">
+                      <span class="item-price-tag">₾ 2.80</span>
+                      <span class="item-badge-pill">🥜 ხრაშუნა</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">მოხალული თხილი & ხრაშუნები</h4>
+                      <p class="item-desc">მოხალული ნუში, პეკანი, ფისტა, ორეოს ნამცხვრები და მარილიანი კარამელი.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <!-- --------------------------------------------
+            <!-- ==============================================
                  CATEGORY 3: სასმელები (Drinks)
-                 -------------------------------------------- -->
-            <div class="menu-category-block" id="cat-drinks">
-              <div class="category-header">
-                <div class="cat-title-wrap">
-                  <span class="cat-icon-lg">🥤</span>
-                  <div>
-                    <h3 class="category-title">სასმელები</h3>
-                    <p class="category-desc">ახალმოხალული ყავა, ცივი გამაგრილებელი ლიმონათები და არომატული ჩაი</p>
+                 ============================================== -->
+            <section class="menu-category-section" id="cat-drinks" data-cat-id="cat-drinks">
+              <div class="category-header-row">
+                <div class="cat-header-main">
+                  <span class="cat-eyebrow">✨ კატეგორია #3</span>
+                  <h2 class="category-title"><span class="cat-title-icon">🥤</span> სასმელები</h2>
+                  <p class="category-desc">ახალმოხალული ყავა, ცივი გამაგრილებელი ლიმონათები და არომატული ჩაი</p>
+                </div>
+                <div class="cat-header-controls">
+                  <span class="cat-count-badge">4 სახეობა</span>
+                  <div class="carousel-arrow-group">
+                    <button class="carousel-arrow-btn prev" data-target="cat-drinks" aria-label="წინა სასმელი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-arrow-btn next" data-target="cat-drinks" aria-label="შემდეგი სასმელი">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                   </div>
                 </div>
-                <span class="cat-count-badge">4 სახეობა</span>
               </div>
 
-              <div class="menu-items-grid">
-                <!-- Drink 1 -->
-                <article class="menu-item-card"
-                  data-id="drink-1"
-                  data-category="სასმელები"
-                  data-title="ესპრესო & კაპუჩინო"
-                  data-price="₾ 5.50"
-                  data-image="images/drink-coffee.jpg"
-                  data-short-desc="100% არაბიკას ახალმოხალული მარცვლები, ნაზი რძის ქაფით."
-                  data-detailed-desc="სპეციალურად შერჩეული პრემიუმ არაბიკას მარცვლებისგან მომზადებული არომატული ყავა: კლასიკური ესპრესო, ორმაგი ამერიკანო, ხავერდოვანი კაპუჩინო ან ლატე."
-                  data-badge="არაბიკა"
-                >
-                  <div class="item-card-media">
-                    <img src="images/drink-coffee.jpg" alt="ესპრესო & კაპუჩინო" loading="lazy">
-                    <span class="item-price-tag">₾ 5.50</span>
-                    <span class="item-badge-pill">☕ ცხელი ყავა</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ესპრესო & კაპუჩინო</h4>
-                    <p class="item-desc">100% არაბიკას ახალმოხალული მარცვლები, ნაზი რძის ქაფით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+              <div class="category-carousel">
+                <div class="category-carousel-track" id="track-cat-drinks">
+                  <!-- Drink 1 -->
+                  <article class="menu-item-card"
+                    data-id="drink-1"
+                    data-category="სასმელები"
+                    data-title="ესპრესო & კაპუჩინო"
+                    data-price="₾ 5.50"
+                    data-image="images/drink-coffee.jpg"
+                    data-short-desc="100% არაბიკას ახალმოხალული მარცვლები, ნაზი რძის ქაფით."
+                    data-detailed-desc="სპეციალურად შერჩეული პრემიუმ არაბიკას მარცვლებისგან მომზადებული არომატული ყავა: კლასიკური ესპრესო, ორმაგი ამერიკანო, ხავერდოვანი კაპუჩინო ან ლატე."
+                    data-badge="არაბიკა"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/drink-coffee.jpg" alt="ესპრესო & კაპუჩინო" loading="lazy">
+                      <span class="item-price-tag">₾ 5.50</span>
+                      <span class="item-badge-pill">☕ ცხელი ყავა</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ესპრესო & კაპუჩინო</h4>
+                      <p class="item-desc">100% არაბიკას ახალმოხალული მარცვლები, ნაზი რძის ქაფით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Drink 2 -->
-                <article class="menu-item-card"
-                  data-id="drink-2"
-                  data-category="სასმელები"
-                  data-title="ციტრუსის ლიმონათი"
-                  data-price="₾ 6.00"
-                  data-image="images/drink-lemonade.jpg"
-                  data-short-desc="ხელნაკეთი გამაგრილებელი ლიმონათი პიტნით, ლაიმითა და ჯანჯაფილით."
-                  data-detailed-desc="ადგილზე დამზადებული ნატურალური ციტრუსის ლიმონათი ახალი ლაიმით, ლიმონით, მწვანე პიტნის ფოთლებით, ყინულით და მსუბუქი ცქრიალა წყაროს წყლით."
-                  data-badge="ხელნაკეთი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/drink-lemonade.jpg" alt="ციტრუსის ლიმონათი" loading="lazy">
-                    <span class="item-price-tag">₾ 6.00</span>
-                    <span class="item-badge-pill">🍋 ცივი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ციტრუსის ლიმონათი</h4>
-                    <p class="item-desc">ხელნაკეთი გამაგრილებელი ლიმონათი პიტნით, ლაიმითა და ჯანჯაფილით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Drink 2 -->
+                  <article class="menu-item-card"
+                    data-id="drink-2"
+                    data-category="სასმელები"
+                    data-title="ციტრუსის ლიმონათი"
+                    data-price="₾ 6.00"
+                    data-image="images/drink-lemonade.jpg"
+                    data-short-desc="ხელნაკეთი გამაგრილებელი ლიმონათი პიტნით, ლაიმითა და ჯანჯაფილით."
+                    data-detailed-desc="ადგილზე დამზადებული ნატურალური ციტრუსის ლიმონათი ახალი ლაიმით, ლიმონით, მწვანე პიტნის ფოთლებით, ყინულით და მსუბუქი ცქრიალა წყაროს წყლით."
+                    data-badge="ხელნაკეთი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/drink-lemonade.jpg" alt="ციტრუსის ლიმონათი" loading="lazy">
+                      <span class="item-price-tag">₾ 6.00</span>
+                      <span class="item-badge-pill">🍋 ცივი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ციტრუსის ლიმონათი</h4>
+                      <p class="item-desc">ხელნაკეთი გამაგრილებელი ლიმონათი პიტნით, ლაიმითა და ჯანჯაფილით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Drink 3 -->
-                <article class="menu-item-card"
-                  data-id="drink-3"
-                  data-category="სასმელები"
-                  data-title="გამაგრილებელი სასმელები"
-                  data-price="₾ 4.00"
-                  data-image="images/drink-cola.jpg"
-                  data-short-desc="კოკა-კოლა, კოლა ზერო, სპრაიტი, ფანტა ყინულით."
-                  data-detailed-desc="ყინულივით ცივი კოკა-კოლა (კლასიკური ან უშაქრო ზერო), სპრაიტი ან ფანტა, მირთმეული ლიმონის ნაჭრითა და ყინულის კუბიკებით."
-                  data-badge="ცივი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/drink-cola.jpg" alt="გამაგრილებელი სასმელები" loading="lazy">
-                    <span class="item-price-tag">₾ 4.00</span>
-                    <span class="item-badge-pill">🥤 ცივი გაზიანი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">გამაგრილებელი სასმელები</h4>
-                    <p class="item-desc">კოკა-კოლა, კოლა ზერო, სპრაიტი, ფანტა ყინულით.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Drink 3 -->
+                  <article class="menu-item-card"
+                    data-id="drink-3"
+                    data-category="სასმელები"
+                    data-title="გამაგრილებელი სასმელები"
+                    data-price="₾ 4.00"
+                    data-image="images/drink-cola.jpg"
+                    data-short-desc="კოკა-კოლა, კოლა ზერო, სპრაიტი, ფანტა ყინულით."
+                    data-detailed-desc="ყინულივით ცივი კოკა-კოლა (კლასიკური ან უშაქრო ზერო), სპრაიტი ან ფანტა, მირთმეული ლიმონის ნაჭრითა და ყინულის კუბიკებით."
+                    data-badge="ცივი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/drink-cola.jpg" alt="გამაგრილებელი სასმელები" loading="lazy">
+                      <span class="item-price-tag">₾ 4.00</span>
+                      <span class="item-badge-pill">🥤 ცივი გაზიანი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">გამაგრილებელი სასმელები</h4>
+                      <p class="item-desc">კოკა-კოლა, კოლა ზერო, სპრაიტი, ფანტა ყინულით.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Drink 4 -->
-                <article class="menu-item-card"
-                  data-id="drink-4"
-                  data-category="სასმელები"
-                  data-title="არომატული ჩაი"
-                  data-price="₾ 4.50"
-                  data-image="images/drink-tea.jpg"
-                  data-short-desc="მწვანე ჟასმინით, შავი ერლ გრეი ან ველური კენკრის ხილის ჩაი."
-                  data-detailed-desc="ცხელი ფოთლოვანი ჩაის მდიდარი ასორტიმენტი: ერლ გრეი ბერგამოტით, მწვანე ჩაი ჟასმინით, ტყის კენკროვანი მცენარეული ჩაი თაფლითა და ლიმონით."
-                  data-badge="ორგანული"
-                >
-                  <div class="item-card-media">
-                    <img src="images/drink-tea.jpg" alt="არომატული ჩაი" loading="lazy">
-                    <span class="item-price-tag">₾ 4.50</span>
-                    <span class="item-badge-pill">🍵 ფოთლოვანი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">არომატული ჩაი</h4>
-                    <p class="item-desc">მწვანე ჟასმინით, შავი ერლ გრეი ან ველური კენკრის ხილის ჩაი.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Drink 4 -->
+                  <article class="menu-item-card"
+                    data-id="drink-4"
+                    data-category="სასმელები"
+                    data-title="არომატული ჩაი"
+                    data-price="₾ 4.50"
+                    data-image="images/drink-tea.jpg"
+                    data-short-desc="მწვანე ჟასმინით, შავი ერლ გრეი ან ველური კენკრის ხილის ჩაი."
+                    data-detailed-desc="ცხელი ფოთლოვანი ჩაის მდიდარი ასორტიმენტი: ერლ გრეი ბერგამოტით, მწვანე ჩაი ჟასმინით, ტყის კენკროვანი მცენარეული ჩაი თაფლითა და ლიმონით."
+                    data-badge="ორგანული"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/drink-tea.jpg" alt="არომატული ჩაი" loading="lazy">
+                      <span class="item-price-tag">₾ 4.50</span>
+                      <span class="item-badge-pill">🍵 ფოთლოვანი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">არომატული ჩაი</h4>
+                      <p class="item-desc">მწვანე ჟასმინით, შავი ერლ გრეი ან ველური კენკრის ხილის ჩაი.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <!-- --------------------------------------------
+            <!-- ==============================================
                  CATEGORY 4: ექსტრა (Extras)
-                 -------------------------------------------- -->
-            <div class="menu-category-block" id="cat-extras">
-              <div class="category-header">
-                <div class="cat-title-wrap">
-                  <span class="cat-icon-lg">✨</span>
-                  <div>
-                    <h3 class="category-title">ექსტრა</h3>
-                    <p class="category-desc">დამატებითი სოუსები, სასაჩუქრე შეფუთვები და სადღესასწაულო აქსესუარები</p>
+                 ============================================== -->
+            <section class="menu-category-section" id="cat-extras" data-cat-id="cat-extras">
+              <div class="category-header-row">
+                <div class="cat-header-main">
+                  <span class="cat-eyebrow">✨ კატეგორია #4</span>
+                  <h2 class="category-title"><span class="cat-title-icon">✨</span> ექსტრა</h2>
+                  <p class="category-desc">დამატებითი სოუსები, სასაჩუქრე შეფუთვები და სადღესასწაულო აქსესუარები</p>
+                </div>
+                <div class="cat-header-controls">
+                  <span class="cat-count-badge">5 სახეობა</span>
+                  <div class="carousel-arrow-group">
+                    <button class="carousel-arrow-btn prev" data-target="cat-extras" aria-label="წინა ექსტრა">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-arrow-btn next" data-target="cat-extras" aria-label="შემდეგი ექსტრა">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                   </div>
                 </div>
-                <span class="cat-count-badge">5 სახეობა</span>
               </div>
 
-              <div class="menu-items-grid">
-                <!-- Extra 1 -->
-                <article class="menu-item-card"
-                  data-id="extra-1"
-                  data-category="ექსტრა"
-                  data-title="თბილი შოკოლადის დიპი"
-                  data-price="₾ 4.00"
-                  data-image="images/extra-dip.jpg"
-                  data-short-desc="ცალკე ჭიქით თბილი ბელგიური შოკოლადის დიპი ჩასაწობად."
-                  data-detailed-desc="სპეციალური ჭიქით მირთმეული თბილი ბელგიური გამდნარი შოკოლადის დიპი, რომელშიც შეგიძლიათ ჩააწოთ ვაფლის თითოეული ხრაშუნა ლუკმა."
-                  data-badge="დიპი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/extra-dip.jpg" alt="თბილი შოკოლადის დიპი" loading="lazy">
-                    <span class="item-price-tag">₾ 4.00</span>
-                    <span class="item-badge-pill">🍯 დიპი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">თბილი შოკოლადის დიპი</h4>
-                    <p class="item-desc">ცალკე ჭიქით თბილი ბელგიური შოკოლადის დიპი ჩასაწობად.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+              <div class="category-carousel">
+                <div class="category-carousel-track" id="track-cat-extras">
+                  <!-- Extra 1 -->
+                  <article class="menu-item-card"
+                    data-id="extra-1"
+                    data-category="ექსტრა"
+                    data-title="თბილი შოკოლადის დიპი"
+                    data-price="₾ 4.00"
+                    data-image="images/extra-dip.jpg"
+                    data-short-desc="ცალკე ჭიქით თბილი ბელგიური შოკოლადის დიპი ჩასაწობად."
+                    data-detailed-desc="სპეციალური ჭიქით მირთმეული თბილი ბელგიური გამდნარი შოკოლადის დიპი, რომელშიც შეგიძლიათ ჩააწოთ ვაფლის თითოეული ხრაშუნა ლუკმა."
+                    data-badge="დიპი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/extra-dip.jpg" alt="თბილი შოკოლადის დიპი" loading="lazy">
+                      <span class="item-price-tag">₾ 4.00</span>
+                      <span class="item-badge-pill">🍯 დიპი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">თბილი შოკოლადის დიპი</h4>
+                      <p class="item-desc">ცალკე ჭიქით თბილი ბელგიური შოკოლადის დიპი ჩასაწობად.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Extra 2 -->
-                <article class="menu-item-card"
-                  data-id="extra-2"
-                  data-category="ექსტრა"
-                  data-title="პრემიუმ სასაჩუქრე ყუთი"
-                  data-price="₾ 8.00"
-                  data-image="images/extra-box.jpg"
-                  data-short-desc="პრემიუმ შეფუთვა ბაფთით, იდეალური საჩუქრად და წასაღებად."
-                  data-detailed-desc="ელეგანტური ოქროსფერი და შავი სასაჩუქრე ყუთი WAFF-ის ლოგოთი და ბაფთით. ინარჩუნებს ვაფლის სითბოსა და ხრაშუნს ტრანსპორტირებისას."
-                  data-badge="სასაჩუქრე"
-                >
-                  <div class="item-card-media">
-                    <img src="images/extra-box.jpg" alt="პრემიუმ სასაჩუქრე ყუთი" loading="lazy">
-                    <span class="item-price-tag">₾ 8.00</span>
-                    <span class="item-badge-pill">🎁 საჩუქარი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">პრემიუმ სასაჩუქრე ყუთი</h4>
-                    <p class="item-desc">პრემიუმ შეფუთვა ბაფთით, იდეალური საჩუქრად და წასაღებად.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Extra 2 -->
+                  <article class="menu-item-card"
+                    data-id="extra-2"
+                    data-category="ექსტრა"
+                    data-title="პრემიუმ სასაჩუქრე ყუთი"
+                    data-price="₾ 8.00"
+                    data-image="images/extra-box.jpg"
+                    data-short-desc="პრემიუმ შეფუთვა ბაფთით, იდეალური საჩუქრად და წასაღებად."
+                    data-detailed-desc="ელეგანტური ოქროსფერი და შავი სასაჩუქრე ყუთი WAFF-ის ლოგოთი და ბაფთით. ინარჩუნებს ვაფლის სითბოსა და ხრაშუნს ტრანსპორტირებისას."
+                    data-badge="სასაჩუქრე"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/extra-box.jpg" alt="პრემიუმ სასაჩუქრე ყუთი" loading="lazy">
+                      <span class="item-price-tag">₾ 8.00</span>
+                      <span class="item-badge-pill">🎁 საჩუქარი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">პრემიუმ სასაჩუქრე ყუთი</h4>
+                      <p class="item-desc">პრემიუმ შეფუთვა ბაფთით, იდეალური საჩუქრად და წასაღებად.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Extra 3 -->
-                <article class="menu-item-card"
-                  data-id="extra-3"
-                  data-category="ექსტრა"
-                  data-title="ჰაეროვანი ბელგიური ნაღები"
-                  data-price="₾ 3.00"
-                  data-image="images/extra-cream.jpg"
-                  data-short-desc="დამატებითი პორცია ჰაეროვანი ათქვეფილი ნაღებისა."
-                  data-detailed-desc="უმაღლესი ცხიმიანობის ნამდვილი ნაღები, ათქვეფილი მსუბუქ ვანილის შაქართან ერთად — შეუდარებელი დანამატი ნებისმიერი ვაფლისთვის."
-                  data-badge="ნაღები"
-                >
-                  <div class="item-card-media">
-                    <img src="images/extra-cream.jpg" alt="ჰაეროვანი ბელგიური ნაღები" loading="lazy">
-                    <span class="item-price-tag">₾ 3.00</span>
-                    <span class="item-badge-pill">🍦 ნაღები</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">ჰაეროვანი ბელგიური ნაღები</h4>
-                    <p class="item-desc">დამატებითი პორცია ჰაეროვანი ათქვეფილი ნაღებისა.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Extra 3 -->
+                  <article class="menu-item-card"
+                    data-id="extra-3"
+                    data-category="ექსტრა"
+                    data-title="ჰაეროვანი ბელგიური ნაღები"
+                    data-price="₾ 3.00"
+                    data-image="images/extra-cream.jpg"
+                    data-short-desc="დამატებითი პორცია ჰაეროვანი ათქვეფილი ნაღებისა."
+                    data-detailed-desc="უმაღლესი ცხიმიანობის ნამდვილი ნაღები, ათქვეფილი მსუბუქ ვანილის შაქართან ერთად — შეუდარებელი დანამატი ნებისმიერი ვაფლისთვის."
+                    data-badge="ნაღები"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/extra-cream.jpg" alt="ჰაეროვანი ბელგიური ნაღები" loading="lazy">
+                      <span class="item-price-tag">₾ 3.00</span>
+                      <span class="item-badge-pill">🍦 ნაღები</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">ჰაეროვანი ბელგიური ნაღები</h4>
+                      <p class="item-desc">დამატებითი პორცია ჰაეროვანი ათქვეფილი ნაღებისა.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Extra 4 -->
-                <article class="menu-item-card"
-                  data-id="extra-4"
-                  data-category="ექსტრა"
-                  data-title="კანადური ნეკერჩხლის სიროფი"
-                  data-price="₾ 3.50"
-                  data-image="images/extra-syrup.jpg"
-                  data-short-desc="ნატურალური კანადური ნეკერჩხლის ოქროსფერი სიროფი."
-                  data-detailed-desc="ორიგინალი Grade-A კანადური ნეკერჩხლის სუფთა სიროფი, ტრადიციული ხის არომატითა და ოქროსფერი ტკბილი გემოთი."
-                  data-badge="კანადური"
-                >
-                  <div class="item-card-media">
-                    <img src="images/extra-syrup.jpg" alt="კანადური ნეკერჩხლის სიროფი" loading="lazy">
-                    <span class="item-price-tag">₾ 3.50</span>
-                    <span class="item-badge-pill">🍁 100% სუფთა</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">კანადური ნეკერჩხლის სიროფი</h4>
-                    <p class="item-desc">ნატურალური კანადური ნეკერჩხლის ოქროსფერი სიროფი.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Extra 4 -->
+                  <article class="menu-item-card"
+                    data-id="extra-4"
+                    data-category="ექსტრა"
+                    data-title="კანადური ნეკერჩხლის სიროფი"
+                    data-price="₾ 3.50"
+                    data-image="images/extra-syrup.jpg"
+                    data-short-desc="ნატურალური კანადური ნეკერჩხლის ოქროსფერი სიროფი."
+                    data-detailed-desc="ორიგინალი Grade-A კანადური ნეკერჩხლის სუფთა სიროფი, ტრადიციული ხის არომატითა და ოქროსფერი ტკბილი გემოთი."
+                    data-badge="კანადური"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/extra-syrup.jpg" alt="კანადური ნეკერჩხლის სიროფი" loading="lazy">
+                      <span class="item-price-tag">₾ 3.50</span>
+                      <span class="item-badge-pill">🍁 100% სუფთა</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">კანადური ნეკერჩხლის სიროფი</h4>
+                      <p class="item-desc">ნატურალური კანადური ნეკერჩხლის ოქროსფერი სიროფი.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
 
-                <!-- Extra 5 -->
-                <article class="menu-item-card"
-                  data-id="extra-5"
-                  data-category="ექსტრა"
-                  data-title="სადღესასწაულო ნაკრები"
-                  data-price="₾ 5.00"
-                  data-image="images/extra-candle.jpg"
-                  data-short-desc="სადღესასწაულო სანთელი, მისალოცი ბარათი და სადღესასწაულო გაფორმება."
-                  data-detailed-desc="დაბადების დღისა და დღესასწაულების კომპლექტი: მოციმციმე სადღესასწაულო სანთელი, WAFF-ის ხელნაწერი მისალოცი ბარათი და სადღესასწაულო გაფორმება."
-                  data-badge="ზეიმი"
-                >
-                  <div class="item-card-media">
-                    <img src="images/extra-candle.jpg" alt="სადღესასწაულო ნაკრები" loading="lazy">
-                    <span class="item-price-tag">₾ 5.00</span>
-                    <span class="item-badge-pill">🎉 ზეიმი</span>
-                  </div>
-                  <div class="item-card-info">
-                    <h4 class="item-title">სადღესასწაულო ნაკრები</h4>
-                    <p class="item-desc">სადღესასწაულო სანთელი, მისალოცი ბარათი და სადღესასწაულო გაფორმება.</p>
-                    <div class="item-card-footer">
-                      <span class="view-details-link">დეტალურად 🔍</span>
+                  <!-- Extra 5 -->
+                  <article class="menu-item-card"
+                    data-id="extra-5"
+                    data-category="ექსტრა"
+                    data-title="სადღესასწაულო ნაკრები"
+                    data-price="₾ 5.00"
+                    data-image="images/extra-candle.jpg"
+                    data-short-desc="სადღესასწაულო სანთელი, მისალოცი ბარათი და სადღესასწაულო გაფორმება."
+                    data-detailed-desc="დაბადების დღისა და დღესასწაულების კომპლექტი: მოციმციმე სადღესასწაულო სანთელი, WAFF-ის ხელნაწერი მისალოცი ბარათი და სადღესასწაულო გაფორმება."
+                    data-badge="ზეიმი"
+                  >
+                    <div class="item-card-media">
+                      <img src="images/extra-candle.jpg" alt="სადღესასწაულო ნაკრები" loading="lazy">
+                      <span class="item-price-tag">₾ 5.00</span>
+                      <span class="item-badge-pill">🎉 ზეიმი</span>
                     </div>
-                  </div>
-                </article>
+                    <div class="item-card-info">
+                      <h4 class="item-title">სადღესასწაულო ნაკრები</h4>
+                      <p class="item-desc">სადღესასწაულო სანთელი, მისალოცი ბარათი და სადღესასწაულო გაფორმება.</p>
+                      <div class="item-card-footer">
+                        <span class="view-details-link">დეტალურად 🔍</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </div>
+            </section>
 
           </div>
         </section>
@@ -786,6 +799,36 @@
         <span class="dot-indicator"></span>
       </button>
     </div>
+
+        <!-- Persistent Left Sidebar Category Navigation (Active on Menu slide) -->
+    <aside class="menu-category-rail" id="menuCategoryRail" aria-label="მენიუს კატეგორიები">
+      <div class="rail-inner">
+        <button class="cat-rail-btn active" data-cat="cat-waffles" aria-label="ვაფლები" title="ვაფლები">
+          <span class="rail-icon-wrap">
+            <span class="rail-icon">🧇</span>
+          </span>
+          <span class="rail-label">ვაფლები</span>
+        </button>
+        <button class="cat-rail-btn" data-cat="cat-toppings" aria-label="ტოპინგები" title="ტოპინგები">
+          <span class="rail-icon-wrap">
+            <span class="rail-icon">🍓</span>
+          </span>
+          <span class="rail-label">ტოპინგები</span>
+        </button>
+        <button class="cat-rail-btn" data-cat="cat-drinks" aria-label="სასმელები" title="სასმელები">
+          <span class="rail-icon-wrap">
+            <span class="rail-icon">🥤</span>
+          </span>
+          <span class="rail-label">სასმელები</span>
+        </button>
+        <button class="cat-rail-btn" data-cat="cat-extras" aria-label="ექსტრა" title="ექსტრა">
+          <span class="rail-icon-wrap">
+            <span class="rail-icon">✨</span>
+          </span>
+          <span class="rail-label">ექსტრა</span>
+        </button>
+      </div>
+    </aside>
 
     <!-- Right Side Menu Drawer (Visible on Slide 0: მთავარი -> გადასვლა მენიუში) -->
     <aside class="edge-menu-drawer edge-drawer-right is-active" id="edgeDrawerRight" title="გადასვლა მენიუში" aria-label="გადასვლა მენიუში">

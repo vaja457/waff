@@ -308,9 +308,18 @@ function goToSlide(slideIndex) {
   // Update Side Menu Drawers Visibility
   updateSideDrawers(slideIndex);
 
-  // If entering Menu tab, ensure category active pill is updated
+  // Update Persistent Left Category Rail Visibility (Active on Slide 1: Menu)
+  const menuCategoryRail = document.getElementById('menuCategoryRail');
+  if (menuCategoryRail) {
+    menuCategoryRail.classList.toggle('is-visible', slideIndex === 1);
+  }
+
+  // If entering Menu tab, ensure Waffles category is shown directly and active
   if (slideIndex === 1) {
-    updateActiveCategoryPill();
+    if (sectionMenu) {
+      sectionMenu.scrollTop = 0;
+    }
+    updateActiveCategoryRail();
   }
 }
 
@@ -587,47 +596,106 @@ if (stageContainer) {
 }
 
 // ========================================================
-// Menu Category Navigation & Scroll Sync
+// Menu Category Rail Navigation, ScrollSync & Carousel Controls
 // ========================================================
-function updateActiveCategoryPill() {
-  if (!sectionMenu) return;
-  const categories = ['cat-waffles', 'cat-toppings', 'cat-drinks', 'cat-extras'];
-  const scrollTop = sectionMenu.scrollTop;
+const catRailBtns = document.querySelectorAll('.cat-rail-btn');
+const categorySections = document.querySelectorAll('.menu-category-section');
 
-  let activeCat = categories[0];
-  for (const catId of categories) {
-    const el = document.getElementById(catId);
-    if (el) {
-      const top = el.offsetTop - 140;
-      if (scrollTop >= top) {
-        activeCat = catId;
-      }
+function updateActiveCategoryRail() {
+  if (!sectionMenu || categorySections.length === 0) return;
+  const scrollPos = sectionMenu.scrollTop + 140;
+  let currentCatId = 'cat-waffles';
+
+  categorySections.forEach(sec => {
+    if (scrollPos >= sec.offsetTop) {
+      currentCatId = sec.id;
     }
-  }
+  });
 
-  catPillBtns.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.target === activeCat);
+  catRailBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === currentCatId);
   });
 }
 
 if (sectionMenu) {
-  sectionMenu.addEventListener('scroll', () => {
-    updateActiveCategoryPill();
-  }, { passive: true });
+  sectionMenu.addEventListener('scroll', updateActiveCategoryRail, { passive: true });
 }
 
-catPillBtns.forEach(btn => {
+// Clicking a Category Rail button smoothly scrolls sectionMenu directly to that category
+catRailBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    playBubbleSound(650, 0.06);
-    const targetId = btn.dataset.target;
-    const targetEl = document.getElementById(targetId);
+    playBubbleSound(660, 0.06);
+    const targetCatId = btn.dataset.cat;
+    const targetEl = document.getElementById(targetCatId);
     if (targetEl && sectionMenu) {
       sectionMenu.scrollTo({
-        top: targetEl.offsetTop - 110,
+        top: targetEl.offsetTop - 68,
         behavior: 'smooth'
       });
     }
   });
+});
+
+// Category Carousel Navigation (Arrow Buttons)
+const carouselArrowBtns = document.querySelectorAll('.carousel-arrow-btn');
+carouselArrowBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    playBubbleSound(720, 0.05);
+    const targetCat = btn.dataset.target;
+    const track = document.getElementById(`track-${targetCat}`);
+    if (track) {
+      const card = track.querySelector('.menu-item-card');
+      const cardWidth = card ? (card.offsetWidth + 24) : 360;
+      const direction = btn.classList.contains('prev') ? -1 : 1;
+      track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    }
+  });
+});
+
+// Horizontal Mouse Drag-to-Scroll for Carousel Tracks
+const carouselTracks = document.querySelectorAll('.category-carousel-track');
+carouselTracks.forEach(track => {
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let hasDragged = false;
+
+  track.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.view-details-link') || e.target.closest('button')) return;
+    isDown = true;
+    hasDragged = false;
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+    track.classList.add('is-dragging');
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDown) {
+      isDown = false;
+      track.classList.remove('is-dragging');
+    }
+  });
+
+  track.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    if (Math.abs(walk) > 6) {
+      hasDragged = true;
+    }
+    track.scrollLeft = scrollLeft - walk;
+  });
+
+  // Prevent unwanted modal open click when user was swiping/dragging horizontally
+  track.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      hasDragged = false;
+    }
+  }, true);
 });
 
 // ========================================================
