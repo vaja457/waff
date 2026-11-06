@@ -97,6 +97,19 @@
     linear-gradient(180deg, #0B0711 0%, #120A1C 50%, #08040C 100%);
 }
 
+html {
+  background-color: #0B0711;
+}
+html.theme-honey, body.theme-honey {
+  background-color: #0B0711 !important;
+}
+html.theme-transitional, body.theme-transitional {
+  background-color: #24130A !important;
+}
+html.theme-light, body.theme-light {
+  background-color: #FFFDF8 !important;
+}
+
 html, body {
   width: 100vw;
   height: 100vh;
@@ -2385,7 +2398,19 @@ body.theme-light .drawer-footer-text {
 @media (max-width: 768px) {
   /* Header: Centered Logo, Top-Right Hamburger, Hidden Desktop Tabs */
   .main-header {
-    padding: 10px 16px !important;
+    padding-top: max(12px, env(safe-area-inset-top)) !important;
+    padding-bottom: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #0B0711 !important;
+  }
+  body.theme-transitional .main-header {
+    background: #24130A !important;
+  }
+  body.theme-light .main-header {
+    background: #FFFDF8 !important;
   }
   .header-inner {
     position: relative !important;
@@ -2472,7 +2497,8 @@ body.theme-light .drawer-footer-text {
     overflow: visible !important;
   }
   .category-carousel-track {
-    padding: 10px 4px 20px 4px !important;
+    padding: 10px 12px 36px 12px !important;
+    margin-bottom: -16px !important;
   }
   .menu-item-card {
     flex: 0 0 clamp(260px, 80vw, 320px) !important;
@@ -2480,11 +2506,23 @@ body.theme-light .drawer-footer-text {
     max-width: 82vw !important;
     transform: none !important;
     -webkit-tap-highlight-color: transparent !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
   }
   .menu-item-card:hover,
   .menu-item-card:active,
   .menu-item-card:focus {
     transform: none !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+  }
+  body.theme-transitional .menu-item-card,
+  body.theme-transitional .menu-item-card:hover,
+  body.theme-transitional .menu-item-card:active {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
+  }
+  body.theme-light .menu-item-card,
+  body.theme-light .menu-item-card:hover,
+  body.theme-light .menu-item-card:active {
+    box-shadow: 0 6px 18px rgba(92, 49, 14, 0.08) !important;
   }
   .menu-item-card .item-card-media img,
   .menu-item-card:hover .item-card-media img,

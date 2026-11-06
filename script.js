@@ -798,6 +798,19 @@ function applyTheme(theme) {
   document.body.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
   document.body.classList.add(theme);
 
+  document.documentElement.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
+  document.documentElement.classList.add(theme);
+
+  const themeColors = {
+    'theme-honey': '#0B0711',
+    'theme-transitional': '#24130A',
+    'theme-light': '#FFFDF8'
+  };
+  const themeMeta = document.getElementById('themeColorMeta');
+  if (themeMeta && themeColors[theme]) {
+    themeMeta.setAttribute('content', themeColors[theme]);
+  }
+
   shadeBtns.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
   mobileShadeBtns.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
 

@@ -2,7 +2,10 @@
 <html lang="ka">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#120A1E" id="themeColorMeta">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>WAFF - ვაფლის კლუბი | Savor the Flavor</title>
   
   <!-- Favicon using WAFF logo -->
@@ -10,6 +13,20 @@
 
   <link rel="stylesheet" href="style.css?v=5.0">
   <style>
+    /* Root theme background to eliminate mobile status-bar white flashes/blurs */
+    html {
+      background-color: #120A1E;
+    }
+    html.theme-honey, body.theme-honey {
+      background-color: #120A1E !important;
+    }
+    html.theme-transitional, body.theme-transitional {
+      background-color: #26130B !important;
+    }
+    html.theme-light, body.theme-light {
+      background-color: #FFFDF8 !important;
+    }
+
     /* Critical Rules: Prevent unwanted outer scrollbars while enabling vertical scroll on Menu section */
     html, body, .site-wrapper, .carousel-viewport, .carousel-track, .site-section:not(.section-menu) {
       overflow: hidden !important;
