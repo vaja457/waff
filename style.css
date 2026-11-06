@@ -2468,13 +2468,38 @@ body.theme-light .drawer-footer-text {
   .carousel-arrow-btn {
     display: none !important;
   }
+  .category-carousel {
+    overflow: visible !important;
+  }
   .category-carousel-track {
-    padding: 6px 0 16px !important;
+    padding: 10px 4px 20px 4px !important;
   }
   .menu-item-card {
     flex: 0 0 clamp(260px, 80vw, 320px) !important;
     min-width: clamp(260px, 80vw, 320px) !important;
     max-width: 82vw !important;
+    transform: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .menu-item-card:hover,
+  .menu-item-card:active,
+  .menu-item-card:focus {
+    transform: none !important;
+  }
+  .menu-item-card .item-card-media img,
+  .menu-item-card:hover .item-card-media img,
+  .menu-item-card:active .item-card-media img {
+    transform: none !important;
+  }
+  .thumb-card,
+  .thumb-card:hover,
+  .thumb-card:active {
+    transform: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .thumb-card:hover .thumb-img-box img,
+  .thumb-card:active .thumb-img-box img {
+    transform: none !important;
   }
   .item-card-media {
     height: 185px !important;
@@ -2501,5 +2526,29 @@ body.theme-light .drawer-footer-text {
   }
   .category-title {
     font-size: 1.4rem !important;
+  }
+}
+
+/* Touch screen devices: completely disable hover scale/translate to prevent card clipping */
+@media (hover: none) {
+  .menu-item-card,
+  .menu-item-card:hover,
+  .menu-item-card:active,
+  .menu-item-card:focus {
+    transform: none !important;
+  }
+  .menu-item-card .item-card-media img,
+  .menu-item-card:hover .item-card-media img,
+  .menu-item-card:active .item-card-media img {
+    transform: none !important;
+  }
+  .thumb-card,
+  .thumb-card:hover,
+  .thumb-card:active {
+    transform: none !important;
+  }
+  .thumb-card:hover .thumb-img-box img,
+  .thumb-card:active .thumb-img-box img {
+    transform: none !important;
   }
 }
