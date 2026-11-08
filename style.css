@@ -942,15 +942,38 @@ body.theme-light .thumb-price {
   align-items: stretch !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  height: 100vh !important;
-  max-height: 100vh !important;
-  padding: 68px clamp(16px, 4vw, 48px) 85px !important;
+  margin-top: 68px !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  padding: 14px clamp(16px, 4vw, 48px) 85px !important;
   padding-left: clamp(96px, 9.5vw, 140px) !important; /* Space for the left persistent rail */
   scroll-snap-type: y proximity;
   scroll-behavior: smooth;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   cursor: default !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(245, 174, 24, 0.45) transparent !important;
+}
+
+.site-section.section-menu::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+}
+
+.site-section.section-menu::-webkit-scrollbar-track {
+  background: transparent !important;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.site-section.section-menu::-webkit-scrollbar-thumb {
+  background: rgba(245, 174, 24, 0.38) !important;
+  border-radius: 99px !important;
+}
+
+.site-section.section-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 223, 17, 0.7) !important;
 }
 
 .menu-container {
@@ -1133,6 +1156,27 @@ body.theme-light .thumb-price {
   box-shadow: 
     0 22px 50px rgba(0, 0, 0, 0.65),
     0 0 28px rgba(245, 174, 24, 0.35);
+}
+
+@keyframes cardGoldPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 223, 17, 0.8), 0 14px 38px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 35px 8px rgba(255, 223, 17, 0.85), 0 20px 48px rgba(0, 0, 0, 0.7);
+    transform: scale(1.04);
+    border-color: #FFDF11;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 223, 17, 0), 0 14px 38px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+  }
+}
+
+.menu-item-card.item-card-highlight {
+  animation: cardGoldPulse 1.4s ease-out 2 !important;
+  border-color: #FFDF11 !important;
 }
 
 .item-card-media {
@@ -2269,8 +2313,8 @@ body.theme-light .edge-menu-drawer:hover .edge-next-icon {
 /* Mobile Theme Switcher Grid */
 .mobile-shade-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .mobile-shade-btn {
@@ -2509,7 +2553,10 @@ body.theme-light .drawer-footer-text {
     display: none !important;
   }
   .site-section.section-menu {
-    padding-top: 65px !important;
+    margin-top: 54px !important;
+    height: calc(100vh - 54px) !important;
+    max-height: calc(100vh - 54px) !important;
+    padding-top: 10px !important;
     padding-bottom: 75px !important;
     padding-left: 16px !important;
     padding-right: 16px !important;

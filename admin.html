@@ -119,6 +119,13 @@
             <span class="stat-label">ექსტრა</span>
           </div>
         </div>
+        <div class="stat-card stat-featured" data-filter="featured">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-content">
+            <span class="stat-num" id="statFeaturedCount">4</span>
+            <span class="stat-label">მთავარზე</span>
+          </div>
+        </div>
       </section>
 
       <!-- Action & Filter Bar -->
@@ -164,6 +171,7 @@
         <button class="cat-pill" data-category="ტოპინგები">🍓 ტოპინგები (<span id="pillCountToppings">0</span>)</button>
         <button class="cat-pill" data-category="სასმელები">🥤 სასმელები (<span id="pillCountDrinks">0</span>)</button>
         <button class="cat-pill" data-category="ექსტრა">✨ ექსტრა (<span id="pillCountExtras">0</span>)</button>
+        <button class="cat-pill pill-featured" data-category="featured">⭐ მთავარზე (<span id="pillCountFeatured">4</span>/4)</button>
       </section>
 
       <!-- Products Grid -->
@@ -265,6 +273,16 @@
             <label for="formDetailedDesc" class="form-label">დეტალური აღწერა (ჩანს მოდალურ ფანჯარაში) *</label>
             <textarea id="formDetailedDesc" class="form-textarea" rows="4" placeholder="დაწვრილებითი ინფორმაცია შემადგენლობისა და რეცეპტის შესახებ..." required></textarea>
           </div>
+
+          <!-- Featured on Home Toggle -->
+          <div class="form-group full-width featured-checkbox-group">
+            <label class="featured-checkbox-label">
+              <input type="checkbox" id="formFeaturedHome">
+              <span class="custom-checkbox">⭐</span>
+              <span class="label-text">გამოჩნდეს მთავარ გვერდზე (4 რჩეულს შორის)</span>
+            </label>
+            <p class="field-hint">მონიშნეთ, რათა ეს პროდუქტი გამოჩნდეს საიტის მთავარი გვერდის 4 ბარათს შორის</p>
+          </div>
         </div>
 
         <div class="modal-card-footer">
@@ -334,7 +352,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="menu-data.js"></script>
-  <script src="admin.js"></script>
+  <script src="menu-data.js?v=5.5"></script>
+  <script src="admin.js?v=5.5"></script>
 </body>
 </html>

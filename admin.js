@@ -1,6 +1,7 @@
 // ========================================================
 // WAFF Admin Studio Controller (admin.js)
-// Full Menu Management: CRUD, Image Upload, Password, Backups
+// Full Menu Management: CRUD, Image Upload, Password, Backups,
+// Featured on Home Page Picker (up to 4 products)
 // ========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statToppings = document.getElementById('statToppingsCount');
   const statDrinks = document.getElementById('statDrinksCount');
   const statExtras = document.getElementById('statExtrasCount');
+  const statFeatured = document.getElementById('statFeaturedCount');
 
   // Pill Counters
   const pillAll = document.getElementById('pillCountAll');
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pillToppings = document.getElementById('pillCountToppings');
   const pillDrinks = document.getElementById('pillCountDrinks');
   const pillExtras = document.getElementById('pillCountExtras');
+  const pillFeatured = document.getElementById('pillCountFeatured');
 
   // Toolbar & Search
   const addProductBtn = document.getElementById('openAddProductModalBtn');
@@ -59,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewPlaceholder = document.getElementById('previewPlaceholder');
   const formShortDesc = document.getElementById('formShortDesc');
   const formDetailedDesc = document.getElementById('formDetailedDesc');
+  const formFeaturedHome = document.getElementById('formFeaturedHome');
 
   // Password Modal
   const passwordModal = document.getElementById('passwordModalOverlay');
@@ -270,6 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const id = formProductId.value;
         const isNew = !id;
+        const willBeFeatured = formFeaturedHome ? formFeaturedHome.checked : false;
+
+        // Check if user tries to feature more than 4 items
+        const otherFeaturedCount = menuItems.filter(i => i.featuredHome && String(i.id) !== String(id)).length;
+        if (willBeFeatured && otherFeaturedCount >= 4) {
+          showToast('მთავარ გვერდზე უკვე 4 პროდუქტია არჩეული. ჯერ სხვა ამოიღეთ.', 'error');
+          return;
+        }
 
         const productData = {
           id: id || `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
@@ -279,8 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
           rating: formRating.value.trim() || '5.0',
           badge: formBadge.value.trim(),
           image: formImageUrl.value.trim() || 'images/thumb-1.jpg',
+          heroImage: formImageUrl.value.trim() || 'images/thumb-1.jpg',
           shortDesc: formShortDesc.value.trim(),
-          detailedDesc: formDetailedDesc.value.trim() || formShortDesc.value.trim()
+          detailedDesc: formDetailedDesc.value.trim() || formShortDesc.value.trim(),
+          featuredHome: willBeFeatured
         };
 
         if (isNew) {
@@ -289,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           const idx = menuItems.findIndex(i => String(i.id) === String(id));
           if (idx !== -1) {
-            menuItems[idx] = productData;
+            menuItems[idx] = { ...menuItems[idx], ...productData };
             showToast(`„${productData.title}“ განახლდა!`);
           }
         }
@@ -381,18 +395,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const toppings = menuItems.filter(i => i.category === 'ტოპინგები').length;
     const drinks = menuItems.filter(i => i.category === 'სასმელები').length;
     const extras = menuItems.filter(i => i.category === 'ექსტრა').length;
+    const featured = menuItems.filter(i => i.featuredHome === true).length;
 
     if (statTotal) statTotal.textContent = total;
     if (statWaffles) statWaffles.textContent = waffles;
     if (statToppings) statToppings.textContent = toppings;
     if (statDrinks) statDrinks.textContent = drinks;
     if (statExtras) statExtras.textContent = extras;
+    if (statFeatured) statFeatured.textContent = `${featured}/4`;
 
     if (pillAll) pillAll.textContent = total;
     if (pillWaffles) pillWaffles.textContent = waffles;
     if (pillToppings) pillToppings.textContent = toppings;
     if (pillDrinks) pillDrinks.textContent = drinks;
     if (pillExtras) pillExtras.textContent = extras;
+    if (pillFeatured) pillFeatured.textContent = `${featured}/4`;
   }
 
   function renderProducts() {
@@ -401,7 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let filtered = menuItems;
 
     // Filter by Category
-    if (currentFilter !== 'all') {
+    if (currentFilter === 'featured') {
+      filtered = filtered.filter(item => item.featuredHome === true);
+    } else if (currentFilter !== 'all') {
       filtered = filtered.filter(item => item.category === currentFilter);
     }
 
@@ -427,10 +446,13 @@ document.addEventListener('DOMContentLoaded', () => {
     productsGrid.innerHTML = filtered.map(item => {
       const displayPrice = item.price.startsWith('₾') ? item.price : `₾ ${item.price}`;
       const ratingText = item.rating ? `★ ${item.rating}` : '★ 5.0';
+      const isFeatured = !!item.featuredHome;
+
       return `
         <article class="product-card" data-id="${item.id}">
           <div class="card-media">
             <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='images/thumb-1.jpg'">
+            ${isFeatured ? '<span class="card-featured-badge">⭐ მთავარზე</span>' : ''}
             <span class="card-category-tag">${item.category}</span>
             <span class="card-price-badge">${displayPrice}</span>
             ${item.badge ? `<span class="card-rating-badge">${item.badge}</span>` : `<span class="card-rating-badge">${ratingText}</span>`}
@@ -439,6 +461,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3 class="card-title">${item.title}</h3>
             <p class="card-desc">${item.shortDesc || item.detailedDesc || 'აღწერა არ არის მითითებული.'}</p>
             <div class="card-actions">
+              <button type="button" class="card-star-btn ${isFeatured ? 'is-featured' : ''}" data-action="toggle-featured" data-id="${item.id}" title="${isFeatured ? 'მთავარი გვერდიდან ამოღება' : 'მთავარ გვერდზე დამატება (4-დან ერთ-ერთი)'}">
+                <span>⭐ ${isFeatured ? 'მთავარზეა' : 'მთავარზე'}</span>
+              </button>
               <button type="button" class="card-action-btn edit-btn" data-action="edit" data-id="${item.id}">
                 <span>✏️ რედაქტირება</span>
               </button>
@@ -450,6 +475,21 @@ document.addEventListener('DOMContentLoaded', () => {
         </article>
       `;
     }).join('');
+
+    // Quick-toggle Star Button
+    productsGrid.querySelectorAll('.card-star-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const res = toggleFeaturedHome(btn.dataset.id);
+        if (res.success) {
+          menuItems = getStoredMenu();
+          refreshAll();
+          showToast(res.message, 'success');
+        } else {
+          showToast(res.message, 'error');
+        }
+      });
+    });
 
     // Re-bind action buttons
     productsGrid.querySelectorAll('.edit-btn').forEach(btn => {
@@ -471,12 +511,13 @@ document.addEventListener('DOMContentLoaded', () => {
     productForm.reset();
     formProductId.value = '';
     productModalTitle.textContent = 'ახალი პროდუქტის დამატება';
-    formCategory.value = currentFilter !== 'all' ? currentFilter : 'ვაფლები';
+    formCategory.value = (currentFilter !== 'all' && currentFilter !== 'featured') ? currentFilter : 'ვაფლები';
     formPrice.value = '';
     formRating.value = '5.0';
     formBadge.value = '';
     formImageUrl.value = 'images/thumb-1.jpg';
     imagePreviewImg.src = 'images/thumb-1.jpg';
+    if (formFeaturedHome) formFeaturedHome.checked = false;
     productModal.classList.add('is-active');
     productModal.setAttribute('aria-hidden', 'false');
   }
@@ -496,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
     imagePreviewImg.src = item.image || 'images/thumb-1.jpg';
     formShortDesc.value = item.shortDesc || '';
     formDetailedDesc.value = item.detailedDesc || '';
+    if (formFeaturedHome) formFeaturedHome.checked = !!item.featuredHome;
 
     productModal.classList.add('is-active');
     productModal.setAttribute('aria-hidden', 'false');

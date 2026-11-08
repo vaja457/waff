@@ -174,26 +174,37 @@ function playWaffleCrunchSound() {
 // ========================================================
 // Hero Showcase: Featured Waffle Selector (Slide 0)
 // ========================================================
+let currentHomeItems = [];
+
 function setFeaturedWaffle(index) {
-  if (index < 0 || index >= waffleProducts.length) return;
+  if (!currentHomeItems || currentHomeItems.length === 0) {
+    if (typeof getFeaturedHomeItems === 'function') {
+      currentHomeItems = getFeaturedHomeItems();
+    }
+  }
+  if (!currentHomeItems || currentHomeItems.length === 0) return;
+  if (index < 0 || index >= currentHomeItems.length) index = 0;
   currentWaffleIndex = index;
-  const waffle = waffleProducts[index];
+  const item = currentHomeItems[index];
 
   playBubbleSound(480 + index * 80, 0.08);
 
-  thumbCards.forEach((card, idx) => {
+  // Live query of all thumb cards in the DOM
+  const renderedThumbs = document.querySelectorAll('.thumbnails-container .thumb-card');
+  renderedThumbs.forEach((card, idx) => {
     card.classList.toggle('active', idx === index);
   });
 
-  if (heroEyebrow) heroEyebrow.textContent = waffle.eyebrow;
-  if (heroSlogan) heroSlogan.textContent = waffle.slogan;
+  if (heroEyebrow) heroEyebrow.textContent = item.category || 'საუკეთესო';
+  if (heroSlogan) heroSlogan.textContent = item.shortDesc || item.title;
 
   if (mainHeroWaffle) {
-    mainHeroWaffle.style.transform = 'scale(0.85) rotate(-5deg)';
-    mainHeroWaffle.style.opacity = '0.3';
+    mainHeroWaffle.style.transform = 'scale(0.88) rotate(-4deg)';
+    mainHeroWaffle.style.opacity = '0.35';
     setTimeout(() => {
-      mainHeroWaffle.src = waffle.heroImage;
-      mainHeroWaffle.alt = waffle.name;
+      mainHeroWaffle.src = item.heroImage || item.image;
+      mainHeroWaffle.alt = item.title;
+      mainHeroWaffle.dataset.targetId = item.id;
       mainHeroWaffle.style.transform = 'scale(1) rotate(0deg)';
       mainHeroWaffle.style.opacity = '1';
     }, 180);
@@ -599,12 +610,37 @@ thumbCards.forEach(card => {
   });
 });
 
-// Hero Waffle Click -> Play Crunch Sound & Bounce
-if (mainHeroWaffle) {
-  mainHeroWaffle.addEventListener('click', () => {
-    playWaffleCrunchSound();
-    mainHeroWaffle.style.transform = 'scale(1.08)';
+// Hero Waffle Click -> Play Crunch Sound & Navigate to Menu Product
+function handleHeroWaffleClick() {
+  playWaffleCrunchSound();
+  if (mainHeroWaffle) {
+    mainHeroWaffle.style.transform = 'scale(1.12)';
     setTimeout(() => { mainHeroWaffle.style.transform = ''; }, 200);
+  }
+
+  // Navigate to Slide 1 (მენიუ)
+  goToSlide(1);
+
+  // Scroll to and highlight the corresponding card in Menu
+  const targetId = mainHeroWaffle ? mainHeroWaffle.dataset.targetId : null;
+  if (targetId) {
+    setTimeout(() => {
+      const card = document.querySelector(`.menu-item-card[data-id="${targetId}"]`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        card.classList.add('item-card-highlight');
+        setTimeout(() => card.classList.remove('item-card-highlight'), 2200);
+      }
+    }, 450);
+  }
+}
+
+if (mainHeroWaffle) {
+  mainHeroWaffle.addEventListener('click', handleHeroWaffleClick);
+}
+if (waffleFloater) {
+  waffleFloater.addEventListener('click', (e) => {
+    if (e.target !== mainHeroWaffle) handleHeroWaffleClick();
   });
 }
 
@@ -812,11 +848,14 @@ if (menuModal) {
 }
 
 // ========================================================
-// 3 Theme Switcher (Dark Obsidian, Caramel Sunset, Bakery Light)
+// 2 Luxury Themes (Dark Obsidian & Caramel Sunset) - White Theme Removed
 // ========================================================
 const mobileShadeBtns = document.querySelectorAll('.mobile-shade-btn');
+const validThemes = ['theme-honey', 'theme-transitional'];
 
 function applyTheme(theme) {
+  if (!validThemes.includes(theme)) theme = 'theme-honey';
+
   document.body.classList.remove('theme-honey', 'theme-transitional', 'theme-light');
   document.body.classList.add(theme);
 
@@ -825,8 +864,7 @@ function applyTheme(theme) {
 
   const themeColors = {
     'theme-honey': '#0B0711',
-    'theme-transitional': '#24130A',
-    'theme-light': '#FFFDF8'
+    'theme-transitional': '#24130A'
   };
   const themeMeta = document.getElementById('themeColorMeta');
   if (themeMeta && themeColors[theme]) {
@@ -854,13 +892,17 @@ mobileShadeBtns.forEach(btn => {
   });
 });
 
-// Restore saved theme on load
+// Restore saved theme on load (default to theme-honey, never theme-light)
 try {
   const savedTheme = localStorage.getItem('waff-theme-v5');
-  if (savedTheme && ['theme-honey', 'theme-transitional', 'theme-light'].includes(savedTheme)) {
+  if (savedTheme && validThemes.includes(savedTheme)) {
     applyTheme(savedTheme);
+  } else {
+    applyTheme('theme-honey');
   }
-} catch(e) {}
+} catch(e) {
+  applyTheme('theme-honey');
+}
 
 // Sound Effects Toggle Button (Desktop & Mobile Drawer)
 const mobileSoundToggleBtn = document.getElementById('mobileSoundToggleBtn');
@@ -969,18 +1011,26 @@ function renderDynamicMenu() {
     }
   });
 
-  // Also update Slide 0 Hero Thumbnails from waffles
-  const waffles = items.filter(i => i.category === 'ვაფლები');
+  // Update Slide 0 Hero Thumbnails from Admin Selected Featured Items
+  currentHomeItems = typeof getFeaturedHomeItems === 'function' ? getFeaturedHomeItems() : [];
+  if (!currentHomeItems || currentHomeItems.length === 0) {
+    currentHomeItems = items.filter(i => i.featuredHome === true);
+    if (currentHomeItems.length === 0) {
+      currentHomeItems = items.slice(0, 4);
+    }
+  }
+  currentHomeItems = currentHomeItems.slice(0, 4);
+
   const thumbContainer = document.querySelector('.thumbnails-container');
-  if (thumbContainer && waffles.length >= 4) {
-    thumbContainer.innerHTML = waffles.slice(0, 4).map((w, idx) => `
-      <div class="thumb-card ${idx === currentWaffleIndex ? 'active' : ''}" data-waffle-index="${idx}" tabindex="0" role="button" aria-label="${w.title}">
+  if (thumbContainer && currentHomeItems.length > 0) {
+    thumbContainer.innerHTML = currentHomeItems.map((item, idx) => `
+      <div class="thumb-card ${idx === currentWaffleIndex ? 'active' : ''}" data-item-id="${item.id}" data-waffle-index="${idx}" tabindex="0" role="button" aria-label="${item.title}">
         <div class="thumb-img-box">
-          <img src="${w.image}" alt="${w.title}">
+          <img src="${item.image}" alt="${item.title}">
         </div>
         <div class="thumb-info">
-          <span class="thumb-name">${w.title}</span>
-          <span class="thumb-price">${w.price}</span>
+          <span class="thumb-name">${item.title}</span>
+          <span class="thumb-price">${item.price}</span>
         </div>
       </div>
     `).join('');
@@ -998,13 +1048,20 @@ function renderDynamicMenu() {
         }
       });
     });
+
+    // Update hero waffle display with the active item
+    const targetIdx = (currentWaffleIndex >= 0 && currentWaffleIndex < currentHomeItems.length) ? currentWaffleIndex : 0;
+    setFeaturedWaffle(targetIdx);
   }
 }
 
 // Initial Dynamic Menu Render
 renderDynamicMenu();
 
-// Live update menu if modified in another tab via Admin Panel
+// Live update menu if modified via Admin Panel (Custom Event & Cross-tab Storage)
+window.addEventListener('waff_menu_updated', () => {
+  renderDynamicMenu();
+});
 window.addEventListener('storage', (e) => {
   if (e.key === 'waff_menu_items_v2') {
     renderDynamicMenu();
