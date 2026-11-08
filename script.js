@@ -1026,7 +1026,7 @@ function renderDynamicMenu() {
     thumbContainer.innerHTML = currentHomeItems.map((item, idx) => `
       <div class="thumb-card ${idx === currentWaffleIndex ? 'active' : ''}" data-item-id="${item.id}" data-waffle-index="${idx}" tabindex="0" role="button" aria-label="${item.title}">
         <div class="thumb-img-box">
-          <img src="${item.image}" alt="${item.title}">
+          <img src="${item.heroImage || item.image}" alt="${item.title}">
         </div>
         <div class="thumb-info">
           <span class="thumb-name">${item.title}</span>

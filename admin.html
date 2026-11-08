@@ -6,7 +6,7 @@
   <title>WAFF Admin | მენიუს მართვის პანელი</title>
   <meta name="theme-color" content="#120A1E">
   <link rel="icon" type="image/png" href="images/favicon.png">
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=6.0">
 </head>
 <body class="theme-honey">
 
@@ -238,25 +238,49 @@
             <input type="text" id="formBadge" class="form-input" placeholder="მაგ. ★ 4.9 • საფირმო, ან ბესტსელერი, პრემიუმი">
           </div>
 
-          <!-- Image Selector & Upload -->
+          <!-- Image 1: Menu Image (With normal background) -->
           <div class="form-group full-width">
-            <label class="form-label">პროდუქტის სურათი *</label>
+            <label class="form-label">1. მენიუს სურათი (ჩვეულებრივი ფოტოსურათი ფონით) *</label>
             <div class="image-field-wrap">
               <div class="image-preview-box" id="imagePreviewBox">
-                <img src="images/thumb-1.jpg" id="imagePreviewImg" alt="სურათის გადახედვა">
+                <img src="images/thumb-1.jpg" id="imagePreviewImg" alt="მენიუს სურათის გადახედვა">
                 <span class="preview-placeholder" id="previewPlaceholder" style="display: none;">სურათი არ არის</span>
               </div>
               <div class="image-inputs-col">
                 <div class="file-upload-zone">
                   <label for="formImageFile" class="file-upload-btn">
-                    <span>📷 ფოტოს ატვირთვა მოწყობილობიდან</span>
+                    <span>📷 მენიუს ფოტოს ატვირთვა</span>
                     <input type="file" id="formImageFile" accept="image/*" style="display: none;">
                   </label>
-                  <span class="upload-hint">მხარდაჭერილია: JPG, PNG, WebP (გალერეიდან ან კამერიდან)</span>
+                  <span class="upload-hint">გამოჩნდება მენიუს ტაბში (JPG, PNG, WebP)</span>
                 </div>
                 <div class="url-input-zone">
                   <span class="or-separator">ან ჩაწერეთ ფაილის გზა / ლინკი:</span>
                   <input type="text" id="formImageUrl" class="form-input" placeholder="მაგ. images/thumb-1.jpg ან https://...">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image 2: Home Page Image (Without background / Transparent PNG) -->
+          <div class="form-group full-width">
+            <label class="form-label">2. მთავარი გვერდის სურათი (⭐ ბექგრაუნდის გარეშე / გამჭვირვალე PNG)</label>
+            <div class="image-field-wrap">
+              <div class="image-preview-box hero-preview-box" id="heroImagePreviewBox" style="background: radial-gradient(circle, rgba(245, 174, 24, 0.25) 0%, rgba(15, 8, 25, 0.9) 70%);">
+                <img src="images/waffle-hero-1.png" id="heroImagePreviewImg" alt="მთავარი გვერდის სურათი" style="object-fit: contain;">
+                <span class="preview-placeholder" id="heroPreviewPlaceholder" style="display: none;">ფონის გარეშე</span>
+              </div>
+              <div class="image-inputs-col">
+                <div class="file-upload-zone">
+                  <label for="formHeroImageFile" class="file-upload-btn highlight-upload-btn">
+                    <span>✨ ატვირთეთ PNG ფონის გარეშე</span>
+                    <input type="file" id="formHeroImageFile" accept="image/png,image/webp" style="display: none;">
+                  </label>
+                  <span class="upload-hint">💡 რჩევა: ტელეფონზე ფოტოს თითის დაჭერით შეგიძლიათ მომენტალურად ამოჭრათ ფონი და ატვირთოთ აქ!</span>
+                </div>
+                <div class="url-input-zone">
+                  <span class="or-separator">ან ჩაწერეთ გამჭვირვალე PNG-ის გზა / ლინკი:</span>
+                  <input type="text" id="formHeroImageUrl" class="form-input" placeholder="მაგ. images/waffle-hero-1.png (არასავალდებულო)">
                 </div>
               </div>
             </div>
@@ -352,7 +376,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="menu-data.js?v=5.5"></script>
-  <script src="admin.js?v=5.5"></script>
+  <script src="menu-data.js?v=6.0"></script>
+  <script src="admin.js?v=6.0"></script>
 </body>
 </html>

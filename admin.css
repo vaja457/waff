@@ -1178,3 +1178,14 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   z-index: 5;
 }
+
+.highlight-upload-btn {
+  background: linear-gradient(135deg, rgba(255, 223, 17, 0.15), rgba(245, 174, 24, 0.25)) !important;
+  border-color: rgba(255, 223, 17, 0.6) !important;
+  color: #FFDF11 !important;
+}
+
+.highlight-upload-btn:hover {
+  background: linear-gradient(135deg, #FFDF11, #F5AE18) !important;
+  color: #1A0D04 !important;
+}

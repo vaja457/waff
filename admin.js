@@ -60,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const formImageUrl = document.getElementById('formImageUrl');
   const imagePreviewImg = document.getElementById('imagePreviewImg');
   const previewPlaceholder = document.getElementById('previewPlaceholder');
+  const formHeroImageFile = document.getElementById('formHeroImageFile');
+  const formHeroImageUrl = document.getElementById('formHeroImageUrl');
+  const heroImagePreviewImg = document.getElementById('heroImagePreviewImg');
+  const heroPreviewPlaceholder = document.getElementById('heroPreviewPlaceholder');
   const formShortDesc = document.getElementById('formShortDesc');
   const formDetailedDesc = document.getElementById('formDetailedDesc');
   const formFeaturedHome = document.getElementById('formFeaturedHome');
@@ -232,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeProductModalBtn) closeProductModalBtn.addEventListener('click', closeProductModal);
     if (cancelProductBtn) cancelProductBtn.addEventListener('click', closeProductModal);
 
-    // File upload -> Data URL
+    // File upload -> Data URL (Menu Image)
     if (formImageFile) {
       formImageFile.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -250,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // URL input -> preview update
+    // URL input -> preview update (Menu Image)
     if (formImageUrl) {
       formImageUrl.addEventListener('input', (e) => {
         const val = e.target.value.trim();
@@ -258,6 +262,36 @@ document.addEventListener('DOMContentLoaded', () => {
           imagePreviewImg.src = val;
           imagePreviewImg.style.display = 'block';
           if (previewPlaceholder) previewPlaceholder.style.display = 'none';
+        }
+      });
+    }
+
+    // File upload -> Data URL (Hero Background-free Image)
+    if (formHeroImageFile) {
+      formHeroImageFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const dataUrl = event.target.result;
+          formHeroImageUrl.value = dataUrl;
+          heroImagePreviewImg.src = dataUrl;
+          heroImagePreviewImg.style.display = 'block';
+          if (heroPreviewPlaceholder) heroPreviewPlaceholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // URL input -> preview update (Hero Background-free Image)
+    if (formHeroImageUrl) {
+      formHeroImageUrl.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val) {
+          heroImagePreviewImg.src = val;
+          heroImagePreviewImg.style.display = 'block';
+          if (heroPreviewPlaceholder) heroPreviewPlaceholder.style.display = 'none';
         }
       });
     }
@@ -283,6 +317,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
+        const existingItem = id ? menuItems.find(i => String(i.id) === String(id)) : null;
+        const chosenHeroImage = formHeroImageUrl.value.trim() || (existingItem && existingItem.heroImage) || formImageUrl.value.trim() || 'images/waffle-hero-1.png';
+
         const productData = {
           id: id || `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
           category: formCategory.value,
@@ -291,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
           rating: formRating.value.trim() || '5.0',
           badge: formBadge.value.trim(),
           image: formImageUrl.value.trim() || 'images/thumb-1.jpg',
-          heroImage: formImageUrl.value.trim() || 'images/thumb-1.jpg',
+          heroImage: chosenHeroImage,
           shortDesc: formShortDesc.value.trim(),
           detailedDesc: formDetailedDesc.value.trim() || formShortDesc.value.trim(),
           featuredHome: willBeFeatured
@@ -517,6 +554,14 @@ document.addEventListener('DOMContentLoaded', () => {
     formBadge.value = '';
     formImageUrl.value = 'images/thumb-1.jpg';
     imagePreviewImg.src = 'images/thumb-1.jpg';
+    imagePreviewImg.style.display = 'block';
+    if (previewPlaceholder) previewPlaceholder.style.display = 'none';
+
+    formHeroImageUrl.value = '';
+    heroImagePreviewImg.src = 'images/waffle-hero-1.png';
+    heroImagePreviewImg.style.display = 'block';
+    if (heroPreviewPlaceholder) heroPreviewPlaceholder.style.display = 'none';
+
     if (formFeaturedHome) formFeaturedHome.checked = false;
     productModal.classList.add('is-active');
     productModal.setAttribute('aria-hidden', 'false');
@@ -533,8 +578,19 @@ document.addEventListener('DOMContentLoaded', () => {
     formPrice.value = item.price || '';
     formRating.value = item.rating || '5.0';
     formBadge.value = item.badge || '';
+
+    // Menu Image (Full photo with background)
     formImageUrl.value = item.image || '';
     imagePreviewImg.src = item.image || 'images/thumb-1.jpg';
+    imagePreviewImg.style.display = 'block';
+    if (previewPlaceholder) previewPlaceholder.style.display = 'none';
+
+    // Hero Image (Transparent cutout for Home page)
+    formHeroImageUrl.value = item.heroImage || '';
+    heroImagePreviewImg.src = item.heroImage || item.image || 'images/waffle-hero-1.png';
+    heroImagePreviewImg.style.display = 'block';
+    if (heroPreviewPlaceholder) heroPreviewPlaceholder.style.display = 'none';
+
     formShortDesc.value = item.shortDesc || '';
     formDetailedDesc.value = item.detailedDesc || '';
     if (formFeaturedHome) formFeaturedHome.checked = !!item.featuredHome;
